@@ -1,0 +1,111 @@
+.settings{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__password-txt{
+            font-family: "GoogleSans-Light";
+            font-size: 18px;
+            
+        }
+        &__password-subtxt{
+            color: #aaaaaa;
+            margin-bottom: 0px;
+        }
+        &__password{
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+        }
+        &__update-btn{
+            background-color: #00bcc7 !important;
+            border-color: #00bcc7;
+            padding: 6px 27px;
+            border-radius: 4px;
+            font-family: "GoogleSans-Bold";
+            height: 37px;
+        }
+        &__Enable-btn{
+            background-color: #00bcc7 !important;
+            border-color: #00bcc7;
+            padding: 6px 27px;
+            border-radius: 4px;
+            font-family: "GoogleSans-Bold";
+            height: 37px;
+        }
+        &__card{
+           margin-bottom: 20px;
+     
+        }
+        &__card-box{
+            margin-bottom: 20px;
+            margin-left: 10px;
+         }
+        &__input-field{
+            width: 30%;
+            float: right;
+            height: 38px;
+            font-size: 16px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Light";
+            display: flex;
+          }
+          &__model-heading{
+              font-size: 22px;
+              color: #00bcc7;
+              font-family: "GoogleSans-Light";
+          }
+          &__model-label{
+              font-size:22px !important;
+              font-family: "GoogleSans-Light";
+              color: #383838;
+
+          }
+          &__label-input{
+              height: 38px;
+              border-radius: 4px;
+          }
+          &__footer-btn{
+            display: flex;
+            justify-content: center;
+            padding: 6px 0px 15px 0px;
+          }
+            &__cancel-btn{
+           background-color:#f72a63;
+           border: 1px solid #f72a63;
+           color:#fff;
+           font-family: "GoogleSans-Light";
+           height: 40px;
+           width: 100%;
+           border-radius: 4px;
+          }
+          &__confirm-btn{
+            background-color:#00bcc7;
+            color:#fff;
+            font-size: 14px;
+            font-family: "GoogleSans-Light";
+            border: 1px solid #00bcc7;
+            height: 40px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        &__clearall-btn{
+            color: #fff;
+            background-color:#00bcc7;
+            font-family: "GoogleSans-Light";
+            border:none;
+            float: right;
+            margin-bottom:10px;
+        }
+        
+    }
+
+   

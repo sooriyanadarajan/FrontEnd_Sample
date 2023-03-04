@@ -1,0 +1,440 @@
+<app-userlayout></app-userlayout>
+<section class="history">
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <h4 class="history__title">History</h4>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-card>
+                <nz-tabset id="history-tab" nzOuterBordered="false" [nzAnimated]="false">
+                    <nz-tab nzTitle="Smart Trade Trade History" (nzClick)="changeTrade('TRADE',index,limit,true)"> 
+                        <!-- <input class="history__input-field" nz-input placeholder="Search by name or email" /> -->
+                        <ng-container>
+                            <div class="historyselect" id="select-trade">
+                              <nz-select nzPlaceHolder="BTCUSDT" name="selectCoin" nzBorderless [(ngModel)]="historyType"
+                                (ngModelChange)="changeTrade(historyType,index,limit,true)">
+                                <nz-option nzLabel="Trade" nzValue="TRADE"></nz-option>
+                                <nz-option nzLabel="Buy/Sell" nzValue="BUYSELL"></nz-option>
+                              </nz-select>
+                            </div>
+                          </ng-container>
+                          <nz-table #tradehistoryTable nzSize="middle" [nzData]="tradehistory" [nzShowPagination]="false">
+                            <thead>
+                              <tr>
+                                <th>Coin Pair</th>
+                                <th>Trade ID</th>
+                                <th>price</th>
+                                <th *ngIf="historyType == 'TRADE'">Signal</th>
+                                <th>Side</th>
+                                <th>Type</th>
+                                <th *ngIf="historyType == 'TRADE'">Fund</th>
+                                <th>Quantity</th>
+                                <th *ngIf="historyType == 'TRADE'">Stop Loss</th>
+                                <th *ngIf="historyType == 'TRADE'">Take Profit</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let data of tradehistoryTable.data;let i = index">
+                                <div>
+                                  <td class="history__table-txt">{{ data?.symbol }}</td>
+                                  <span class="history__table-txt"><span class="history__table-time">{{ data?.updatedAt |
+                                      date:'short' }}</span></span>
+                                </div>
+                                <td class="history__table-txt"><span *ngIf="data?.trade_id != ''">{{ data?.trade_id }}</span>
+                                    <span *ngIf="data?.trade_id == ''">-</span></td>
+                                <td class="history__table-txt"><span class="history__value-txt">{{ data?.entryPrice }}
+                                    {{data?.quoteAsset}}</span></td>
+                                <td class="history__table-txt" *ngIf="historyType == 'TRADE'">-</td>
+                                <td>{{data?.side}}</td>
+                                <td class="history__table-txt">{{data?.type}}</td>
+                                <td class="history__table-txt" *ngIf="historyType == 'TRADE'"><span
+                                    *ngIf="data?.fund">{{data?.fund}}
+                                    {{data?.quoteAsset}}</span><span *ngIf="!data?.fund">-</span>
+                                </td>
+                                <td class="history__table-txt">{{ data?.quantity }} {{data?.baseAsset}}</td>
+                                <td class="history__table-txt" *ngIf="historyType == 'TRADE'">{{ data?.stopLoss }}%</td>
+                                <td class="history__table-txt" *ngIf="historyType == 'TRADE'" [ngClass]="{'profit-color':data?.profit > 0 ,
+                                      'loss-color':data?.profit < 0}">{{ data?.profit | number: '1.0-3'}}%</td>
+                                <td>
+                                  <div>
+                                    <button nz-button class="history__openorder-cancel" nzSize="large" nzShape="round"
+                                      nz-popconfirm nzPopconfirmTitle="Are you sure to delete this order?" nzOkType="danger"
+                                      nzOkText="Yes" nzCancelText="No" (nzOnConfirm)="deleteTradeDetail(data._id)"><img
+                                        src="../../../assets/img/svg/trash-delete.svg" height="20" alt="">
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </nz-table>
+                          <nz-pagination *ngIf="tradehistory.length > 0" class="history__paginatiion" [(nzPageIndex)]="index"
+                            [(nzPageSize)]="limit" [nzTotal]="totalHistoryCount"
+                            (nzPageIndexChange)="changeTrade(historyType,index,limit,false)">
+                          </nz-pagination>
+                    </nz-tab>
+                    <nz-tab nzTitle="Nexfolio FX Trade History" (nzClick)="getTradeHistory(index,size)">
+                        <!-- <input class="history__input-field" nz-input placeholder="Search by name or email" /> -->
+                        <nz-table #historyTable [nzData]="tradeHistory" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Coin Pair/Entry Price</th>
+                                    <th>Order ID</th>
+                                    <th>Quantity</th>
+                                    <th>Exit Price</th>
+                                    <th>Position</th>
+                                    <th>Profit</th>
+                                    <th>PNL</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of historyTable.data">
+                                    <td>
+                                        {{ data?.createdAt | date: "medium" }}
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ data?.symbol }} -
+                                            <span class="profit-color">{{
+                                                data.entryPrice
+                                                | number: "1.0-2"
+                                                }}</span>
+                                        </div>
+                                        <div class="text-muted font-weight-lighter">
+                                            {{ data.time }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ data?.newClientOrderId}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{{ data.quantity }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="profit-color">
+                                            {{ data.exitPrice }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="long" *ngIf="data?.side == 'BUY'">Long</span>
+                                        <span class="long" *ngIf="data?.side == 'SELL'">Short</span>
+                                    </td>
+                                    <td>
+                                        <div [ngClass]="{
+                                                'profit-color':
+                                                    data.profit > 0,
+                                                'loss-color':
+                                                    data.profit < 0
+                                            }">
+                                            {{ data.profit | number:'1.0-2' }}%
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <nz-tag [ngClass]="
+                                                    data?.pnl < 0
+                                                        ? 'ant-tag-red'
+                                                        : 'ant-tag-green'
+                                                ">
+                                                {{ data?.pnl | number:'1.0-2' }}
+                                            </nz-tag>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <button nz-button class="future__openorder-cancel" nzSize="large"
+                                                nzShape="round" nz-popconfirm
+                                                nzPopconfirmTitle="Are you sure to delete this order?"
+                                                nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                                (nzOnConfirm)="deleteTradeHistory(data._id)"><img
+                                                    src="../../../assets/img/svg/trash-delete.svg" height="20"
+                                                    alt="">
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <!-- <nz-pagination class="future__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+                        <nz-pagination *ngIf="tradeHistory.length > 0" class="pagenation"
+                            [(nzPageIndex)]="index" [(nzPageSize)]="size" [nzTotal]="totalHistoryCount"
+                            (nzPageIndexChange)="getTradeHistory(index,size)"></nz-pagination>
+                      </nz-tab>
+                    <nz-tab nzTitle="Deposit History" (nzClick)="clearData();getDepositHistory()">
+                        <div nz-row *ngIf="tempDepositList.length > 0">
+                            <div nz-col nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                               <div>
+                                   <a  class="history__history" (click)="depositExport()" *ngIf="tempDepositList.length > 0">Export deposit History</a>
+                               </div>
+                            </div>
+                           <div nz-col nzSm="24" nzMd="24" nzLg="18" nzXl="18">
+                               <form nz-form nz-row>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="5" nzXl="5" >
+                                       <nz-form-item>
+                                           <nz-form-label class="history__label-txt" nzSpan="24" nzFor="search">Transaction ID</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <input nz-input placeholder="Search by transaction id" [(ngModel)]="searchTrxid" [ngModelOptions]="{standalone: true}" />
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="7" nzXl="7" class="history__input-style" >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="sortDate">Date</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-range-picker [nzDisabledDate]="disabledDate" [(ngModel)]="sortDate" [ngModelOptions]="{standalone: true}"></nz-range-picker>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="5" nzXl="5" class="history__input-style" >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="coin">Coin Name</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-select nzPlaceHolder="All" [(ngModel)]="selectedCoin" nzShowSearch [ngModelOptions]="{standalone: true}">
+                                                   <nz-option *ngFor="let coin of coinList" [nzLabel]="coin?.coin" [nzValue]="coin?.coin"></nz-option>
+                                               </nz-select>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="5" nzXl="5" class="history__input-style" >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="coin">Status</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-select nzPlaceHolder="All" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}">
+                                                   <nz-option *ngFor="let status of statusList" [nzLabel]="status" [nzValue]="status"></nz-option>
+                                               </nz-select>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                               </form>
+                           </div>
+                           <div nz-col nzSm="24" nzMd="24" nzLg="6" nzXl="6" >
+                               <div class="history__history-btn">
+                               <button  class="history__reset-btn" (click)="clearData()">Reset</button>
+                               <button class="history__serach-btn" nz-button [disabled]="(sortDate == null || sortDate == undefined) && selectedCoin == null && selectedStatus == null && searchTrxid == null" (click)="depositFilter(selectedCoin,selectedStatus)">Search</button>
+                           </div>
+                           </div>
+                       </div>
+                       <br>
+                       <div >
+                       <nz-table #basicTable class="transaction-table" [nzData]="depositHistory">  
+                           <thead>
+                               <tr>
+                                   <th>Date</th>
+                                   <th>Transaction Id</th>
+                                   <th>Address</th>
+                                   <th>Amount</th>
+                                   <th>Status</th>
+                                   <!-- <th>{{"information" | translate}}</th> -->
+                               </tr>
+                           </thead>
+                          
+                           <tbody>
+                               <tr *ngFor="let data of basicTable.data">
+                                   <td>{{data?.insertTime | date:'medium'}}</td>
+                                   <td>{{data?.txId}}<img src="../../../assets/img/svg/copy.svg" alt=""
+                                       nzTooltipTitle="{{copied}}" (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard
+                                       [cbContent]="data?.txId" nz-tooltip nzTooltipTrigger='click'></td>
+                                   <td>{{data?.address}}</td>
+                                   <td>{{data?.amount}} {{data?.coin}}</td>
+                                   <td>
+                                       <nz-tag [nzColor]="'green'" *ngIf="data?.status == 1">Success</nz-tag>
+                                       <nz-tag [nzColor]="'green'" *ngIf="data?.status == 6">Pending</nz-tag>
+                                   </td>
+                                   <!-- <td>{{data?.addressTag}}</td> -->
+                               </tr>
+                           </tbody>
+                       </nz-table>
+                       </div>
+                   </nz-tab>
+                   <nz-tab nzTitle="Convert History" (nzClick)="clearData();convertHis()">
+                       <div nz-row class="align-center" *ngIf="converttempList.length > 0">
+                           <div nz-col nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                               <div>
+                                   <a class="history__history" (click)="convertExport()" *ngIf="converttempList.length > 0">Export Convert History</a>
+                               </div>
+                            </div>
+
+                           <div nz-col nzSm="24" nz-Md="24" nzLg="18" nzXl="18">
+                               <form nz-form nz-row>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="5" nzXl="5"  >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="search">Transaction Id</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <input nz-input placeholder="Search by transaction id" [(ngModel)]="searchTrxid" [ngModelOptions]="{standalone: true}"  />
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="7" nzXl="7"  class="history__input-style" >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="sortDate">Date</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-range-picker [nzDisabledDate]="disabledDate" [(ngModel)]="sortDate"  [ngModelOptions]="{standalone: true}"></nz-range-picker>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                           </form>
+                           </div>
+                           <div nz-col nzSm="24" nzLg="6" nzXl="6" >
+                               <div class="history__history-btn">
+                               <button nz-button  class="history__reset-btn" (click)="clearData();convertHis()">Reset</button>
+                               <button nz-button  class="history__serach-btn"  [disabled]="(sortDate == null || sortDate == undefined) && searchTrxid == null" (click)="convertFilter()">Search</button>
+                           </div>
+                       </div>
+                       </div>
+                       <br>
+                       <div>
+                       <nz-table #basicTable2 class="transaction-table" [nzData]="convertHistory">
+                           <thead>
+                               <tr>
+                                   <th>Date</th>
+                                   <th>Transaction ID</th>
+                                   <th>Amount</th>
+                                   <th>Coin</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr *ngFor="let data of basicTable2.data">
+                                   <td>{{data?.transactTime | date:'medium'}}</td>
+                                   <td>{{data?.clientOrderId}}  <img src="../../../assets/img/svg/copy.svg" alt=""
+                                       nzTooltipTitle="{{copied}}" (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard
+                                       [cbContent]="data?.clientOrderId" nz-tooltip nzTooltipTrigger='click'></td>
+                                   <td>{{data?.cummulativeQuoteQty}}</td>
+                                   <td>{{data?.symbol}}</td>
+                               </tr>
+                           </tbody>
+                          </nz-table>
+                        </div>
+                   </nz-tab>
+                   <nz-tab nzTitle="Transfer" (nzClick)="clearData()" (nzClick)="getTransferHistory()">
+                       <div nz-row class="align-center" *ngIf="transferTempHistory.length > 0">
+                           <div nz-col nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                               <div>
+                                   <a  class="history__history" (click)="transferExport()" *ngIf="transferTempHistory.length > 0">Export deposit History</a>
+                               </div>
+                            </div>
+                           <div nz-col nzSm="24" nzMd="24" nzLg="18" nzXl="18">
+                               <form nz-form nz-row>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="5" nzXl="5" >
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="search">Transaction Id</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <input nz-input placeholder="Search by transaction id" [(ngModel)]="searchTrxid" [ngModelOptions]="{standalone: true}" />
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="7" nzXl="7" class="history__input-style">
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="sortDate">Date</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-range-picker [nzDisabledDate]="disabledDate" [(ngModel)]="sortDate" [ngModelOptions]="{standalone: true}"></nz-range-picker>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="5" nzXl="5" class="history__input-style">
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="coin">Coin</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-select nzPlaceHolder="All" [(ngModel)]="selectedCoin" nzShowSearch [ngModelOptions]="{standalone: true}">
+                                                   <nz-option *ngFor="let coin of coinList" [nzLabel]="coin?.coin" [nzValue]="coin?.coin"></nz-option>
+                                               </nz-select>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                                   <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="5" nzXl="5" class="history__input-style">
+                                       <nz-form-item>
+                                           <nz-form-label nzSpan="24" nzFor="coin">Status</nz-form-label>
+                                           <nz-form-control nzSpan="24">
+                                               <nz-select nzPlaceHolder="All" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}">
+                                                   <nz-option *ngFor="let status of statusList" [nzLabel]="status" [nzValue]="status"></nz-option>
+                                               </nz-select>
+                                           </nz-form-control>
+                                       </nz-form-item>
+                                   </div>
+                               </form>
+                           </div>
+                           <div nz-col nzSm="24" nzMd="24" nzLg="6" nzXl="6" >
+                               <div class="history__history-btn">
+                               <button class="history__reset-btn"  (click)="clearData()">Reset</button>
+                               <button class="history__serach-btn" nz-button [disabled]="(sortDate == null || sortDate == undefined) && selectedCoin == null && selectedStatus == null && searchTrxid == null" (click)="transferFilter(selectedCoin)">Search</button>
+                           </div>
+                           </div>
+                       </div>
+                       <br>
+                       <div id="wallet-table">
+                       <nz-table #transferTable class="transaction-table" [nzData]="transferHistory">  
+                           <thead>
+                               <tr>
+                                   <th>Date</th>
+                                   <th>Transaction Id</th>
+                                   <th>Amount</th>
+                                   <th>Status</th>
+                               </tr>
+                           </thead>
+                       
+                           <tbody>
+                               <tr *ngFor="let data of transferTable.data">
+                                   <td>{{data?.timestamp | date:'medium'}}</td>
+                                   <td>{{data?.tranId}}<img src="../../../assets/img/svg/copy.svg" alt=""
+                                       nzTooltipTitle="{{copied}}" (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard
+                                       [cbContent]="data?.tranId" nz-tooltip nzTooltipTrigger='click'></td>
+                                   <td>{{data?.amount}} {{data?.asset}}</td>
+                                   <td>
+                                       <nz-tag [nzColor]="'green'" *ngIf="data?.status == 'CONFIRMED'">Success</nz-tag>
+                                       <nz-tag [nzColor]="'green'" *ngIf="data?.status == ''">Pending</nz-tag>
+                                   </td>
+                                   </tr>
+                           </tbody>
+                       </nz-table>
+                   </div>
+                   </nz-tab>
+                    <nz-tab nzTitle="Subscription" (nzClick)="clearData()" (nzClick)="getSubscriptionList(index,size)">
+                        <nz-table #subscriptionTable [nzData]="subscriptionList" [nzShowPagination]="false">
+                            <thead>
+                              <tr>
+                                <th class="table-head">Date/Time</th>
+                                <th class="table-head">Signal</th>
+                                <th class="table-head">Payment Type</th>
+                                 <th class="table-head">Payment Address</th>
+                                <th class="table-head">Amount</th>
+                                <th class="table-head">Coupon</th>
+                                <th class="table-head">Expiry Date</th>
+                                <th class="table-head">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="table-data" *ngFor="let data of subscriptionTable.data;let i = index">
+                                <td>{{data?.createdAt | date:'medium'}}</td>
+                                <td>{{data?.bot_id?.name}}</td>
+                                <td>{{data?.payment_type}}</td>
+                                 
+                                <td>{{data?.address}} <img src="../../../assets/img/svg/copy.svg" alt="" nzTooltipTitle="{{copied}}"
+                                    (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard [cbContent]="data?.address" nz-tooltip
+                                    nzTooltipTrigger='click'></td>
+                                <td>{{data?.amount}} {{data?.payment_type}} <img src="../../../assets/img/svg/copy.svg" alt=""
+                                    nzTooltipTitle="{{copied}}" (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard
+                                    [cbContent]="data?.amount" nz-tooltip nzTooltipTrigger='click'></td>
+                                <td><span *ngIf="data?.coupon">{{data?.coupon}}</span><span *ngIf="!data?.coupon">-</span></td>
+                                <td><span *ngIf="data?.status == 'COMPLETED'">{{data?.time_expires | date:'medium'}}</span>
+                                  <span  *ngIf="data?.status != 'COMPLETED'">-</span></td>
+                                <td> <nz-tag class="status_tag" [ngClass]="{'verify': data?.status === 'COMPLETED', 'failed':data?.status === 'FAILED',
+                                  'not-verified':data?.status == 'CANCELLED',
+                                'pending-status':data?.status == 'PENDING'}">{{data?.status | titlecase}}</nz-tag></td>
+                                <td> <button nz-button class="cancel-btn" [nzType]="'primary'" nzShape="round" *ngIf="data?.status == 'PENDING'"
+                                  (click)="cancelPayment(data?._id,i)">Cancel</button></td>
+                              </tr>
+                            </tbody>
+                          </nz-table>
+                          <nz-pagination *ngIf="subscriptionList.length > 0" class="pagenation" [(nzPageIndex)]="index" [(nzPageSize)]="size" [nzTotal]="subscriptionCount"
+                          (nzPageIndexChange)="getSubscriptionList(index,size)"></nz-pagination>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </div>
+    </div>
+</section>

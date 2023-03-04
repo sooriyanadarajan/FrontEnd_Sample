@@ -1,0 +1,38 @@
+<section class="userlayout">
+    <nz-breadcrumb class="userlayout__user-view">
+        <nz-breadcrumb-item>
+     <a routerLink="/userlist"> Userlist  </a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+        {{username}}
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+<nz-card>
+    <div nz-row >
+        <div  nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <div >
+                <ul class="userlayout__list">
+                    <li routerLink="/user/{{userId}}/dashboard" [ngClass]="{'list-active': pathName == 'dashboard',
+                   'list-inactive': pathName != 'dashboard'}"><span><img src="../../../../../assets/img/nav img/dashboard.svg" height="24" alt=""></span> Dashboard</li>
+                    <li routerLink="/user/{{userId}}/wallet" [ngClass]="{'list-active': pathName == 'wallet',
+                    'list-inactive': pathName != 'wallet'}"><img src="../../../../../assets/img/nav img/wallet_deselect.svg" class="userlayout__wallet-icon" alt="" >  <span class="userlayout__wallet-txt">Wallet</span>   </li>
+                    <li routerLink="/user/{{userId}}/smarttrade" [ngClass]="{'list-active': pathName == 'smarttrade',
+                    'list-inactive': pathName != 'smarttrade'}"><img src="../../../../../assets/img/nav img/smarttrade.svg" alt=""><span>Smart Trade</span></li>
+                    <li routerLink="/user/{{userId}}/future" [ngClass]="{'list-active': pathName == 'future',
+                    'list-inactive': pathName != 'future'}"><img src="../../../../../assets/img/nav img/fx.svg" alt=""><span>Nexfolio Fx</span></li>
+                    <li routerLink="/user/{{userId}}/bot" [ngClass]="{'list-active': pathName == 'bot',
+                    'list-inactive': pathName != 'bot'}"><img src="../../../../../assets/img/nav img/bot_signal.svg" height="24" alt="">Bot</li>
+                    <li routerLink="/user/{{userId}}/settings" [ngClass]="{'list-active': pathName == 'settings',
+                    'list-inactive': pathName != 'settings'}"><img src="../../../../../assets/img/nav img/settings.svg" alt="">Settings</li>
+                    <li  routerLink="/user/{{userId}}/notification" [ngClass]="{'list-active': pathName == 'notification',
+                    'list-inactive': pathName != 'notification'}"><img src="../../../../../assets/img/admin-sidenav/notification.svg"  height="24" alt="">Notification</li>
+                    <li routerLink="/user/{{userId}}/history" [ngClass]="{'list-active': pathName == 'history',
+                    'list-inactive': pathName != 'history'}"><img src="../../../../../assets/img/admin-sidenav/history.svg" height="24" alt="">History</li>
+                    </ul>
+               
+            </div>
+        </div>
+    </div>
+</nz-card>
+</section>
+<router-outlet></router-outlet>

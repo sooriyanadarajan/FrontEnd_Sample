@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56" viewBox="0 0 56 56">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Combined_Shape" data-name="Combined Shape" d="M21,20H17a1,1,0,0,1-1-1V1a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V19A1,1,0,0,1,21,20ZM18,2V18h2V2ZM13,20H9a1,1,0,0,1-1-1V6A1,1,0,0,1,9,5h4a1,1,0,0,1,1,1V19A1,1,0,0,1,13,20ZM10,7V18h2V7ZM5,20H1a1,1,0,0,1-1-1V11a1,1,0,0,1,1-1H5a1,1,0,0,1,1,1v8A1,1,0,0,1,5,20ZM2,12v6H4V12Z" transform="translate(1 2)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_29" data-name="Group 29" transform="translate(-1492.5 -226)">
+    <circle id="Oval_Copy" data-name="Oval Copy" cx="28" cy="28" r="28" transform="translate(1492.5 226)" fill="#504d58"/>
+    <g id="chevron-down_copy" data-name="chevron-down copy" transform="translate(1508.5 242)">
+      <g id="Group_8" data-name="Group 8">
+        <path id="Combined_Shape-2" data-name="Combined Shape" d="M21,20H17a1,1,0,0,1-1-1V1a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1V19A1,1,0,0,1,21,20ZM18,2V18h2V2ZM13,20H9a1,1,0,0,1-1-1V6A1,1,0,0,1,9,5h4a1,1,0,0,1,1,1V19A1,1,0,0,1,13,20ZM10,7V18h2V7ZM5,20H1a1,1,0,0,1-1-1V11a1,1,0,0,1,1-1H5a1,1,0,0,1,1,1v8A1,1,0,0,1,5,20ZM2,12v6H4V12Z" transform="translate(1 2)"/>
+        <g id="Mask_Group_8" data-name="Mask Group 8" clip-path="url(#clip-path)">
+          <g id="COLOR_black" data-name="COLOR/ black">
+            <rect id="Rectangle" width="24" height="24" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

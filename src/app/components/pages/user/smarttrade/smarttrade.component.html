@@ -1,0 +1,846 @@
+<app-userlayout></app-userlayout>
+<section class="smarttrade">
+  <div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <h4 class="smarttrade__title">Smart Trade</h4>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18" nzXl="18">
+      <!-- <iframe class="smarttrade__chart"
+        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_f222a&symbol=BINANCE%3ABTCUSDT&interval=5&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=BB%40tv-basicstudies&theme=light&style=1&timezone=exchange&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=devnexfolio.nextazy.com&utm_medium=widget&utm_campaign=chart&utm_term=BINANCE%3ABTCUSDT"
+        frameborder="0"></iframe> -->
+        <div id="spot-analysiss" class="smarttrade__chart"></div>
+      <div nz-row class="smarttrade__table-layout">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="23">
+          <nz-card>
+            <nz-tabset id="balance-tab">
+              <nz-tab nzTitle="Active Trade">
+                <nz-table #activeTable nzSize="middle" [nzShowPagination]="false" [nzData]="activeTradeDataList">
+                  <thead>
+                    <tr>
+                      <th>Pair/Price</th>
+                      <th>CurrentPrice</th>
+                      <th>Signal</th>
+                      <th>Fund</th>
+                      <th>Quantity</th>
+                      <th>Stop Loss</th>
+                      <th>Fixed Profit</th>
+                      <th>Profit</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <div></div>
+                  <tbody>
+                    <tr *ngFor="let data of activeTable.data;let i = index">
+                      <td class="data-btn">
+                        <div class="smarttrade__table-txt">
+                          {{ data?.symbol }} -
+                          <span class="smarttrade__value-txt">{{ data?.entryPrice }} {{ data?.quoteAsset }}</span>
+
+                        </div>
+                        <div class="smarttrade__table-time">
+                          {{ data?.binanceResponse[0]?.transactTime | date: 'short'}}
+                        </div>
+                      </td>
+                      <td ><div class="smarttrade__current-value-loss">{{data?.currentPrice | number: '1.0-6'}} {{ data?.quoteAsset }}</div></td>
+                      <td class="smarttrade__table-txt" *ngIf="data.isSignal; else emptyData">{{data?.signalType}}</td>
+                      <td class="smarttrade__table-txt data-btn-fund">{{data?.fund}} {{ data?.quoteAsset }}</td>
+                      <td class="smarttrade__table-txt data-btn1">{{data?.quantity}} {{ data?.baseAsset }}</td>
+                      <td class="smarttrade__table-txt data-btn1" *ngIf="data.stopLossEnable; else emptyData">
+
+                        <div class="smarttrade__value-txt">{{data?.stopLoss}}%</div><a *ngIf="data.stopLossEnable"
+                          class="smarttrade__edit-popup" nz-dropdown [nzVisible]="data.editStop" nzTrigger="click"
+                          [nzDropdownMenu]="stopmenu" (click)="activeStopEdit(i)">Edit</a>
+                        <form nz-form [formGroup]="stopLossEditForm">
+                          <nz-dropdown-menu #stopmenu="nzDropdownMenu">
+                            <ul class="smarttrade__edit-dropdown" nz-menu nzSelectable>
+                              <nz-form-control [nzErrorTip]="trailErrorTpl">
+                                <div class="smarttrade__edit-txt">
+                                  <h6 class="smarttrade__trailing-txt">Stop Loss</h6>
+                                  <input nz-input type="number" class="smarttrade__input-box" [ngModel]="activeStopVal"
+                                    formControlName="stopeditValue" />
+                                  <h5 class="smarttrade__percent" nz-typography>%</h5>
+                                </div>
+                                <ng-template #trailErrorTpl let-control>
+                                  <ng-container *ngIf="control.hasError('required')">
+                                    Enter Stop Loss Value
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                                    Stop-loss needed to be 0.1 to 50!
+                                  </ng-container>
+                                </ng-template>
+                                <div class="smarttrade__popup-btn">
+                                  <button class="smarttrade__save-btn" [nzLoading]="isLoader.isStop" nz-button
+                                    nzType="primary" nzShape="round" (click)="editActiveStopLoss('STOP',data._id)"
+                                    [disabled]="stopLossEditForm.invalid">Save</button>
+                                  <button class="smarttrade__cancel-btn" nz-button nzType="primary" nzShape="round"
+                                    (click)="cancelactiveStopEdit(i)">Cancel
+                                  </button>
+                                </div>
+                              </nz-form-control>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </form>
+                      </td>
+                      <td class="smarttrade__table-txt" *ngIf="data.takeProfitEnable; else emptyData">
+
+                        <div class="smarttrade__value-txt">{{data?.takeProfit}}%</div><a *ngIf="data.takeProfitEnable"
+                          class="smarttrade__edit-popup" nz-dropdown [nzVisible]="data.profitStop"
+                          (click)="activeProfitEdit(i)" nzTrigger="click" [nzDropdownMenu]="edit">Edit</a>
+
+                        <form nz-form [formGroup]="botprofitEditForm">
+                          <nz-dropdown-menu #edit="nzDropdownMenu">
+                            <ul class="smarttrade__edit-dropdown" nz-menu nzSelectable>
+                              <nz-form-control [nzErrorTip]="profitErrorTpl">
+                                <div class="smarttrade__edit-txt">
+                                  <h6 class="smarttrade__trailing-txt">Take Profit</h6>
+                                  <input nz-input type="number" class="smarttrade__input-box"
+                                    [ngModel]="activeProfitVal" name="profiltValue" formControlName="profitValue" />
+                                  <h5 class="smarttrade__percent" nz-typography>%</h5>
+                                </div>
+                                <ng-template #profitErrorTpl let-control>
+                                  <ng-container *ngIf="control.hasError('required')">
+                                    please input your profit!
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('min')">
+                                    Profit needed to be 0.1!
+                                  </ng-container>
+
+                                </ng-template>
+                                <div class="smarttrade__popup-btn">
+                                  <button class="smarttrade__save-btn" nz-button nzType="primary" nzShape="round"
+                                    [nzLoading]="isLoader.isStop" (click)="editActiveStopLoss('PROFIT',data._id)"
+                                    [disabled]="botprofitEditForm.invalid">Save</button>
+                                  <button class="smarttrade__cancel-btn" (click)="cancelactiveProfitEdit(i)" nz-button
+                                    nzType="primary" nzShape="round">Cancel </button>
+                                </div>
+                              </nz-form-control>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </form>
+                      </td>
+                      <td class="progress-data data-btn1"
+                        [ngClass]="{'profit-color':data?.profitPercentage > 0, 'loss-color':data?.profitPercentage < 0}">
+                        <nz-progress [nzStatus]="
+                      data.profitPercentage < 0 ? 'exception': 'active'" [nzPercent]="
+                      data.profitPercentage 
+                  " [nzWidth]="28" [nzStrokeColor]="data?.profitPercentage > 0 ? 'profit-color' : 'loss-color'"
+                          [nzStrokeWidth]="13" nzType="circle" [nzShowInfo]="false"></nz-progress>
+                        {{data?.profitPercentage}}
+                      </td>
+                      <td class="data-btn" nzWidth=300px>
+                        <button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu2" nz-button nzSize="large"
+                          nzShape="round" class="smarttrade__limit-btn-table" [nzVisible]="data.limitStop"
+                          (click)="editActiveTrade(data,'LIMIT'); activeEditLimit(i)">Limit
+                        </button>
+                        <nz-dropdown-menu #menu2="nzDropdownMenu">
+                          <ul nz-menu class="smarttrade__drop-limit">
+                            <form nz-form [formGroup]="editLimitForm">
+                              <nz-form-control [nzErrorTip]="stopLossErrorTpl">
+                                <label class="smarttrade__limit-value-txt">Price</label>
+                                <nz-input-group>
+                                  <input class="smarttrade__input-limit-box" min="1" type="number" nz-input
+                                    placeholder="0.2" formControlName="editLimit" [(ngModel)]="editPrice" /> <span
+                                    class=" smarttrade__Usdt-limit-txt">USDT</span>
+                                </nz-input-group>
+                                <ng-template #stopLossErrorTpl let-control>
+                                  <ng-container *ngIf="control.hasError('required')">
+                                    Enter limit value
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('min')">
+                                    Edit Limit value should be greater than 0!
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('max')">
+                                    Limit needto be maximum 100!
+                                  </ng-container>
+                                </ng-template>
+                              </nz-form-control>
+                            </form>
+                            <div>
+                              <button nz-button nzSize="large" nzShape="round" [disabled]="editLimitForm.invalid"
+                                [nzLoading]="isLoader.isManual" class="smarttrade__submit-btn-limit"
+                                (click)="manualSell()">Submit
+                              </button>
+                              <button nz-button nzSize="large" nzShape="round" class="smarttrade__cancel-btn-limit"
+                                (click)="cancelactiveLimitEdit(i)">Cancel
+                              </button>
+                            </div>
+                          </ul>
+                        </nz-dropdown-menu>
+                        <button nz-button nzSize="large" nzShape="round" class="smarttrade__market-btn-table"
+                          (click)="editActiveTrade(data,'MARKET')">Market
+                        </button>
+                        <a class="smarttrade__setting-dropdown" nz-dropdown nzTrigger="click"
+                          [nzDropdownMenu]="menu1"><span class="smarttrade__setting-list">...</span>
+                        </a>
+                        <nz-dropdown-menu #menu1="nzDropdownMenu">
+                          <ul nz-menu nzSelectable>
+                            <li nz-menu-item class="smarttrade__menu" (click)="deleteActiveOrder(data._id)">Cancel</li>
+                          </ul>
+                        </nz-dropdown-menu>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                <!-- <nz-pagination class="smarttrade__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+              </nz-tab>
+              <nz-tab nzTitle="Configure Bot" (nzClick)="getConfigBot()">
+                <nz-table #botTable nzSize="middle" [nzData]="configbotList" [nzHideOnSinglePage]="'true'"
+                  [nzPageSize]="3">
+                  <thead>
+                    <tr>
+                      <th>Signal</th>
+                      <th>Stop Loss</th>
+                      <th>Fund Trade</th>
+                      <th>Order Type</th>
+                      <th>Take Profit</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="smarttrade__table-data" *ngFor="let data of botTable.data; let i = index">
+                      <td>
+                        <div>{{data?.symbol}}</div><span class="smarttrade__table-time">{{data?.createdAt|
+                          date:'short'}}</span>
+                      </td>
+                      <td>
+
+                        <div class="smarttrade__value-txt">{{data?.stopLoss}}%</div><a *ngIf="data?.status != 'EXPIRED'"
+                          class="smarttrade__edit-popup" nz-dropdown [nzVisible]="data.editStop" nzTrigger="click"
+                          [nzDropdownMenu]="stopmenu" (click)="openStopEdit(i)">Edit</a>
+                        <form nz-form [formGroup]="stopLossEditForm">
+                          <nz-dropdown-menu #stopmenu="nzDropdownMenu">
+                            <ul class="smarttrade__edit-dropdown" nz-menu nzSelectable>
+                              <nz-form-control [nzErrorTip]="trailErrorTpl">
+                                <div class="smarttrade__edit-txt">
+                                  <h4 class="smarttrade__trailing-txt">Stop Loss</h4>
+                                  <input nz-input type="number" class="smarttrade__input-box" [ngModel]="stopEditValue"
+                                    formControlName="stopeditValue" />
+                                  <h5 class="smarttrade__percent" nz-typography>%</h5>
+                                </div>
+                                <ng-template #trailErrorTpl let-control>
+                                  <ng-container *ngIf="control.hasError('required')">
+                                    Enter Stop Loss Value
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                                    Stop-loss needed to be 0.1 to 50!
+                                  </ng-container>
+                                </ng-template>
+                                <div class="smarttrade__popup-btn">
+                                  <button class="smarttrade__save-btn" nz-button nzType="primary" nzShape="round"
+                                    (click)="editStop(data)" [disabled]="stopLossEditForm.invalid">Save</button>
+                                  <button class="smarttrade__cancel-btn" nz-button nzType="primary" nzShape="round"
+                                    (click)="cancelStopEdit(i)">Cancel
+                                  </button>
+                                </div>
+                              </nz-form-control>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </form>
+                      </td>
+
+                      <td>{{data?.fund}}</td>
+                      <td>{{data?.type}}</td>
+                      <td>
+                        <div class="smarttrade__value-txt">{{data?.takeProfit}}%</div><a
+                          *ngIf="data?.status != 'EXPIRED'" class="smarttrade__edit-popup" nz-dropdown
+                          [nzVisible]="data.editProfit" (click)="openProfitEdit(i)" nzTrigger="click"
+                          [nzDropdownMenu]="edit">Edit</a>
+
+                        <form nz-form [formGroup]="botprofitEditForm">
+                          <nz-dropdown-menu #edit="nzDropdownMenu">
+                            <ul class="smarttrade__edit-dropdown" nz-menu nzSelectable>
+                              <nz-form-control [nzErrorTip]="profitErrorTpl">
+                                <div class="smarttrade__edit-txt">
+                                  <h4 class="smarttrade__trailing-txt">Take Profit</h4>
+                                  <input nz-input type="number" class="smarttrade__input-box"
+                                    [ngModel]="editProfitValue" name="profiltValue" formControlName="profitValue" />
+                                  <h5 class="smarttrade__percent" nz-typography>%</h5>
+                                </div>
+                                <ng-template #profitErrorTpl let-control>
+                                  <ng-container *ngIf="control.hasError('required')">
+                                    please input your profit!
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('min')">
+                                    Take Profit Needes To Be Greater Than 0.1%
+                                  </ng-container>
+                                  <ng-container *ngIf="control.hasError('max')">
+                                    Take Profit Needes To Be Greater Than 0.1%
+                                  </ng-container>
+                                </ng-template>
+                                <div class="smarttrade__popup-btn">
+                                  <button class="smarttrade__save-btn" nz-button nzType="primary" nzShape="round"
+                                    (click)="editprofitvalue(data)" [disabled]="botprofitEditForm.invalid">Save</button>
+                                  <button class="smarttrade__cancel-btn" (click)="cancelProfitEdit(i)" nz-button
+                                    nzType="primary" nzShape="round">Cancel</button>
+                                </div>
+                              </nz-form-control>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </form>
+                      </td>
+                      <button class="smarttrade__start-btn" *ngIf="data?.status != 'EXPIRED'"
+                        [ngClass]="{'stop-warning': data?.status == 'START', 'start-success':data?.status == 'STOP'}"
+                        nz-button nzType="primary" nzShape="round" (click)="editBotValue(data)"><span
+                          *ngIf="data?.status == 'STOP'">Start</span>
+                        <span *ngIf="data?.status == 'START'">STOP</span>
+                      </button>
+                      <!-- <button class="smarttrade__renew-btn" *ngIf="data?.status == 'EXPIRED'" nz-button nzType="primary"
+                        nzShape="round" (click)="showModal()">
+                        {{"renew" | translate}}
+                      </button> -->
+                      <a *ngIf="data?.status != 'EXPIRED'" class="smarttrade__setting-dropdown" nz-dropdown
+                        nzTrigger="click" [nzDropdownMenu]="setting"><span class="smarttrade__setting-list">...</span>
+                      </a>
+                      <nz-dropdown-menu #setting="nzDropdownMenu">
+                        <ul nz-menu>
+                          <!-- <li nz-menu-item (click)="open_viewresult(data)">{{"viewresult" | translate}}</li> -->
+
+                          <li nz-menu-item (click)="showEditBot(data)">Edit</li>
+                        </ul>
+                      </nz-dropdown-menu>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                <!-- <nz-pagination class="smarttrade__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+              </nz-tab>
+              <nz-tab nzTitle="Open Orders" (nzClick)="GetOpenOrders();">
+                <nz-table #openOrderTable nzSize="middle" [nzData]="openOrderDataList">
+                  <thead>
+                    <tr>
+                      <th>Pair/Price</th>
+                      <th>Quantity</th>
+                      <th>Side</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of openOrderTable.data; let i = index">
+                      <td>
+                        <div class="smarttrade__table-txt">
+                          {{ data.symbol }} -
+                          <span class="smarttrade__value-txt">{{ data?.price }}</span>
+                        </div>
+                        <div class="smarttrade__table-time">
+                          {{ data?.time | date: 'short'}}
+                        </div>
+                      </td>
+                      <td class="smarttrade__table-txt">{{ data?.origQty }}</td>
+                      <td class="smarttrade__table-txt">{{ data?.side }}</td>
+                      <td class="smarttrade__table-txt">{{ data?.type }}</td>
+                      <!-- <td class="smarttrade__table-txt">-</td> -->
+                      <td class="smarttrade__table-txt">{{ data?.status }}</td>
+                      <td>
+                          <button class="smarttrade__cancel-tdbtn" nz-button nzType="primary" nzShape="round"
+                          nz-popconfirm
+                          nzPopconfirmTitle="Are you sure to cancel this order?" nzOkType="danger" nzOkText="Yes"
+                          nzCancelText="No" (nzOnConfirm)="cancelOrder(data)">Cancel</button>
+                          
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                <!-- <nz-pagination class="smarttrade__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+              </nz-tab>
+              <nz-tab nzTitle="Trade History" (nzClick)="changeTrade('TRADE',index,limit,true)">
+                <ng-container>
+                  <div class="historyselect" id="select-trade">
+                    <nz-select nzPlaceHolder="BTCUSDT" name="selectCoin" nzBorderless [(ngModel)]="historyType"
+                      (ngModelChange)="changeTrade(historyType,index,limit,true)">
+                      <nz-option nzLabel="Trade" nzValue="TRADE"></nz-option>
+                      <nz-option nzLabel="Buy/Sell" nzValue="BUYSELL"></nz-option>
+                    </nz-select>
+                  </div>
+                </ng-container>
+                <nz-table #tradehistoryTable nzSize="middle" [nzData]="tradehistory" [nzShowPagination]="false">
+                  <thead>
+                    <tr>
+                      <th>Coin Pair</th>
+                      <th>Price</th>
+                      <th *ngIf="historyType == 'TRADE'">Signal</th>
+                      <th>Side</th>
+                      <th>Type</th>
+                      <th *ngIf="historyType == 'TRADE'">Fund</th>
+                      <th>Quantity</th>
+                      <th *ngIf="historyType == 'TRADE'">Stop Loss</th>
+                      <th *ngIf="historyType == 'TRADE'">Take Profit</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of tradehistoryTable.data;let i = index">
+                      <div>
+                        <td class="smarttrade__table-txt">{{ data?.symbol }}</td>
+                        <span class="smarttrade__table-txt"><span class="smarttrade__table-time">{{ data?.updatedAt |
+                            date:'short' }}</span></span>
+                      </div>
+                      <!-- <td class="smarttrade__table-txt">{{ data?.binanceResponse[0]?.orderId }}</td> -->
+                      <td class="smarttrade__table-txt"><span class="smarttrade__value-txt">{{ data?.entryPrice }}
+                          {{data?.quoteAsset}}</span></td>
+                      <td class="smarttrade__table-txt" *ngIf="historyType == 'TRADE'">-</td>
+                      <td>{{data?.side}}</td>
+                      <td class="smarttrade__table-txt">{{data?.type}}</td>
+                      <td class="smarttrade__table-txt" *ngIf="historyType == 'TRADE'"><span
+                          *ngIf="data?.fund">{{data?.fund}}
+                          {{data?.quoteAsset}}</span><span *ngIf="!data?.fund">-</span>
+                      </td>
+                      <td class="smarttrade__table-txt">{{ data?.quantity }} {{data?.baseAsset}}</td>
+                      <td class="smarttrade__table-txt" *ngIf="historyType == 'TRADE'">{{ data?.stopLoss }}%</td>
+                      <td class="smarttrade__table-txt" *ngIf="historyType == 'TRADE'" [ngClass]="{'profit-color':data?.profit > 0 ,
+                            'loss-color':data?.profit < 0}">{{ data?.profit | number: '1.0-3'}}%</td>
+                      <td>
+                        <div>
+                          <button nz-button class="smarttrade__openorder-cancel" nzSize="large" nzShape="round"
+                            nz-popconfirm nzPopconfirmTitle="Are you sure to delete this order?" nzOkType="danger"
+                            nzOkText="Yes" nzCancelText="No" (nzOnConfirm)="deleteTradeDetail(data._id)"><img
+                              src="../../../assets/img/svg/trash-delete.svg" height="20" alt="">
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                <nz-pagination *ngIf="tradehistory.length > 0" class="smarttrade__paginatiion" [(nzPageIndex)]="index"
+                  [(nzPageSize)]="limit" [nzTotal]="totalHistoryCount"
+                  (nzPageIndexChange)="changeTrade(historyType,index,limit,false)">
+                </nz-pagination>
+              </nz-tab>
+            </nz-tabset>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6">
+      <nz-card>
+        <nz-tabset id="smarttrade-tab">
+          <nz-tab class="smarttrade__buy-tab" nzTitle="Buy">
+            <form [formGroup]="buyForm">
+              <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                  <div id="buy-select" nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20" nzXl="15" nzXXl="10">
+                    <nz-form-item>
+                      <nz-form-control>
+                        <label class="smarttrade__coin-txt">Select Coin Pair</label>
+                        <div id="buy-select">
+                          <nz-select class="smarttrade__select-txt" nzShowSearch nzAllowClear nzPlaceHolder="BTCUSDT"
+                            [(ngModel)]="buyCoin" (ngModelChange)="coinChange('Buy')" formControlName="coinname">
+                            <nz-option [nzLabel]="coin?.symbol" [nzValue]="coin?.symbol"
+                              *ngFor="let coin of coinDataList"></nz-option>
+                          </nz-select>
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div>
+                    <p class="smarttrade__fund-txt">Fund</p>
+                  </div>
+                  
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="buyfundErrorTpl">
+                        <div class="smarttrade__txt-content">
+                        <input class="smarttrade__input-field" nz-input placeholder="0.00" formControlName="fund" />
+                        <span>
+                          <h5 class="smarttrade__usdt-text">{{quoteCoin}}</h5>
+                        </span>
+                      </div>
+                      </nz-form-control>
+                      <ng-template #buyfundErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your Fund
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')  && quoteCoin == 'USDT'">
+                          Enter Fund Greater than 10 USDT
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')  && quoteCoin == 'BTC'">
+                          Enter Fund Greater than {{buyMinFund}}
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('max')">
+                          Fund exceeds balance of {{buyMaxFund}}
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-item>
+               
+                  <nz-form-item id="buy-radio-group">
+                    <nz-radio-group nzButtonStyle="solid" (ngModelChange)="buyFundCalculation()"
+                      formControlName="percentage">
+                      <label class="smarttrade__percentage-btn1" nz-radio-button nzValue="25">25%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="50">50%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="75">75%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="100">100%</label>
+                    </nz-radio-group>
+                  </nz-form-item>
+                  <div>
+                    <p class="smarttrade__order-txt">Order Type</p>
+                  </div>
+                  <nz-form-item id="buy-radio-group">
+                    <nz-radio-group nzButtonStyle="solid" formControlName="type"
+                      (ngModelChange)="typeSideChange('Buy')">
+                      <label class="smarttrade__limit-btn" nz-radio-button nzValue="LIMIT">Limit</label>
+                      <label class="smarttrade__market-btn" nz-radio-button nzValue="MARKET">Market </label>
+                    </nz-radio-group>
+                  </nz-form-item>
+                  <div *ngIf="buyForm.value.type == 'LIMIT'">
+                    <p class="smarttrade__fund-txt">Price</p>
+                  </div>
+                  <div *ngIf="buyForm.value.type == 'LIMIT'">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="buypriceErrorTpl">
+                        <div class="smarttrade__txt-content">
+                        <input class="smarttrade__input-field" nz-input placeholder="0.00" formControlName="price"
+                          [ngModel]="currentPrice" (ngModelChange)="priceChange('Buy')" />
+                          <span>
+                            <h5 class="smarttrade__usdt-text">{{quoteCoin}}</h5>
+                          </span>
+                        </div>
+                      </nz-form-control>
+                      <ng-template #buypriceErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your price
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')">
+                          Enter Price minimum of {{minPrice}}
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('max')">
+                          Enter price maximum of {{maxPrice}}
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-item>
+                   
+                  </div>
+                </div>
+              </div>
+              <div nz-row class="smarttrade__buy-takeprofit">
+                <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+                  <div class="smarttrade__clock-icon">
+                    <img class="smarttrade__clock-img" src="../../../../../assets/img/svg/clock.svg" height="22"
+                      alt="" />
+                  </div>
+                </div>
+                <div nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20" nzXl="20">
+                  <div class="smarttrade__stoploss">
+                    <div>
+                      <p>Stop-Loss</p>
+                    </div>
+                    <div>
+                      <nz-switch (click)="stopLossSwitch()" [(ngModel)]="stopLossCondition"
+                        formControlName="stoplossSwitch"></nz-switch>
+                    </div>
+                  </div>
+                    <nz-form-item *ngIf="stopLossCondition">
+                      <nz-form-control [nzErrorTip]="stoplossErrorTpl">
+                        <input class="smarttrade__input-field" nz-input placeholder="0.00" [(ngModel)]="stoplossVal"
+                          formControlName="stoplossVal" (ngModelChange)="stoplossCal(stoplossVal)" />
+                      </nz-form-control>
+                      <ng-template #stoplossErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your Stop Loss value
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')">
+                          Enter stop loss value minimum of 0.1%
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('max')">
+                          Enter stop loss value maximum of 50%
+                        </ng-container>
+                      </ng-template>
+                      <ng-container *ngIf="buy_quan < 10.1 && stoplossVal != 0">
+                        <p class="validation-txt">Fund is Less than 10 USDT</p>
+                      </ng-container>
+                    </nz-form-item>
+                  
+                </div>
+              </div>
+              <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                  <nz-divider class="smarttrade__stoploss-divider"></nz-divider>
+                </div>
+              </div>
+              <div nz-row class="smarttrade__buy-takeprofit">
+                <div nz-col nzXs="4" nzSm="4" nzMd="4" nzLg="4" nzXl="4">
+                  <div class="smarttrade__clock-icon">
+                    <img class="smarttrade__clock-img" src="../../../../../assets/img/svg/flag.svg" height="22"
+                      alt="" />
+                  </div>
+                </div>
+                <div nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20" nzXl="20">
+                  <div class="smarttrade__stoploss">
+                    <div>
+                      <p>Take-Profit</p>
+                    </div>
+                    <div>
+                      <nz-switch (click)="profitSwitch()" [(ngModel)]="profitCondition" formControlName="profitSwitch">
+                      </nz-switch>
+                    </div>
+                  </div>
+                    <nz-form-item *ngIf="profitCondition">
+                      <nz-form-control [nzErrorTip]="profitErrorTpl">
+                        <input nz-input type="number" class="smarttrade__input-field" placeholder="0"
+                          nzSize="default" formControlName="profitVal" />
+                      </nz-form-control>
+                      <ng-template #profitErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your Profit value
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')">
+                          Enter Profit minimum of 0.1%
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-item>
+                </div>
+              </div>
+              <button class="smarttrade__buy-button"
+                [disabled]="buyForm.invalid || (stopLossCondition && buy_quan < 10.1)" nz-button nzType="primary"
+                nzShape="round" (click)="BuySubmit()" [nzLoading]="isBuyLoading">Buy</button>
+            </form>
+          </nz-tab>
+          <nz-tab class="smarttrade__sell-tab" nzTitle="Sell">
+            <form [formGroup]="sellForm">
+              <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                  <div id="buy-select" nz-col nzXs="20" nzSm="20" nzMd="20" nzLg="20" nzXl="15" nzXXl="10">
+                    <nz-form-item>
+                      <nz-form-control>
+                        <label class="smarttrade__coin-txt">Select Coin Pair</label>
+                        <div id="buy-select">
+                          <nz-select class="smarttrade__select-txt" nzShowSearch nzAllowClear [(ngModel)]="sellCoin"
+                            (ngModelChange)="sellCoinChange('Sell')" formControlName="coinname">
+                            <nz-option [nzLabel]="coin?.symbol" [nzValue]="coin?.symbol"
+                              *ngFor="let coin of coinDataList"></nz-option>
+                          </nz-select>
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div>
+                    <p class="smarttrade__fund-txt">Fund</p>
+                  </div>
+                 
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="sellfundErrorTpl">
+                        <div class="smarttrade__txt-content">
+                        <input class="smarttrade__input-field" nz-input placeholder="0.00" formControlName="fund" [(ngModel)]="sellFund"/>
+                        <span>
+                          <h5 class="smarttrade__usdt-text">{{baseCoin}}</h5>
+                        </span>
+                      </div>
+                      </nz-form-control>
+                      <ng-template #sellfundErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your Fund
+                        </ng-container>
+                        <!-- <ng-container *ngIf="control.hasError('min')">
+                          Enter Fund Greater than {{minFund}} {{baseCoin}}
+                        </ng-container> -->
+                        <ng-container *ngIf="control.hasError('max')">
+                          Fund exceeds balance of {{maxFund}}
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-item>
+                    <ng-container *ngIf="sellFund < minFund && sellFund != 0 && sellFund < maxFund">
+                      <p class="color-red">Enter Fund Greater than {{minFund}} {{baseCoin}}</p>
+                    </ng-container>
+                  <nz-form-item id="sell-radio-group">
+                    <nz-radio-group nzButtonStyle="solid" (ngModelChange)="sellFundCalculation()"
+                      formControlName="percentage">
+                      <label class="smarttrade__percentage-btn1" nz-radio-button nzValue="25">25%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="50">50%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="75">75%</label>
+                      <label class="smarttrade__percentage-btn" nz-radio-button nzValue="100">100%</label>
+                    </nz-radio-group>
+                  </nz-form-item>
+                  <div>
+                    <p class="smarttrade__order-txt">Order Type</p>
+                  </div>
+                  <nz-form-item id="sell-radio-group">
+                    <nz-radio-group nzButtonStyle="solid" formControlName="type"
+                      (ngModelChange)="typeSideChange('Sell')">
+                      <label class="smarttrade__limit-btn" nz-radio-button nzValue="LIMIT">Limit</label>
+                      <label class="smarttrade__market-btn" nz-radio-button nzValue="MARKET">Market </label>
+                    </nz-radio-group>
+                  </nz-form-item>
+                  <div *ngIf="sellForm.value.type == 'LIMIT'">
+                    <p class="smarttrade__fund-txt">Price</p>
+                  </div>
+                  <div *ngIf="sellForm.value.type == 'LIMIT'">
+                    <nz-form-item>
+                      <nz-form-control [nzErrorTip]="sellpriceErrorTpl">
+                        <div  class="smarttrade__txt-content">
+                        <input class="smarttrade__input-field" nz-input placeholder="0.00" formControlName="price"
+                          [ngModel]="currentPrice" (ngModelChange)="priceChange('Sell')" />
+                          <span>
+                            <h5 class="smarttrade__usdt-text">{{quoteCoin}}</h5>
+                          </span>
+                        </div>
+                      </nz-form-control>
+                      <ng-template #sellpriceErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                          Enter your price
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('min')">
+                          Enter Price minimum of {{minPrice}}
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-item>
+                    
+                  </div>
+                </div>
+              </div>
+              <button class="smarttrade__sell-button" nz-button nzType="primary" nzShape="round"
+                [nzLoading]="isSellLoading" [disabled]="sellForm.invalid || sellFund == 0 " (click)="sellSubmit()">Sell</button>
+            </form>
+          </nz-tab>
+        </nz-tabset>
+      </nz-card>
+    </div>
+  </div>
+
+</section>
+<ng-template #emptyData>
+  <td>
+    <span>
+      -
+    </span>
+  </td>
+</ng-template>
+
+<!-- Edit bot modal -->
+<nz-modal [(nzVisible)]="isEditBot" (nzOnCancel)="handleCancel()" [nzFooter]="null" nzWidth="380px"
+  nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+        <img src="../../..//assets/img/svg/bot.svg" alt="">
+      </div>
+      <div nz-col nzXs="19" nzSm="19" nzMd="19" nzLg="19" nzXl="19">
+        <h4 class="smarttrade__edit-model-title">{{editData?.symbol}}</h4>
+      </div>
+    </div>
+    <form nz-form [formGroup]="botEditForm">
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div nz-row class="smarttrade__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Stop Loss</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editStopLoss" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div>
+          <nz-form-control [nzErrorTip]="stopLossErrorTpl" *ngIf="editStopLoss">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="smarttrade__input-box-model" min="1" type="number" nz-input placeholder="0.2"
+                formControlName="stopLossValue" [(ngModel)]="editStopLossValue"
+                (ngModelChange)="botStoplossCal(editStopLossValue)" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #stopLossErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Stop Loss Value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                Stop-loss needed to be 0.1 to 50!
+              </ng-container>
+
+            </ng-template>
+            <!-- <p *ngIf="buy_quan < 10.5 && editStopLossValue != null && editStopLossValue >= 0.1 && editStopLossValue <= 50"
+              class="error-warning">
+              Less than 10 USDT!
+            </p> -->
+          </nz-form-control>
+          <!-- <div nz-row class="smarttrade__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Trailing</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editTrailing" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div> -->
+          <!-- <nz-form-control [nzErrorTip]="trailErrorTpl" *ngIf="editTrailing">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="smarttrade__input-box-model" type="number" nz-input placeholder="0.2"
+                formControlName="trailValue" [(ngModel)]="editTrailingValue" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #trailErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Trailing Value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min')">
+                Trailing needed to be 0.1 to 5!
+              </ng-container>
+              <ng-container *ngIf="control.hasError('max')">
+                Trailing needed to be 0.1 to 5!
+              </ng-container>
+            </ng-template>
+          </nz-form-control> -->
+          <p class="smarttrade__fund-txt">Fund(per trade in USDT)</p>
+          <nz-form-control [nzErrorTip]="fundErrorTpl">
+            <input class="smarttrade__input-field-model" type="number" nz-input placeholder="11.74"
+              [(ngModel)]="editFund" formControlName="fundValue" (ngModelChange)="botStoplossCal(editStopLossValue)" />
+            <ng-template #fundErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Please Input Your Fund!
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min')">
+                Enter minimum fund 10!
+              </ng-container>
+              <ng-container *ngIf="control.hasError('max')">
+                fund exceeds balance!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+          <p class="smarttrade__order-txt">Order Type</p>
+          <nz-radio-group  [nzButtonStyle]="'solid'" [(ngModel)]="botType" [ngModelOptions]="{standalone: true}">
+            <label class="smarttrade__Limit-model-btn" nz-radio-button nzValue="LIMIT">Limit</label>
+            <label class="smarttrade__Market-model-btn" nz-radio-button nzValue="MARKET">Market</label>
+          </nz-radio-group>
+          <div nz-row class="smarttrade__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Take Porfit (or) Automatic Sell</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editTakeProfit" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div>
+          <nz-form-control [nzErrorTip]="autoErrorTpl" *ngIf="editTakeProfit">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="smarttrade__input-box-model" type="number" nz-input placeholder="0.2"
+                formControlName="autoValue" [(ngModel)]="editProfitValue" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #autoErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Auto sell or Take profit value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min')">
+                Enter minimum of 1
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+          <div nz-row>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+              <button nz-button class="smarttrade__save-model-btn" nzType="primary" nzShape="round"
+                [nzLoading]="isLoader.isEditBot" [disabled]="botEditForm.invalid || (buy_quan <= 10.5 && editStopLoss)"
+                (click)="editBotValue(false)">Save</button>
+            </div>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+              <button nz-button class="smarttrade__cancel-model-btn" nzType="primary" nzShape="round"
+                (click)="handleCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>

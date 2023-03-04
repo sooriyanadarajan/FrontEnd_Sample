@@ -1,0 +1,533 @@
+<section class="history">
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <h4 class="history__title">Trade Details</h4>
+        </div>
+    </div>
+    <div nz-row class="history__box-list">
+        <div nz-col nzFlex="auto" id="card-body">
+            <nz-card class="history__box">
+               <div class="history__card-content pd-data-ryt">
+                   <div>
+                       <h1>{{SubscriptionAmount}}</h1>
+                       <h4>Subscription Amount</h4>
+                   </div>
+               </div>
+            </nz-card>
+        </div>
+        <div nz-col nzFlex="auto" id="card-body">
+          <nz-card class="history__box">
+             <div class="history__card-content pd-data-ryt">
+                 <div>
+                     <h1>{{NumberSmarttrade}}</h1>
+                     <h4>No of SmartTrade</h4>
+                 </div>
+             </div>
+          </nz-card>
+      </div>
+      <div nz-col nzFlex="auto" id="card-body">
+        <nz-card class="history__box">
+           <div class="history__card-content ">
+               <div>
+                   <h1>{{NumberFxTrade}}</h1>
+                   <h4>No of FX Trade</h4>
+               </div>
+           </div>
+        </nz-card>
+    </div>
+    <div nz-col nzFlex="auto" id="card-body">
+      <nz-card class="history__box">
+         <div class="history__card-content pd-data-ryt">
+             <div>
+                 <h1>{{ActiveSmartTrade}}</h1>
+                 <h4>No of Active Smart Trade</h4>
+             </div>
+         </div>
+      </nz-card>
+    </div>
+    <div nz-col nzFlex="auto" id="card-body">
+        <nz-card class="history__box">
+           <div class="history__card-content">
+               <div>
+                   <h1>{{ActiveFxTrade}}</h1>
+                   <h4>No of Active FX Trade</h4>
+               </div>
+           </div>
+        </nz-card>
+      </div>
+      <!-- <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="4" id="card-body">
+        <nz-card class="history__box">
+           <div class="history__card-content">
+               <div>
+                   <h1>80</h1>
+                   <h4>No of Open Orders</h4>
+               </div>
+           </div>
+        </nz-card>
+      </div> -->
+       
+    </div>
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-card>
+                <nz-tabset id="history-tab" nzOuterBordered="false" [nzAnimated]="false"
+                    (nzSelectChange)="TabSetChange($event)">
+                    <nz-tab nzTitle="Subscription">
+                        <label class="show">Show</label>
+                        <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                            (ngModelChange)="change($event)">
+                            <nz-option nzValue="10" nzLabel="10"></nz-option>
+                            <nz-option nzValue="25" nzLabel="25"></nz-option>
+                            <nz-option nzValue="50" nzLabel="50"></nz-option>
+                            <nz-option nzValue="100" nzLabel="100"></nz-option>
+                        </nz-select>
+                        <label class="show">Entries</label>
+                        <div class="history__input-field">
+                            <nz-input-group [nzSuffix]="suffixIconSearch">
+                                <input nz-input placeholder="Search by TXN Hash,Address,Status" [(ngModel)]="searchTxt"
+                                    (ngModelChange)="searchSubscription()"
+                                    (keyup.enter)="getPaymentHistory(1,pageSize)" />
+                            </nz-input-group>
+                            <ng-template #suffixIconSearch>
+                                <i nz-icon nzType="search" (click)="getPaymentHistory(1,pageSize)"></i>
+                            </ng-template>
+                        </div>
+                        <nz-table #paymentTable nzSize="middle" [nzData]="paymentHistory" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Name</th>
+                                    <th>Signal</th>
+                                    <th>TXN Hash</th>
+                                    <th class="payment-add">Payment Address</th>
+                                    <th>Amount</th>
+                                    <th>Price</th>
+                                    <th>Coupon</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!isTableLoading">
+                                <tr *ngFor="let data of paymentHistory">
+                                    <td>{{data.updatedAt|date:"short"}} </td>
+                                    <td> <a class="profit-color"
+                                            routerLink="/user/{{data.user_id?data.user_id._id:'-'}}/dashboard">{{data.user_id?data.user_id.name:'-'}}
+                                        </a> </td>
+                                    <td>{{data.bot_id?data.bot_id.name:'-'}}</td>
+                                    <td> <a class="profit-color" href="{{data.status_url}}"
+                                            target="_blank">{{data.txn_hash}}</a>  <img src="../../../assets/img/svg/copy.svg" alt=""
+                                            nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                            (click)="disableTooltip()" ngxClipboard [cbContent]="data?.txn_hash"
+                                            nz-tooltip nzTooltipTrigger='click'></td>
+                                    <td nzBreakWord>{{data.address}} <img src="../../../assets/img/svg/copy.svg" alt=""
+                                            nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                            (click)="disableTooltip()" ngxClipboard [cbContent]="data?.address"
+                                            nz-tooltip nzTooltipTrigger='click'> </td>
+                                    <td>{{data.amount}} {{data.payment_type}} </td>
+                                    <td>{{data.price}} €</td>
+                                    <td>{{data.coupon?data.coupon:'-' }} </td>
+                                    <td>{{data.time_expires|date:"short"}}</td>
+                                    <td [ngClass]="{
+                                        'profit-color':
+                                        data.status == 'SUCCESS',
+                                        'loss-color1':
+                                        data.status == 'FAILED',
+                                        'loss-color':
+                                        data.status == 'CANCELLED'
+                                    }">{{data.status}} </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+                        <nz-pagination class="history__paginatiion" [nzTotal]="paymentHistoryCount" class="page"
+                            [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                            (nzPageIndexChange)="getPaymentHistory(pageIndex,pageSize)"></nz-pagination>
+                    </nz-tab>
+                    <nz-tab nzTitle="SmartTrade">
+                        <nz-tabset id="history-tab" nzOuterBordered="false" [nzAnimated]="false"
+                            (nzSelectChange)="tabChange($event)">
+                            <nz-tab nzTitle="TRADE">
+                                <label class="show">Show</label>
+                                <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                                    (ngModelChange)="change2($event)">
+                                    <nz-option nzValue="10" nzLabel="10"></nz-option>
+                                    <nz-option nzValue="25" nzLabel="25"></nz-option>
+                                    <nz-option nzValue="50" nzLabel="50"></nz-option>
+                                    <nz-option nzValue="100" nzLabel="100"></nz-option>
+                                </nz-select>
+                                <label class="show">Entries</label>
+                                <div class="history__input-field">
+                                    <nz-input-group [nzSuffix]="spotsuffixIconSearch">
+                                        <input nz-input placeholder="Search by TXN Hash,Address,Status" [(ngModel)]="searchTrade"
+                                            (ngModelChange)="searchTradeSmart()"
+                                            (keyup.enter)="getSpotTradeHistory(1,pageSize2)" />
+                                    </nz-input-group>
+                                    <ng-template #spotsuffixIconSearch>
+                                        <i nz-icon nzType="search" (click)="getSpotTradeHistory(1,pageSize2)"></i>
+                                    </ng-template>
+                                </div>
+                                <nz-table #TradeTable nzSize="middle" [nzData]="spotTradeHistory"
+                                    [nzShowPagination]="false">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Coin Pair</th>
+                                            <th>Price</th>
+                                            <th>Signal</th>
+                                            <th>Side</th>
+                                            <th>Type</th>
+                                            <th>Trade ID</th>
+                                            <th>Fund</th>
+                                            <th>Quantity</th>
+                                            <th>Stop Loss</th>
+                                            <th>Take Profit</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="!isTableLoading">
+                                        <tr *ngFor="let data of spotTradeHistory">
+                                            <td>{{ data?.updatedAt | date:'short' }}</td>
+                                            <td>{{data.symbol}}</td>
+                                            <td class="profit-color">{{ data?.entryPrice }} {{data?.quoteAsset}}</td>
+                                            <td> {{data.coupoun?data.coupoun:'-'}} </td>
+                                            <td>{{data?.side}} </td>
+                                            <td>{{data?.type}} </td>
+                                            <td>{{data.trade_id}}  <img *ngIf="data.trade_id != ''" src="../../../assets/img/svg/copy.svg" alt=""
+                                                nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                                (click)="disableTooltip()" ngxClipboard [cbContent]="data?.trade_id"
+                                                nz-tooltip nzTooltipTrigger='click'></td>
+                                            <td>{{data?.fund}} {{data?.quoteAsset}}</td>
+                                            <td>{{data.quantity}} </td>
+                                            <td>{{data.stopLoss}}%</td>
+                                            <td [ngClass]="{'profit-color':data?.profit > 0 ,
+                                                'loss-color':data?.profit < 0}">{{ data?.profit | number: '1.0-3'}}%
+                                            </td>
+                                            <td class="data-icon">
+                                                <img src="../../../../assets/img/svg/users.svg" height="20"
+                                                    routerLink="/user/{{data.user_id}}/smarttrade" class="user_icon"
+                                                    title="View User Details">
+                                                <img src="../../../../assets/img/delete.svg" title="Delete" height="18px"
+                                                    class="show-modals" nz-button nzSize="large" nzShape="round"
+                                                    class="authorize__remove-btn" nz-popconfirm
+                                                    nzPopconfirmTitle="Are you sure you want to delete?"
+                                                    nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                                    (nzOnConfirm)="deleteSpotHistory(data._id,data.user_id)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+                                <nz-pagination [nzTotal]="spotTradeHistoryCount" class="page"
+                                    [(nzPageIndex)]="pageIndex2" [(nzPageSize)]="pageSize2"
+                                    (nzPageIndexChange)="getSpotTradeHistory(pageIndex2,pageSize2)">
+                                </nz-pagination>
+                            </nz-tab>
+                            <nz-tab nzTitle="BUY/SELL">
+                                <label class="show">Show</label>
+                                <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                                    (ngModelChange)="change2($event)">
+                                    <nz-option nzValue="10" nzLabel="10"></nz-option>
+                                    <nz-option nzValue="25" nzLabel="25"></nz-option>
+                                    <nz-option nzValue="50" nzLabel="50"></nz-option>
+                                    <nz-option nzValue="100" nzLabel="100"></nz-option>
+                                </nz-select>
+                                <label class="show">Entries</label>
+                                <!-- <input class="history__input-field" nz-input placeholder="Search by name or email" /> -->
+                                <div class="history__input-field">
+                                    <nz-input-group [nzSuffix]="spotsuffixIconSearch">
+                                        <input nz-input placeholder="Search by Trade ID" [(ngModel)]="searchTrade"
+                                            (ngModelChange)="searchTradeSmart()"
+                                            (keyup.enter)="getSpotTradeHistory(1,pageSize2)" />
+                                    </nz-input-group>
+                                    <ng-template #spotsuffixIconSearch>
+                                        <i nz-icon nzType="search" (click)="getSpotTradeHistory(1,pageSize2)"></i>
+                                    </ng-template>
+                                </div>
+                                <nz-table #middleTable nzSize="middle" [nzData]="spotTradeHistory"
+                                    [nzShowPagination]="false">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Coin Pair</th>
+                                            <th>Price</th>
+                                            <th>Side</th>
+                                            <th>Type</th>
+                                            <th>Trade ID</th>
+                                            <th>Quantity</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="!isTableLoading">
+                                        <tr *ngFor="let data of spotTradeHistory">
+                                            <td>{{ data?.updatedAt | date:'short' }} </td>
+                                            <td>{{data.symbol}} </td>
+                                            <td class="profit-color">{{ data?.entryPrice }} {{data?.quoteAsset}}</td>
+                                            <td>{{data?.side}} </td>
+                                            <td>{{data?.type}} </td>
+                                            <td>{{data.trade_id}}  <img *ngIf="data.trade_id != ''" src="../../../assets/img/svg/copy.svg" alt=""
+                                                nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                                (click)="disableTooltip()" ngxClipboard [cbContent]="data?.trade_id"
+                                                nz-tooltip nzTooltipTrigger='click'></td>
+                                            <td>{{data.quantity}} </td>
+                                            <td>
+                                                <img src="../../../../assets/img/svg/users.svg" height="20"
+                                                    routerLink="/user/{{data.user_id}}/dashboard"
+                                                    title="View User Details" class="user_icon">
+                                                <img src="../../../../assets/img/delete.svg" title="Delete" height="18px"
+                                                    class="show-modals" nz-button nzSize="large" nzShape="round"
+                                                    class="authorize__remove-btn" nz-popconfirm
+                                                    nzPopconfirmTitle="Are you sure you want to delete?"
+                                                    nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                                    (nzOnConfirm)="deleteSpotHistory(data._id,data.user_id)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+                                <nz-pagination [nzTotal]="spotTradeHistoryCount" class="page"
+                                    [(nzPageIndex)]="pageIndex2" [(nzPageSize)]="pageSize2"
+                                    (nzPageIndexChange)="getSpotTradeHistory(pageIndex2,pageSize2)">
+                                </nz-pagination>
+                            </nz-tab>
+                        </nz-tabset>
+                    </nz-tab>
+                    <nz-tab nzTitle="Active Smart Trade">
+                        <label class="show">Show</label>
+                        <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                            (ngModelChange)="change3($event)">
+                            <nz-option nzValue="10" nzLabel="10"></nz-option>
+                            <nz-option nzValue="25" nzLabel="25"></nz-option>
+                            <nz-option nzValue="50" nzLabel="50"></nz-option>
+                            <nz-option nzValue="100" nzLabel="100"></nz-option>
+                        </nz-select>
+                        <label class="show">Entries</label>
+                        <div class="history__input-field">
+                            <nz-input-group [nzSuffix]="activesuffixIconSearch">
+                                <input nz-input placeholder="Search by Trade Id" [(ngModel)]="searchActiveTrade"
+                                    (ngModelChange)="searchActiveSpotTrade()"
+                                    (keyup.enter)="getActiveSpotTradeHistory(1,pageSize3)" />
+                            </nz-input-group>
+                            <ng-template #activesuffixIconSearch>
+                                <i nz-icon nzType="search" (click)="getActiveSpotTradeHistory(1,pageSize3)"></i>
+                            </ng-template>
+                        </div>
+                        <nz-table #paymentTable nzSize="middle" [nzData]="activeSpotTradeHistory" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Pair</th>
+                                    <th>Trade ID</th>
+                                    <th>Buy Price</th>
+                                    <th>Signal</th>
+                                    <th>Fund</th>
+                                    <th>Quantity</th>
+                                    <th>Stop Loss</th>
+                                    <th>Fixed Profit</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!isTableLoading">
+                                <tr *ngFor="let data of activeSpotTradeHistory">
+                                   <td>{{data.binanceResponse[0].transactTime|date:'short' }}</td>
+                                   <td>{{data.symbol}}</td>
+                                   <td>{{data.trade_id}}  <img *ngIf="data.trade_id != ''" src="../../../assets/img/svg/copy.svg" alt=""
+                                    nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                    (click)="disableTooltip()" ngxClipboard [cbContent]="data?.trade_id"
+                                    nz-tooltip nzTooltipTrigger='click'></td>
+                                   <td class="profit-color">{{data.entryPrice}} {{data.quoteAsset}}</td>
+                                   <td *ngIf="data.isSignal; else emptyData">{{data?.signalType}}</td>
+                                   <td>{{data.fund}} {{data.quoteAsset}}</td>
+                                   <td>{{data.quantity}} {{data.baseAsset}}</td>
+                                   <td *ngIf="data.stopLossEnable; else emptyData">{{data?.stopLoss}} %</td>
+                                   <td *ngIf="data.takeProfitEnable; else emptyData">{{data?.takeProfit}}%</td>
+                                   <td>
+                                    <img src="../../../../assets/img/svg/users.svg" height="20"
+                                    routerLink="/user/{{data.user_id}}/smarttrade" class="user_icon"
+                                    title="View User Details">
+                                   </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+                        <nz-pagination class="history__paginatiion" [nzTotal]="activeSpotTradeHistoryCount" class="page"
+                            [(nzPageIndex)]="pageIndex3" [(nzPageSize)]="pageSize3"
+                            (nzPageIndexChange)="getActiveSpotTradeHistory(pageIndex3,pageSize3)"></nz-pagination>
+                            <ng-template #emptyData>
+                                <td>
+                                  <span>
+                                    -
+                                  </span>
+                                </td>
+                              </ng-template>
+                    </nz-tab>
+                    <nz-tab nzTitle="Nexfolio Fx">
+                        <!-- <input class="history__input-field" nz-input placeholder="Search by name or email" /> -->
+                        <label class="show">Show</label>
+                        <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                            (ngModelChange)="change1($event)">
+                            <nz-option nzValue="10" nzLabel="10"></nz-option>
+                            <nz-option nzValue="25" nzLabel="25"></nz-option>
+                            <nz-option nzValue="50" nzLabel="50"></nz-option>
+                            <nz-option nzValue="100" nzLabel="100"></nz-option>
+                        </nz-select>
+                        <label class="show">Entries</label>
+                        <div class="history__input-field">
+                            <nz-input-group [nzSuffix]="fxsuffixIconSearch">
+                                <input nz-input placeholder="Search by Trade ID" [(ngModel)]="searchFX"
+                                     (keyup.enter)="getFxTradeHistory(1,pageSize1)" />
+                            </nz-input-group>
+                            <ng-template #fxsuffixIconSearch>
+                                <i nz-icon nzType="search" (click)="getFxTradeHistory(1,pageSize1)"></i>
+                            </ng-template>
+                        </div>
+                        <nz-table #nextfolioFX nzSize="middle" [nzData]="fxTrdeHistory" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>DateTime </th>
+                                    <th>CoinPrice/Entry Price</th>
+                                    <th>Trade ID</th>
+                                    <th>Quantity</th>
+                                    <th>ExitPrice</th>
+                                    <th>Position</th>
+                                    <th>PNL</th>
+                                    <th>Profits</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!isTableLoading">
+                                <tr *ngFor="let data of fxTrdeHistory">
+                                    <td>
+                                        {{ data?.createdAt | date: "medium" }}
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ data?.symbol }} -
+                                            <span class="profit-color">{{
+                                                data.entryPrice
+                                                | number: "1.0-2"
+                                                }}</span>
+                                        </div>
+                                        <div class="text-muted font-weight-lighter">
+                                            {{ data.time }}
+                                        </div>
+                                    </td>
+                                    <td>{{data.trade_id}}  <img *ngIf="data.trade_id != ''" src="../../../assets/img/svg/copy.svg" alt=""
+                                        nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                        (click)="disableTooltip()" ngxClipboard [cbContent]="data?.trade_id"
+                                        nz-tooltip nzTooltipTrigger='click'></td>
+                                    <td>
+                                        <div>{{ data.quantity }}</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ data.exitPrice }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="profit-color" *ngIf="data?.side == 'BUY'">LONG</span>
+                                        <span class="loss-color" *ngIf="data?.side == 'SELL'">SHORT</span>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ data?.pnl | number:'1.0-2' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div [ngClass]="{
+                                                'profit-color':
+                                                    data.profit > 0,
+                                                'loss-color':
+                                                    data.profit < 0
+                                            }">
+                                            {{ data.profit | number:'1.0-2' }}%
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <img src="../../../../assets/img/svg/users.svg" height="20"
+                                            routerLink="/user/{{data.user_id}}/future" class="user_icon"
+                                            title="View User Details">
+                                        <img src="../../../../assets/img/delete.svg" title="Delete" height="18px" class="show-modals"
+                                            nz-button nzSize="large" nzShape="round" class="authorize__remove-btn"
+                                            nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete?"
+                                            nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                            (nzOnConfirm)="deleteFxHistory(data._id,data.user_id)">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+                        <nz-pagination [nzTotal]="fxTrdeHistoryCount" class="page" [(nzPageIndex)]="pageIndex1"
+                            [(nzPageSize)]="pageSize1" (nzPageIndexChange)="getFxTradeHistory(pageIndex1,pageSize1)">
+                        </nz-pagination>
+                    </nz-tab>
+                    <nz-tab nzTitle="FX Open Position">
+                        <label class="show">Show</label>
+                        <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10'
+                            (ngModelChange)="change($event)">
+                            <nz-option nzValue="10" nzLabel="10"></nz-option>
+                            <nz-option nzValue="25" nzLabel="25"></nz-option>
+                            <nz-option nzValue="50" nzLabel="50"></nz-option>
+                            <nz-option nzValue="100" nzLabel="100"></nz-option>
+                        </nz-select>
+                        <label class="show">Entries</label>
+                        <div class="history__input-field">
+                            <nz-input-group [nzSuffix]="fxopensuffixIconSearch">
+                                <input nz-input placeholder="Search by Trade ID" [(ngModel)]="FxOpenPosition"
+                                    (ngModelChange)="searchFxOpenPosition()"
+                                    (keyup.enter)="getFxOpenPosition(1,pageSize4)" />
+                            </nz-input-group>
+                            <ng-template #fxopensuffixIconSearch>
+                                <i nz-icon nzType="search" (click)="getPaymentHistory(1,pageSize)"></i>
+                            </ng-template>
+                        </div>
+                        <nz-table #paymentTable nzSize="middle" [nzData]="fxOpenPosition" [nzShowPagination]="false">
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Symbol</th>
+                                    <th>Trade ID</th>
+                                    <th>Entry Price</th>
+                                    <th>Quantity</th>
+                                    <th>Position</th>
+                                    <th>Trade</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!isTableLoading">
+                                <tr *ngFor="let data of fxOpenPosition">
+                                    <td>{{data.updatedAt|date:"short"}}</td>
+                                    <td>{{data.symbol}}</td>
+                                    <td>{{data.trade_id}}  <img *ngIf="data.trade_id != ''" src="../../../assets/img/svg/copy.svg" alt=""
+                                        nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+                                        (click)="disableTooltip()" ngxClipboard [cbContent]="data?.trade_id"
+                                        nz-tooltip nzTooltipTrigger='click'></td>
+                                    <td>{{data.entryPrice}} <tab class="profit-color">USDT</tab></td>
+                                    <td>{{data.quantity}}</td>
+                                    <td>{{data.position}}</td>
+                                    <td>
+                                        <p *ngIf="data.side==='BUY' && data.position==='BOTH'" class="profit-color">LONG</p>
+                                        <p *ngIf="data.side==='SELL' && data.position==='BOTH'" class="loss-color">SHORT</p>
+                                        <p *ngIf="data.side==='BUY' && data.position==='LONG'" class="profit-color">LONG</p>
+                                        <p *ngIf="data.side==='SELL' && data.position==='SHORT'" class="loss-color">SHORT</p>
+                                    </td>
+                                    <td><img src="../../../../assets/img/svg/users.svg" height="20"
+                                        routerLink="/user/{{data.user_id}}/future" class="user_icon"
+                                        title="View User Details"></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+                        <nz-pagination class="history__paginatiion" [nzTotal]="fxOpenPositionCount" class="page"
+                            [(nzPageIndex)]="pageIndex4" [(nzPageSize)]="pageSize4"
+                            (nzPageIndexChange)="getFxOpenPosition(pageIndex4,pageSize4)"></nz-pagination>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </div>
+    </div>
+</section>

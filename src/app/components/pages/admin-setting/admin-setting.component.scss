@@ -1,0 +1,419 @@
+$main-color:#00bcc7;
+$main-color1:#ffffff;
+$main-color2:#aaaaaa;
+$main-color4:#dee2e6;
+$main-color5:#f72a63;
+
+::ng-deep .ant-modal-footer{
+    border:none;
+}
+::ng-deep .ant-modal-content{
+    border-radius: 0.3rem;
+}
+
+#main-layout8{
+ .container-fluid{
+  .security{
+   .main-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    .sec-head{
+     font-size: 22px;
+     font-weight: 500;
+     color: $main-color;
+     font-family: "GoogleSans-Light";
+     margin-bottom: 0;
+    }
+    .top-btn{
+        height: 56px;
+        border-radius: 50%;
+        background-color:$main-color;
+        border: $main-color;
+        color: $main-color1;
+        font-size: 17px;
+        font-weight: 500;
+        font-family: "GoogleSans-Light";
+        img{
+        height: 30px;
+        }
+       }
+    .generate{
+     display: flex;
+     .gen-input{
+         border-radius: 5px;
+     }
+     .top-btn{
+      height: 40px;
+      border-radius: 5px;
+      background-color:$main-color;
+      border: $main-color;
+      color: $main-color1;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: "GoogleSans-Light";
+      margin-left: 10px;
+     }
+    }
+   }
+   .card-main{
+    padding: 25px;
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+     height: 38px;
+     border-radius: 5px;
+     display: flex;
+     align-items: center;
+   }
+    .type-form{
+     .disp-rows{
+      display: flex;
+      align-items: center;
+      .p-link{
+       font-family: "GoogleSans-Light";
+       font-weight: 500;
+      }
+      .admin-input{
+       height: 38px;
+       border-radius: 5px;
+      }
+      .data-center {
+       align-items: center;
+       display: flex;
+  
+      }
+      .data-arrange{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+      .forms-data{
+       .p-link{
+        font-family: "GoogleSans-Light";
+        font-weight: 500;
+        padding-left: 11px;
+       }
+       .form-content{
+        .admin-input{
+         height: 38px;
+         border-radius: 5px;
+        }
+       
+        ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+         height: 38px;
+         border-radius: 5px;
+         display: flex;
+         align-items: center;
+       }
+       ::ng-deep .ant-form-item-control-input-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+       }
+      }
+     }
+    }
+
+     }
+    }
+    .disp-type{
+    // display: flex;
+     align-items: center;
+     .show-modal{
+      cursor: pointer;
+      }
+      .show-modals{
+      // padding-left: 7px;
+       cursor: pointer;
+      }
+    }
+ .pd-top{
+     padding-top: 40px;
+    }
+    ::ng-deep .ant-form {
+        margin: 0 auto;
+        .area-txt{
+            border-radius: 5px;
+        }
+    }
+    ::ng-deep .ant-form-item {
+        display: block;
+    }
+    ::ng-deep .ant-form-item-label>label::after {
+        content: '';
+    }
+  .in-box{
+       line-height: 55px;
+      }
+   
+
+      .upload-btn{
+       width: 100%;
+       height: 38px;
+       border-radius: 5px;
+       background-color: $main-color;
+       border-color: $main-color;
+       color:$main-color1;
+       font-family: "GoogleSans-Light";
+       font-weight: 500;
+       font-size: 16px;
+       i{
+        font-size: 16px;
+       }
+    }
+   }
+   .disp{
+    display: flex;
+    justify-content: center;
+    .modal-footer-upd{
+     display: flex;
+     justify-content: center;
+     width: 100%;
+    .foot-cancel{
+    background-color: $main-color1;
+    border: 1px solid #383838;
+    color: #383838;
+    font-family: "GoogleSans-Light";
+    border-radius: 25px;
+    height: 40px;
+    width: 100%;
+    &:hover{
+     border-color: $main-color5;
+     color:$main-color5;
+    }
+    }
+    .foot-confirm{
+     background-color: $main-color;
+     color:$main-color1;
+     font-size: 14px;
+     font-family: "GoogleSans-Light";
+     border-radius: 25px;
+     border: 1px solid $main-color;
+     height: 40px;
+     width: 100%;
+     margin-right: 15px;
+    }
+    }
+    ::ng-deep .ant-card-body{
+     padding: 40px;
+    }
+   }
+  }
+ }
+
+}
+.secure{
+    padding-top: 20px;
+}
+.brdr-btm{
+    border-bottom: 1px solid $main-color4;
+    .title{
+        font-size: 22px;
+        color:$main-color;
+        font-family: "GoogleSans-Light";
+        padding-left: 20px;
+        padding-bottom: 12px;
+    }
+
+}
+.main-form{
+    padding: 0px 20px;
+    .form-elements{
+        display: flex;
+        margin: 0;
+        // flex-direction: column;
+        span{
+         font-size: 16px;
+         padding-right: 12px;
+         font-weight: 500;
+        }
+        ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+            height: 38px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+     .form-label{
+            float: left;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        .form-label1{
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        input{
+            padding: 7px 7px;
+            border-radius: 5px;
+        }
+       
+        .mail{
+            padding: 7px 7px;
+            border-radius: 5px;
+        }
+    }
+}
+.modal-footer-upd{
+    display: flex;
+    justify-content: center;
+    padding: 6px 0px 15px 0px;
+  .foot-cancel{
+   background-color: $main-color1;
+   border: 1px solid #383838;
+   color: #383838;
+   font-family: "GoogleSans-Light";
+   border-radius: 25px;
+   height: 40px;
+   width: 100%;
+   &:hover{
+    border-color: $main-color5;
+    color:$main-color5;
+   }
+  }
+  .foot-confirm{
+    background-color: $main-color;
+    color:$main-color1;
+    font-size: 14px;
+    font-family: "GoogleSans-Light";
+    border-radius: 25px;
+    border: 1px solid $main-color;
+    height: 40px;
+    width: 100%;
+}
+}
+::ng-deep .ant-modal-close{
+    display: none;
+    }
+
+
+    @media only screen and (max-width : 575px) {
+        .form-elements{
+            margin-bottom: 0;
+        }
+    }
+
+@media (min-width: 320px) and (max-width: 767px) {
+ #main-layout8{
+     .security{
+     padding-top: 25px;
+    .disp{
+     .modal-footer-upd{
+      width: 100% !important;
+     }
+    }
+    .img-file{
+        height: 36px;
+    }
+    .card-main{
+     padding: 7px !important;
+     ::ng-deep .ant-form{
+      min-width: auto !important;
+      max-width: auto !important;
+    
+     }
+     .pd-top{
+         padding-top: 0 !important;
+     }
+
+     .card-data{
+      .p-link{
+       margin-top: 20px;
+      }
+      .upload-btn{
+       margin-top: 20px;
+       width:auto !important;
+      }
+     }
+    }
+    }
+   }
+   .type-form{
+    .disp-rows{
+        .data-center{
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}
+    .main-form{
+        .form-elements{
+            .form-label:nth-child(1){
+              padding-top: 25px;
+            }
+          
+        }
+        .big-area-text{
+            padding-top: 0px !important;
+            margin-bottom:14px !important;
+        }
+    }
+    ::ng-deep .ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td{
+        padding: 10px;
+        text-align:start;
+    }
+   .display-true{
+       img{
+           padding-right: 0px !important;
+       }
+   }
+}
+@media (min-width: 767px) and (max-width: 1024px) {
+}
+.attachment-item{
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    padding: 11px 13px;
+    border: 1px dashed #66687d;
+    display: block;     
+    i {
+        text-align: center;
+        display: block;
+        margin-top: 30%;
+    }
+    .post-text {
+        text-align: center;
+        color: #383838;
+    }
+    
+    .post-file{
+        position: relative;
+    }
+    .post-file--img {
+        cursor: pointer;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        align-content: center;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.display-true{
+    display: block;
+    img{
+        padding-right: 10px;
+    }
+}
+.display-false{
+    display: none;
+    img{
+        padding-right: 10px;
+    }
+}
+.img-file{
+    width: 118px;
+    height: 39px;
+    margin-left:5px;
+}
+.display-flex-data{
+    display: flex;
+}

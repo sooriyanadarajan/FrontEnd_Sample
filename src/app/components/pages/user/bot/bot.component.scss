@@ -1,0 +1,761 @@
+$primarycolor: #00bbc6;
+$secondarycolor: #ffffff;
+$iconcolor: #000000;
+$defaultcolor: #bfbfbf;
+$boxshadow: #888888;
+$slide-text: rgb(114, 113, 113);
+$border-box: #37353d;
+$border-text: #7b828f;
+$box-background: #fcfcfc;
+$trade-btn-sell: #f72a63;
+$anticon-background: #cccdcd;
+$text-color: #383838;
+$validation-color: #fa0707;
+$btcvalue: #787f8a;
+$button-hover: #22d1d4;
+$sell-hover: #ff547f;
+$edit-popup: #cccdcd;
+$heading-color:#BFBFBF;
+$danger-color:red;
+$font-bold:'GoogleSans-Bold';
+$font-regular:'GoogleSans-Regular';
+$whit-color:#ffffff;
+$text-color:#383838;
+$danger-color:red;
+$background-box:#c6f7fa;
+$primary_color:#00bcc7;
+$boxcontent-txt:#878f9d;
+$box-color:#fafafa;
+$heading-color:#BFBFBF;
+$font-bold:'GoogleSans-Bold';
+$font-regular:'GoogleSans-Regular';
+$btn-sell: #f72a63;
+.bot{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__start-btn{
+            background-color: #00bcc7;
+            color: #fff;
+            font-family: "GoogleSans-Bold";
+            border: none;
+        }
+        &__data-percentage{
+            color:#00bcc7;
+        }
+        &__table-data{
+            font-family: "GoogleSans-Bold";
+        }
+        &__table-data-heading{
+            color: #AEB3B5;
+            font-family: "GoogleSans-Bold";
+        }
+        &__date-time{
+            color: #AEB3B5;
+        }
+        &__more{
+          
+            padding: 10px 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #00bcc7;
+            border-color: #00bcc7;
+            border-radius:6px;
+        }
+        &__edit{
+            color: #00bcc7;
+        }
+        &__value-txt {
+            color: $primarycolor;
+          }
+          &__edit-popup {
+            color: $edit-popup;
+          }
+          &__edit-dropdown {
+            width: 200px;
+            padding: 15px;
+          }
+          &__edit-txt {
+            display: inline-flex;
+          }
+          &__input-box {
+            border-radius: 56px;
+            width: 60px;
+          }
+          &__trailing-txt {
+            margin-top: 10px;
+            padding-right: 7px;
+          }
+          &__percent {
+            margin-left: 7px;
+            font-family: "GoogleSans-Bold";
+            color: $text-color;
+            margin-top: 10px;
+          }
+          &__save-btn {
+            font-family: "GoogleSans-Bold";
+            border: none;
+            margin-right: 7px;
+            font-size: 16px;
+          }
+          &__save-btn:enabled{
+            background-color: $primarycolor;
+            color: $secondarycolor;
+          }
+          &__cancel-btn {
+            background-color: $edit-popup;
+            color: $secondarycolor;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            margin-right: 7px;
+            font-size: 16px;
+          }
+          &__popup-btn {
+            padding-top: 10px;
+            display: inline-flex;
+          }
+          &__start-btn {
+            color: $secondarycolor;
+            background-color: $primarycolor;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            font-size: 16px;
+            margin-right: 5px;
+            padding: 2px 23px;
+            margin-top: 15px;
+          }
+          &__renew-btn {
+            color: $secondarycolor;
+            background-color: $text-color;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            font-size: 16px;
+            margin-right: 5px;
+            margin-top: 15px;
+          }
+          &__setting-dropdown {
+            background-color: $anticon-background;
+            color: $secondarycolor;
+            border-radius: 50%;
+            padding: 11px 15px;
+            margin-left: 10px;
+            font-size: 16px;
+          }
+          &__close-btn {
+            border: 0px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px 0px 0px 30px;
+            background-color: $secondarycolor;
+            box-shadow: -30px 13px 30px rgba(0, 0, 0, 0.14);
+            position: fixed;
+            right: 478px;
+            padding: 10px;
+            z-index: 0;
+            visibility: visible;
+          }
+          &__table-time {
+            color: $edit-popup;
+          }
+          &__edit-model-title {
+            font-family: "GoogleSans-Bold";
+            color: $text-color;
+            padding-top: 20px;
+          }
+          &__stop-loss {
+            padding-top: 20px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__fund-txt {
+            padding-top: 5px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__order-txt {
+            padding-top: 15px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__Limit-model-btn {
+            color: $secondarycolor;
+            background-color: $edit-popup;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            border-radius: 26px;
+          }
+          &__Market-model-btn {
+            color: $secondarycolor;
+            background-color: $edit-popup;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            border-radius: 26px;
+            margin-left: 10px;
+          }
+          &__save-model-btn {
+            margin-top: 20px;
+            color: $secondarycolor;
+            background-color: $text-color;
+            font-family: "GoogleSans-Bold";
+            border: none;
+            font-size: 18px;
+            padding-bottom: 33px;
+          }
+          &__cancel-model-btn {
+            margin-top: 20px;
+            color: $text-color;
+            background-color: $secondarycolor;
+            font-family: "GoogleSans-Bold";
+            border: 1px solid $edit-popup;
+            font-size: 18px;
+            padding-bottom: 33px;
+          }
+          &__cancel-model-btn:hover {
+            color: $validation-color;
+            border: 1px solid $validation-color;
+          }
+          &__input-box-model {
+            height: 30px;
+          }
+          &__input-field-model {
+            height: 40px;
+          }
+          &__value-txt {
+            color: $primarycolor;
+          }
+          &__table-time {
+            color: $edit-popup;
+          }
+          &__current-value {
+            color: $trade-btn-sell;
+            background-color: #ffe1e9;
+            box-sizing: border-box;
+            margin: 14px 8px 0 0;
+            font-variant: tabular-nums;
+            list-style: none;
+            font-feature-settings: "tnum";
+            display: inline-block;
+            height: auto;
+            padding: 0 7px;
+            font-size: 14px;
+            line-height: 7px;
+            white-space: nowrap;
+            border-radius: 2px;
+            cursor: default;
+            transition: all 0.3s;
+            border-radius: 5px;
+          }
+          &__current-value-auto {
+            color: $trade-btn-sell;
+            background-color: #ffe1e9;
+            box-sizing: border-box;
+            margin: 14px 8px 0 0;
+            font-variant: tabular-nums;
+            list-style: none;
+            font-feature-settings: "tnum";
+            display: inline-block;
+            height: auto;
+            padding: 10px 10px;
+            font-size: 14px;
+            line-height: 7px;
+            white-space: nowrap;
+            border-radius: 2px;
+            cursor: default;
+            transition: all 0.3s;
+            border-radius: 5px;
+          }
+          &__profit-txt {
+            color: $primarycolor;
+          }
+          &__limit-btn-table {
+            background-color: $text-color;
+            font-family: "GoogleSans-Bold";
+            color: $secondarycolor;
+          }
+          &__market-btn-table {
+            background-color: $text-color;
+            font-family: "GoogleSans-Bold";
+            color: $secondarycolor;
+            margin-left: 10px;
+          }
+          &__model-heading {
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #383838;
+            font-family: "GoogleSans-Bold";
+            margin-top: 6%;
+    font-size: 18px;
+          }
+          &__model-sub-heading {
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #383838;
+          }
+          &__model-sub-content {
+            color: #878f9d;
+          }
+          &__payment-txt {
+            margin-bottom: 5px;
+            padding-top: 20px;
+            padding-left: 4px;
+            font-weight: 500;
+            color: #383838;
+            font-family: "GoogleSans-Bold";
+          }
+          &__select-coin {
+            margin-left: 4px;
+            width: 310px;
+            color: #383838;
+            font-family: "GoogleSans-Bold";
+          }
+          &__Subscription-txt {
+            margin-bottom: 5px;
+            padding-top: 20px;
+            padding-left: 4px;
+            font-weight: 500;
+            color: #383838;
+          }
+          &__select-month {
+            margin-left: 4px;
+            width: 310px;
+            color: #383838;
+            font-family: "GoogleSans-Bold";
+          }
+          &__txt-box {
+            margin-left: 4px;
+            width: 310px;
+            height: 40px;
+          }
+          &__coupon-txt1 {
+            margin-bottom: 5px;
+            padding-top: 20px;
+            padding-left: 4px;
+            font-weight: 500;
+            color: #383838;
+          }
+          &__coupon-txt {
+            margin-bottom: 5px;
+            padding-top: 5px;
+            padding-left: 4px;
+            font-weight: 500;
+            color: #383838;
+          }
+          &__model-btn {
+            margin-top: 35px;
+          }
+          &__next-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #e1e1e1;
+            color: #cecece;
+            font-size: 16px;
+            height: 36px;
+            font-weight: 500;
+            font-family: "GoogleSans-Bold";
+            width: 85px;
+          }
+          &__next-btn:hover {
+             background-color: #383838;
+            border: 1px solid #383838;
+            color: #fff;
+            font-size: 16px;
+            height: 36px;
+            font-weight: 500;
+            font-family: "GoogleSans-Bold";
+          }
+          &__next-btn:enabled {
+            background-color: #383838;
+           border: 1px solid #383838;
+           color: #fff;
+           font-size: 16px;
+           height: 36px;
+           font-weight: 500;
+           font-family: "GoogleSans-Bold";
+         }
+          &__cancel-btn {
+            margin-left: 10px;
+            background-color: #ffffff;
+            border: 1px solid #878f9d;
+            color: #383838;
+            font-size: 16px;
+            height: 32px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__cancel-btn:hover {
+            background-color: #ffffff;
+            border: 1px solid #d81b1b;
+            color: #d81b1b;
+            font-family: "GoogleSans-Bold";
+          }
+          &__add-btn {
+            float: right;
+            background-color: $primarycolor;
+            border: 1px solid $primarycolor;
+            font-weight: 500;
+            font-family: "GoogleSans-Bold";
+            position: absolute;
+            z-index: 1;
+            right: 0;
+            // top: 30px;
+            padding: 0 15px;
+            color: $secondarycolor;
+            margin-right:10px;
+            font-size: 14px;
+            height: 32px;
+          }
+          &__edit-model-title{
+            font-family: "GoogleSans-Bold";
+            margin-bottom: 5px;
+        }
+        &__btc-txt{
+          font-family: "GoogleSans-Bold";
+          font-size: 14px;
+          color: #878f9d;
+        }
+        &__quantity-txt{
+          font-family: "GoogleSans-Bold";
+          color: $text-color;
+          padding-top: 10px;
+          margin-bottom: 5px;
+      }
+      &__input-box-model{
+        height: 30px;
+    }
+    &__stop-loss{
+      color: $text-color;
+      font-family: "GoogleSans-Bold";
+  }
+  &__stop-input{
+      margin-top: 15px;
+  }
+  &__leverage-txt{
+      color: $text-color;
+      font-family: "GoogleSans-Bold";
+  }
+  &__leverage-line{
+      margin-top: 15px;
+  }
+  &__value{
+      font-family:'GoogleSans-Regular';
+      font-size: 1rem;
+      font-weight: 600;
+  }
+  &__position-input{
+      margin-top: 30px;
+  }
+  &__limit-btn-model{
+      border-radius:18px;
+      font-family:'GoogleSans-Regular';
+      color:$secondarycolor;
+      font-weight: 500;
+      background-color:$heading-color;
+      }
+      &__market-btn-model{
+          margin-left: 8px;
+         border-radius: 18px;
+         color:$secondarycolor;
+         background-color:$heading-color;
+         font-family:'GoogleSans-Regular';
+         font-weight: 500;
+      }
+      &__stop-btn-model{
+         margin-left: 8px;
+      border-radius: 18px;
+      color:$secondarycolor;
+      background-color:$heading-color;
+      font-family:'GoogleSans-Regular';
+      font-weight: 500;
+     }
+     &__long-btn{
+      border-radius:18px;
+      font-family:'GoogleSans-Regular';
+      color:$secondarycolor;
+      font-weight: 500;
+      background-color:$heading-color;
+      }
+      &__both-btn{
+          margin-left: 8px;
+         border-radius: 18px;
+         color:$secondarycolor;
+         background-color:$heading-color;
+         font-family:'GoogleSans-Regular';
+         font-weight: 500;
+      }
+      &__short-btn{
+         margin-left: 8px;
+      border-radius: 18px;
+      color:$secondarycolor;
+      background-color:$heading-color;
+      font-family:'GoogleSans-Regular';
+      font-weight: 500;
+     }
+     &__model-btn {
+      margin-top: 35px;
+    }
+    &__next-btn {
+      background-color: #f5f5f5;
+      border: 1px solid #e1e1e1;
+      color: #cecece;
+      font-size: 16px;
+      height: 36px;
+      font-weight: 500;
+      font-family: "GoogleSans-Bold";
+      width: 85px;
+    }
+    &__next-btn:hover {
+       background-color: $text-color;
+      border: 1px solid $text-color;
+      color:$secondarycolor;
+      font-size: 16px;
+      height: 36px;
+      font-weight: 500;
+      font-family: "GoogleSans-Bold";
+    }
+    &__next-btn:enabled {
+      background-color: $text-color;
+     border: 1px solid$text-color;
+     color:$secondarycolor;
+     font-size: 16px;
+     height: 36px;
+     font-weight: 500;
+     font-family: "GoogleSans-Bold";
+   }
+    &__cancel-btn {
+      margin-left: 10px;
+      background-color: $secondarycolor;
+      border: 1px solid #878f9d;
+      color: $text-color;
+      font-size: 16px;
+      height: 36px;
+      font-family: "GoogleSans-Bold";
+    }
+    &__cancel-btn:hover {
+      background-color: $secondarycolor;
+      border: 1px solid $danger-color;
+      color: $danger-color;
+      font-family: "GoogleSans-Bold";
+    }
+    &__add-btn{
+      margin-left:30px;
+      background-color: $primary_color;
+      color: $whit-color;
+      font-family: $font-bold;
+      border: none;
+     }
+     &__delete-btn{
+        
+         background-color: $text-color;
+         border: none;
+         width: 36px;
+         min-width: 36px;
+         height: 36px;
+         line-height: 36px;
+     
+     }
+     &__delete-icon{
+         position: relative;
+         bottom: 6px;
+         right: 10px;
+     }
+     &__drop-addtarget{
+      background-color:$text-color;
+      border-radius:18px;
+      color: $whit-color;
+      font-weight:600;
+      padding: 11px 8px;
+      font-family:$font-bold;
+      margin-left: 5px;
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+    
+  }
+  &__delete-icon{
+    position: relative;
+    bottom: 6px;
+    right: 10px;
+}
+&__experied{
+    background-color: $text-color;
+    color: $whit-color;
+    font-family: $font-bold;
+    border: none;
+}
+    }
+    .date-pic{
+      width: 100%;
+      height: 40px;
+    }
+    #buy-tab1{
+      border-right: none !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+  }
+  #buy-tab2{
+      border-right: none !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+  }
+  .stop-radio-group{
+      font-size: $font-bold;
+  }
+  .stop-warning {
+      background-color: #f72a63;
+      color: $whit-color;
+      font-family: $font-bold;
+      border: none;
+      padding: 4px 16px;
+      width: 85px;
+    }
+    
+    .start-success {
+      background-color:$primary_color;
+      color: $whit-color;
+      font-family: $font-bold;
+      border: none;
+      padding: 4px 16px;
+      width: 85px;
+  
+    }
+    .target-input{
+        border-radius: 50px;
+        height: 35px;
+    }
+    .target-txt{
+        padding-left: 30px;
+    }
+    .profit-color {
+      color: #22d1d4 !important;
+    }
+    .loss-color {
+      color: #f72a63 !important;
+    }
+    .add-isolated-btn{
+      color: #22d1d4 !important;
+      border:1px solid #22d1d4;
+    }
+    .marign-tab{
+      margin: 0 32px 0 0;
+      padding: 12px 16px;
+    }
+    .editbot-modal{
+      padding: 22px 30px 30px;
+    }
+  //   .price_bg{
+  //       background-color: #ffe1e9;
+  //       color: #f72a63;
+  //       border:none;
+  //   }
+  //   .price_up-bg{
+  //     background-color: #c6f7fa;
+  //     color: #22d1d4;
+  //     border:none;
+  // }
+    .close_price_input{
+      border: 1px solid #f0f0f0;
+      background: #ffffff;
+      color: var(--text-color);
+      border-radius: 30px;
+      height: 36px;
+      max-width: 100px;
+      min-width: 100px;
+      line-height: 36px;
+      text-align: center;
+    }
+    .price_bg {
+      color: #f73168 !important;
+      background: #ffe1e9 !important;
+      border-radius: 5px !important;
+      font-family: $font-bold;
+      border: none !important;
+      padding: 5px !important;
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 14px !important;
+    }
+    .price_up-bg {
+      color:#4bd2da !important;
+      background: #c6f7fa !important;
+      border-radius: 5px !important;
+      font-family: $font-bold;
+      border: none !important;
+      padding: 5px !important;
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 14px !important;
+    }
+    .page-btn{
+      margin-left: 78%;
+      margin-top:2%;
+      display: inline-flex;
+    }
+    .trade-preview-btn{
+        border: none !important;
+        outline: none !important;
+        background-color:#CCCDCD;
+        box-shadow: none !important;
+        padding: 1px 9px;
+        font-weight: 700;
+        font-size: 23px;
+        border-radius: 50%;
+        img{
+            position: relative;
+            bottom: 3px;
+        }
+    }
+    .trade-next-btn{
+      border: none !important;
+      outline: none !important;
+      background-color:#CCCDCD;
+      box-shadow: none !important;
+      margin-left: 10px;
+      padding: 1px 9px;
+      font-weight: 700;
+      font-size: 23px;
+      border-radius: 50%;
+      img{
+          position: relative;
+          bottom: 3px;
+      }
+    }
+    .result-data{
+      font-family:$font-bold;   
+      margin-top: 12px;
+      padding-right: 10px;
+    }
+    .position-table{
+      //   table{
+  
+        th{
+            width:200px !important;
+        }
+        td{
+            width:200px;
+        }
+      // }
+      
+    }
+    .data-btn{
+      width:300px !important;
+    }
+  .no-data-available{
+      text-align: center;
+      margin:3% 0%;
+  }
+  .downarrow{
+      position: relative;
+      bottom: 5px;
+  }
+  
+  .color-red{
+    color: rgb(255, 0, 0);
+  }
+
+  .mr-t--4{
+    margin-top:-4%
+  }

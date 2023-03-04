@@ -1,0 +1,842 @@
+
+$primarycolor: #00bbc6;
+$secondarycolor: #ffffff;
+$iconcolor: #000000;
+$defaultcolor: #bfbfbf;
+$boxshadow: #888888;
+$slide-text: rgb(114, 113, 113);
+$border-box: #37353d;
+$border-text: #7b828f;
+$box-background: #fcfcfc;
+$trade-btn-sell: #f72a63;
+$anticon-background: #cccdcd;
+$text-color: #383838;
+$validation-color: #fa0707;
+$btcvalue: #787f8a;
+$button-hover: #22d1d4;
+$sell-hover: #ff547f;
+$edit-popup: #cccdcd;
+.smarttrade{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__chart{
+            width: 95.8%;
+            height: 384px;
+        }
+        &__buy-btn{
+            font-size: 24px;
+        }
+        &__sell-btn{
+            font-size: 24px;
+        }
+        &__buy-title{
+            display: flex;
+        }
+        &__coin-icon {
+            text-align: center !important;
+            padding: 7px;
+            width: 30px;
+            height: 30px;
+            background:#00bcc7;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            color: #fff;
+          }
+          &__coin-txt {
+            margin-bottom:8px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__select-txt {
+            font-family: "OpenSans-SemiBold";
+            width: 180px;
+            cursor: not-allowed;
+            margin-top: 9%;
+            border-radius: 6px;
+          }
+          &__downarrow{
+            position: relative;
+            bottom: 7px;
+          }
+          &__fund-txt {
+            font-weight: 500;
+            margin-bottom:7px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__txt-content {
+            display:flex;
+          }
+          &__input-field {
+            height: 36px;
+            border-radius: 6px;
+            font-family: "OpenSans-SemiBold";
+            width:100%;
+          }
+          &__usdt-text {
+            margin-top: 12px;
+            color:#bfbfbf;
+            font-size: 14px;
+            padding-left: 5px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__percentage-btn {
+            color: #fff;
+            background-color:#bfbfbf;
+            border-radius: 30px;
+            font-weight: 500;
+            border: none;
+            outline: none;
+            margin-top: 10px;
+            margin-left: 5px;
+          }
+          &__percentage-btn1 {
+            color: #fff;
+            background-color:#bfbfbf;
+            border-radius: 30px;
+            font-weight: 500;
+            border: none;
+            outline: none;
+            margin-top: 15px;
+          }
+          &__order-txt {
+            font-weight: 500;
+            margin-top: 0px;
+            font-family: "GoogleSans-Bold";
+          }
+          &__limit-btn {
+            background-color:#bfbfbf;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 30px;
+            border: none !important;
+          }
+          &__market-btn {
+            background-color:#bfbfbf;
+            font-weight: 500;
+            color: #fff;
+            border-radius: 30px;
+            border: none !important;
+            margin-left: 5px;
+          }
+          &__stoploss{
+              display: flex;
+              margin-top:24px;
+              justify-content:space-between;
+              font-family: "OpenSans-SemiBold";
+          }
+          &__clock-icon {
+            margin-top:20px;
+            width: 30px;
+            height: 30px;
+            background:#cccdcd;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            color:#fff;
+          }
+          &__clock-img{
+            position: relative;
+            top: 2px;
+          }
+          &__stoploss-divider {
+            margin: 0px;
+            margin-left: 3.5rem;
+            width: 111%;
+          }
+          &__buy-button:disabled{
+           width: 100%;
+           margin-top: 5%;
+           background:#cccdcd;
+           color:#fff;
+           font-family: "OpenSans-SemiBold";
+           height:45px;
+           border: none;
+           font-size:20px;
+          }  
+           &__buy-button{
+            width: 100%;
+            margin-top: 5%;
+            background:#00bcc7;
+            color:#fff;
+            font-family: "OpenSans-SemiBold";
+            height:45px;
+            border: none;
+            font-size:20px;
+           }
+          &__sell-button:disabled{
+            width: 100%;
+            margin-top:40% !important;
+            background:#cccdcd;
+            color:#fff;
+            font-family: "OpenSans-SemiBold";
+            height:45px;
+            border: none;
+            font-size:20px;
+           }
+           &__sell-button{
+            width: 100%;
+            margin-top:40%;
+            background:#f72a63;
+            color:#fff;
+            font-family: "OpenSans-SemiBold";
+            height:45px;
+            border: none;
+            font-size:20px;
+           }
+           &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__value-txt {
+          color:#00bcc7;
+        }
+        &__table-time {
+          color: #cccdcd;
+        }
+        &__current-value-auto {
+          color: #f72a63;;
+          background-color: #ffe1e9;
+          box-sizing: border-box;
+          margin: 14px 8px 0 0;
+          font-variant: tabular-nums;
+          list-style: none;
+          font-feature-settings: "tnum";
+          display: inline-block;
+          height: auto;
+          padding: 10px 10px;
+          font-size: 14px;
+          line-height: 7px;
+          white-space: nowrap;
+          border-radius: 2px;
+          cursor: default;
+          transition: all 0.3s;
+          border-radius: 5px;
+        }
+        &__profit{
+          color: #00bcc7;
+        }
+        &__loss{
+          color: #f72a63;
+        }
+        &__limit-btn-table {
+          background-color: #383838;
+          font-family: "GoogleSans-Bold";
+          color:#fff;
+          height: 35px;
+          font-size: 13px !important;
+          padding: 0px 17px !important;
+          border: none;
+        }
+        &__market-btn-table {
+          background-color: #383838;
+          font-family: "GoogleSans-Bold";
+          color: #fff;
+          margin-left:5px;
+          height: 35px;
+          font-size: 13px !important;
+          padding: 0px 17px !important;
+          border: none;
+        }
+        &__setting-list{
+          position: relative;
+          bottom:3px;
+        }
+        &__setting-dropdown {
+          background-color: #cccdcd;
+          color:#fff;
+          border-radius: 50%;
+          padding: 8px 10px;
+          margin-left:5px;
+          font-size: 16px;
+        }
+        &__drop-limit {
+          padding: 24px;
+        }
+        &__input-limit-box {
+          margin-bottom: 20px;
+          width: 200px;
+        }
+        &__limit-value-txt {
+          font-family: "GoogleSans-Bold";
+        }
+        &__Usdt-limit-txt {
+          font-family: "GoogleSans-Bold";
+          padding-left: 10px;
+          vertical-align: -webkit-baseline-middle;
+          color: #cccdcd;
+        }
+        &__cancel-btn-limit {
+          background-color: transparent;
+          border: 1px solid #383838;
+          color: #383838;
+          font-family: "GoogleSans-Bold";
+          margin-left: 20px;
+          height: 34px;
+          padding: 6px 10px;
+        }
+        &__cancel-btn-limit:hover {
+          border: 1px solid #f72a63;
+          color: #f72a63;
+        }
+        &__submit-btn-limit {
+          background-color:#383838;
+          font-family: "GoogleSans-Bold";
+          color:#fff;
+          height: 34px;
+          border: none;
+        }
+        &__edit-popup {
+          color: #cccdcd;
+        }
+        &__start-btn {
+          color:#fff;
+          background-color:#00bcc7;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          font-size: 16px;
+          margin-right: 5px;
+          padding: 2px 23px;
+          margin-top: 15px;
+        }
+        &__renew-btn {
+          color:#fff;
+          background-color:#00bcc7;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          font-size: 16px;
+          margin-right: 5px;
+          margin-top: 15px;
+        }
+        &__history:hover {
+          background-color: $button-hover;
+          border: 1px solid $button-hover;
+        }
+        &__table-data {
+          font-family: "GoogleSans-Bold";
+          color: $text-color;
+        }
+        &__value-txt {
+          color: $primarycolor;
+        }
+        &__edit-popup {
+          color: $edit-popup;
+        }
+        &__edit-dropdown {
+          width: 200px;
+          padding: 15px;
+        }
+        &__edit-txt {
+          display: inline-flex;
+        }
+        &__input-box {
+          border-radius: 56px;
+          width: 60px;
+        }
+        &__trailing-txt {
+          margin-top: 10px;
+          padding-right: 7px;
+        }
+        &__percent {
+          margin-left: 7px;
+          font-family: "GoogleSans-Bold";
+          color: $text-color;
+          margin-top: 10px;
+        }
+        &__save-btn {
+          font-family: "GoogleSans-Bold";
+          border: none;
+          margin-right: 7px;
+          font-size: 16px;
+        }
+        &__save-btn:enabled{
+          background-color: $primarycolor;
+          color: $secondarycolor;
+        }
+        &__cancel-btn {
+          background-color: $edit-popup;
+          color: $secondarycolor;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          margin-right: 7px;
+          font-size: 16px;
+        }
+        &__popup-btn {
+          padding-top: 10px;
+          display: inline-flex;
+        }
+        &__start-btn {
+          color: $secondarycolor;
+          background-color: $primarycolor;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          font-size: 16px;
+          margin-right: 5px;
+          padding: 2px 23px;
+          margin-top: 15px;
+        }
+        &__renew-btn {
+          color: $secondarycolor;
+          background-color: $text-color;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          font-size: 16px;
+          margin-right: 5px;
+          margin-top: 15px;
+        }
+        &__close-btn {
+          border: 0px;
+          width: 60px;
+          height: 60px;
+          border-radius: 30px 0px 0px 30px;
+          background-color: $secondarycolor;
+          box-shadow: -30px 13px 30px rgba(0, 0, 0, 0.14);
+          position: fixed;
+          right: 478px;
+          padding: 10px;
+          z-index: 0;
+          visibility: visible;
+        }
+        &__model-heading {
+          font-weight: 600;
+          margin-bottom: 0;
+          color: #383838;
+          font-family: "GoogleSans-Bold";
+        }
+        &__model-sub-heading {
+          font-weight: 600;
+          margin-bottom: 0;
+          color: #383838;
+        }
+        &__model-sub-content {
+          color: #878f9d;
+        }
+        &__payment-txt {
+          margin-bottom: 5px;
+          padding-top: 20px;
+          padding-left: 4px;
+          font-weight: 500;
+          color: #383838;
+          font-family: "GoogleSans-Bold";
+        }
+        &__select-coin {
+          margin-left: 4px;
+          width: 310px;
+          color: #383838;
+          font-family: "GoogleSans-Bold";
+        }
+        &__Subscription-txt {
+          margin-bottom: 5px;
+          padding-top: 20px;
+          padding-left: 4px;
+          font-weight: 500;
+          color: #383838;
+        }
+        &__select-month {
+          margin-left: 4px;
+          width: 310px;
+          color: #383838;
+          font-family: "GoogleSans-Bold";
+        }
+        &__txt-box {
+          margin-left: 4px;
+          width: 310px;
+          height: 40px;
+        }
+        &__coupon-txt1 {
+          margin-bottom: 5px;
+          padding-top: 20px;
+          padding-left: 4px;
+          font-weight: 500;
+          color: #383838;
+        }
+        &__coupon-txt {
+          margin-bottom: 5px;
+          padding-top: 5px;
+          padding-left: 4px;
+          font-weight: 500;
+          color: #383838;
+        }
+        &__model-btn {
+          margin-top: 35px;
+        }
+        &__next-btn {
+          background-color: #f5f5f5;
+          border: 1px solid #e1e1e1;
+          color: #cecece;
+          font-size: 16px;
+          height: 36px;
+          font-weight: 500;
+          font-family: "GoogleSans-Bold";
+          width: 85px;
+        }
+        &__next-btn:hover {
+           background-color: #383838;
+          border: 1px solid #383838;
+          color: #fff;
+          font-size: 16px;
+          height: 36px;
+          font-weight: 500;
+          font-family: "GoogleSans-Bold";
+        }
+        &__next-btn:enabled {
+          background-color: #383838;
+         border: 1px solid #383838;
+         color: #fff;
+         font-size: 16px;
+         height: 36px;
+         font-weight: 500;
+         font-family: "GoogleSans-Bold";
+       }
+        &__cancel-btn {
+          margin-left: 10px;
+          background-color: #ffffff;
+          border: 1px solid #878f9d;
+          color: #383838;
+          font-size: 16px;
+          height: 32px;
+          font-family: "GoogleSans-Bold";
+        }
+        &__cancel-btn:hover {
+          background-color: #ffffff;
+          border: 1px solid #d81b1b;
+          color: #d81b1b;
+          font-family: "GoogleSans-Bold";
+        }
+        &__card-row {
+          padding-left: 90px;
+        }
+        &__pagination {
+          margin-left: 90px;
+        }
+        &__input-box1 {
+          background-color: #d9d9d9;
+          width: 100%;
+          border: none;
+        }
+        &__qrcode {
+          text-align: center;
+          font-family: "GoogleSans-Bold";
+          color: #383838;
+          margin-top: 10px;
+          h4 {
+            padding-top: 10px;
+          }
+          img{
+            border:1px solid  #cccdcd;
+           }
+        }
+        &__para-txt {
+          text-align: center;
+          font-family: "GoogleSans-Bold";
+          color: #7c7c7c;
+          padding-top: 10px;
+        }
+        &__result-title {
+          font-family: "GoogleSans-Bold";
+          color: $text-color;
+        }
+        &__result-table {
+          font-family: "GoogleSans-Bold";
+          color: $defaultcolor;
+        }
+        &__edit-model-title {
+          font-family: "GoogleSans-Bold";
+          color: $text-color;
+          padding-top: 20px;
+        }
+        &__stop-loss {
+          padding-top: 20px;
+          font-family: "GoogleSans-Bold";
+        }
+        &__fund-txt {
+          padding-top: 5px;
+          font-family: "GoogleSans-Bold";
+        }
+        &__order-txt {
+          padding-top: 15px;
+          font-family: "GoogleSans-Bold";
+        }
+        &__Limit-model-btn {
+          color: $secondarycolor;
+          background-color: $edit-popup;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          border-radius: 26px;
+        }
+        &__Market-model-btn {
+          color: $secondarycolor;
+          background-color: $edit-popup;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          border-radius: 26px;
+          margin-left: 10px;
+        }
+        &__save-model-btn {
+          margin-top: 20px;
+          color: $secondarycolor;
+          background-color: $text-color;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          font-size: 18px;
+          padding-bottom: 33px;
+        }
+        &__cancel-model-btn {
+          margin-top: 20px;
+          color: $text-color;
+          background-color: $secondarycolor;
+          font-family: "GoogleSans-Bold";
+          border: 1px solid $edit-popup;
+          font-size: 18px;
+          padding-bottom: 33px;
+        }
+        &__cancel-model-btn:hover {
+          color: $validation-color;
+          border: 1px solid $validation-color;
+        }
+        &__input-box-model {
+          height: 30px;
+        }
+        &__input-field-model {
+          height: 40px;
+        }
+        &__value-txt {
+          color: $primarycolor;
+        }
+        &__table-time {
+          color: $edit-popup;
+        }
+        &__current-value {
+          color: $trade-btn-sell;
+          background-color: #ffe1e9;
+          box-sizing: border-box;
+          margin: 14px 8px 0 0;
+          font-variant: tabular-nums;
+          list-style: none;
+          font-feature-settings: "tnum";
+          display: inline-block;
+          height: auto;
+          padding: 0 7px;
+          font-size: 14px;
+          line-height: 7px;
+          white-space: nowrap;
+          border-radius: 2px;
+          cursor: default;
+          transition: all 0.3s;
+          border-radius: 5px;
+        }
+        &__current-value-loss {
+          color: $trade-btn-sell;
+          background-color: #ffe1e9;
+          box-sizing: border-box;
+          // margin: 14px 8px 0 0;
+          font-variant: tabular-nums;
+          list-style: none;
+          font-feature-settings: "tnum";
+          // display: inline-block;
+          // height: auto;
+          padding: 10px 10px;
+          font-size: 14px;
+          line-height: 7px;
+          white-space: nowrap;
+          border-radius: 2px;
+          cursor: default;
+          transition: all 0.3s;
+          border-radius: 5px;
+        }
+        &__profit-txt {
+          color: $primarycolor;
+        }
+        &__limit-btn-table {
+          background-color: $text-color;
+          font-family: "GoogleSans-Bold";
+          color: $secondarycolor;
+        }
+        &__market-btn-table {
+          background-color: $text-color;
+          font-family: "GoogleSans-Bold";
+          color: $secondarycolor;
+          margin-left:5px;
+        }
+        &__menu {
+          font-family: "GoogleSans-Bold";
+        }
+        &__drawer-box {
+          position: relative;
+        }
+        &__sellall-txt {
+          padding-top: 3px;
+        }
+        &__sellall-sub-txt {
+          font-family: "GoogleSans-Bold";
+        }
+        &__sellall-btn {
+          float: right;
+        }
+        &__sellall-cancelbtn {
+          background-color: $secondarycolor;
+          border: 1px solid $edit-popup;
+          color: $text-color;
+          margin-right: 5px;
+          box-shadow: none;
+        }
+        &__sellall-model-btn {
+          background-color: $trade-btn-sell;
+          color: $secondarycolor;
+      
+          border: none;
+          box-shadow: none;
+        }
+      
+        &__buy-takeprofit {
+          margin-top: 4px;
+        }
+      
+        &__drop-limit {
+          padding: 24px;
+        }
+        &__input-limit-box {
+          margin-bottom: 20px;
+          width: 200px;
+        }
+        &__limit-value-txt {
+          font-family: "GoogleSans-Bold";
+        }
+        &__Usdt-limit-txt {
+          font-family: "GoogleSans-Bold";
+          padding-left: 10px;
+          vertical-align: -webkit-baseline-middle;
+          color: $edit-popup;
+        }
+        &__cancel-btn-limit {
+          background-color: transparent;
+          border: 1px solid $text-color;
+          color: $text-color;
+          font-family: "GoogleSans-Bold";
+          margin-left: 20px;
+        }
+        &__cancel-btn-limit:hover {
+          border: 1px solid $trade-btn-sell;
+          color: $trade-btn-sell;
+        }
+        &__submit-btn-limit {
+          background-color: $text-color;
+          font-family: "GoogleSans-Bold";
+          color: $secondarycolor;
+           padding: 6px 10px;
+        }
+        &__botresult{
+          font-family: "GoogleSans-Bold";
+        }
+        &__setting-list{
+          position: relative;
+          bottom:3px;
+        }
+        &__downarrow{
+          position: relative;
+          bottom: 7px;
+        }
+        &__table-layout{
+        margin-top: 1%;
+        }
+        &__cancel-tdbtn{
+          color: #fff;
+          background-color: #383838;
+          font-family: "GoogleSans-Bold";
+          border: none;
+          height: 32;
+         
+         }
+         &__data-btn{
+          width:23%;
+      }
+   
+}
+.stop-warning {
+  background-color: #f72a63;
+}
+
+.start-success {
+  background-color: #22d1d4;
+}
+.radio-btn {
+  background-color: #37353d;
+  width: 40px;
+  font-size: 16px;
+  color: #fff;
+}
+.market-card {
+  padding: 40px;
+}
+.addbot-model {
+  text-align: center;
+}
+.subscribe-btn {
+  background-color: $primarycolor;
+  color: $secondarycolor;
+  font-family: "GoogleSans-Bold";
+  border: none;
+  padding-top: 4px;
+}
+.card-para {
+  color: #878f9d;
+  font-family: "GoogleSans-Bold";
+  text-align: center;
+}
+.bot-title {
+  font-family: "GoogleSans-Bold";
+  text-align: center;
+  color: $text-color;
+}
+.historyselect {
+  float: right;
+  border-radius: 36px;
+  font-weight: 500;
+  font-family: "GoogleSans-Bold";
+  position: absolute;
+  z-index: 1;
+  right: 175px;
+  top: 30px;
+  left: 85%;
+  font-size: 16px;
+  height: 36px;
+  padding: 0 20px;
+}
+.profit-color {
+  color: #22d1d4!important;
+}
+.loss-color{
+  color: #f72a63;
+}
+.color-red{
+  color:rgb(253, 7, 7);
+  margin-top:-6%;
+  margin-bottom: 0px;
+}
+.validation-txt{
+  color: red !important;
+}
+.progress-data{
+  width:10% !important;
+}
+.data-btn{
+  min-width: 231px;
+   padding: 8px 13px !important;
+}
+.data-btn1{
+  min-width: 150px;
+}
+.data-btn-fund{
+  min-width: 100px;
+}
+@media (min-width: 900px) and (max-width: 1440px) {
+  .data-btn1{
+    min-width: 150px;
+  }
+  .data-btn{
+    min-width: 231px;
+     padding: 8px 13px !important;
+  }
+}

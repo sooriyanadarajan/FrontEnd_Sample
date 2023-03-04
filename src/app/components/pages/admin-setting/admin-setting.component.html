@@ -1,0 +1,333 @@
+<div id="main-layout8">
+  <div class="container-fluid">
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="security">
+          <div class="main-heading">
+            <h4 class="sec-head">Application Settings</h4>
+            <button nz-button class="top-btn" (click)="showModal()">
+              <img src="../../../../assets/img/plus.svg" height="20px"></button>
+          </div>
+          <nz-card>
+            <div class="card-main">
+              <form nz-form class="type-form" [formGroup]="listForm">
+                <div nz-row class="disp-rows" *ngFor="let data of siteSettingList;let i = index">
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">{{data?.title}}</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <input nz-input name="email" type="text" [attr.id]="i" class="admin-input"
+                          *ngIf="data?.type == 'text'" [formControlName]="listOfControl[i].controlInstance">
+
+                          <input nz-input name="email" type="email" [attr.id]="i" class="admin-input"
+                          *ngIf="data?.type == 'email'" [formControlName]="listOfControl[i].controlInstance">
+
+                          <input nz-input name="email" type="number" [attr.id]="i" class="admin-input"
+                          *ngIf="data?.type == 'tel'" [formControlName]="listOfControl[i].controlInstance">
+
+                        <nz-switch *ngIf="data?.type == 'toggle' || data?.type == 'boolean'" [attr.id]="i"
+                          [ngModel]="listOfControl[i].value" [formControlName]="listOfControl[i].controlInstance">
+                        </nz-switch>
+
+                        <textarea rows="3" nz-input class="area-txt" [attr.id]="i" *ngIf="data?.type == 'description'"
+                          [formControlName]="listOfControl[i].controlInstance"></textarea>
+
+                        <input [attr.id]="i" nz-input type="date" [formControlName]="listOfControl[i].controlInstance"
+                          *ngIf="data?.type == 'date'" >
+
+                        <div *ngIf="data?.type == 'image'" class="display-flex-data">
+                          <div class="attachment-item post-file display-false" id="imageshow{{i}}">
+                            <i nz-icon nzType="plus"></i>
+                            <div class="post-text">Upload</div>
+                            <input accept=".jpg,.jpeg,.png" display="inline" tabindex="0" type="file"
+                              class="post-file--img" (change)="onFileChange($event)" />
+                          </div>
+                          <img [src]="url[url.length-1]" width="20" height="20" id="previewimageshow{{i}}" class="display-false img-file">
+                          <img [src]="listOfControl[i].value" width="20" height="20" id="imagenone{{i}}" class="display-true img-file">
+
+                        </div>
+
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-arrange">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">Secure</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <label [ngModel]="data?.secure" nz-checkbox
+                          (ngModelChange)="updateSiteSetting(i, data,!data.secure)"
+                          [ngModelOptions]="{standalone: true}"></label>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-center">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">Action</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <div class="disp-type display-true" id="show{{i}}">
+                          <img src="../../../../assets/img/edit.svg" height="18px" class="show-modal"
+                            (click)="ShowShowButton(i,data?.type)" title ="Edit">
+                          <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals"
+                            title="Delete" nz-button nz-popconfirm
+                            nzPopconfirmTitle="Are you sure you want to delete?"
+                            nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                            (nzOnConfirm)="deleteSetting(data?._id)">
+                        </div>
+                        <div class="disp-type display-false" id="disable{{i}}">
+                          <img src="../../../../assets/img/check-circle.svg" height="18px" class="show-modal" title="Save"
+                            (click)="updateSiteSetting(i,data,null)">
+                          <img src="../../../../assets/img/x-circle.svg" height="18px" class="show-modals" title="Cancel"
+                            (click)="ShowHideButton(i,data?.type)">
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <!-- <div nz-row class="disp-rows">
+                  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">Application Maintenance</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <nz-switch></nz-switch>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+
+                <div nz-row class="disp-rows">
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">Description</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <textarea rows="3" nz-input class="area-txt" ></textarea>
+
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-arrange">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+                        <label nz-checkbox></label>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-center">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+
+                        <div *ngIf="showMainContentone" class="disp-type">
+                          <img src="../../../../assets/img/edit.svg" height="18px" class="show-modal"
+                            (click)="ShowHideButtonone()">
+                          <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals"
+                            (click)="ShowHideButtonone()">
+                        </div>
+                        <div *ngIf="!showMainContentone" class="disp-type">
+                          <img src="../../../../assets/img/check-circle.svg" height="18px" class="show-modal"
+                            (click)="ShowHideButtonone()">
+                          <img src="../../../../assets/img/x-circle.svg" height="18px" class="show-modals"
+                            (click)="ShowHideButtonone()">
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                   
+                  </div>
+                </div>
+
+                <div nz-row class="disp-rows">
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link">Logo</nz-form-label>
+                      <nz-form-control class="form-content">
+                        <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture-card"
+                          [(nzFileList)]="fileList" [nzShowButton]="fileList.length < 8" [nzPreview]="handlePreview">
+                          <div>
+                            <i nz-icon nzType="plus"></i>
+                            <div style="margin-top: 8px">Upload</div>
+                          </div>
+                        </nz-upload>
+                        <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                          (nzOnCancel)="previewVisible = false">
+                          <ng-template #modalContent>
+                            <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+                          </ng-template>
+                        </nz-modal>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-arrange">
+            
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+                        <label nz-checkbox></label>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-center">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+                        <div *ngIf="showMainContenttwo" class="disp-type">
+                          <img src="../../../../assets/img/edit.svg" height="18px" class="show-modal"
+                            (click)="ShowHideButtontwo()">
+                          <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals"
+                            (click)="ShowHideButtontwo()">
+                        </div>
+                        <div *ngIf="!showMainContenttwo" class="disp-type">
+                          <img src="../../../../assets/img/check-circle.svg" height="18px" class="show-modal"
+                            (click)="ShowHideButtontwo()">
+                          <img src="../../../../assets/img/x-circle.svg" height="18px" class="show-modals"
+                            (click)="ShowHideButtontwo()">
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+        
+                  </div>
+                </div>
+
+                <div nz-row class="disp-rows">
+                  <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="12" nzXl="12">
+
+                  <nz-form-item class="forms-data">
+                    <nz-form-label nzFor="email" class="p-link">Select Options</nz-form-label>
+                    <nz-form-control class="form-content">
+                      <nz-select ngModel="lucy" placeholder="Select" class="ctgory" [ngModelOptions]="{standalone: true}">
+                        <nz-option nzValue="image" nzLabel="image"></nz-option>
+                        <nz-option nzValue="category" nzLabel="category"></nz-option>
+                        <nz-option nzValue="others" nzLabel="others"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </nz-form-item>
+                  </div>
+
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-arrange"> 
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+                        <label nz-checkbox></label>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6" class="data-center">
+                    <nz-form-item class="forms-data">
+                      <nz-form-label nzFor="email" class="p-link"></nz-form-label>
+                      <nz-form-control class="form-content">
+                      <div *ngIf="showMainContentthree" class="disp-type">
+                        <img src="../../../../assets/img/edit.svg" height="18px" class="show-modal"
+                          (click)="ShowHideButtonthree()">
+                        <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals"
+                          (click)="ShowHideButtonthree()">
+                      </div>
+                      <div *ngIf="!showMainContentthree" class="disp-type">
+                        <img src="../../../../assets/img/check-circle.svg" height="18px" class="show-modal"
+                          (click)="ShowHideButtonthree()">
+                        <img src="../../../../assets/img/x-circle.svg" height="18px" class="show-modals"
+                          (click)="ShowHideButtonthree()">
+                      </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                
+                  </div>
+                </div> -->
+
+              </form>
+            </div>
+          </nz-card>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container *nzModalContent>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Add Settings</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="siteSettingForm">
+          <nz-form-item class="form-elements">
+            <nz-form-control>
+              <label class="form-label">Type</label>
+              <nz-select placeholder="Select" [(ngModel)]="type" class="ctgory" formControlName="type"
+                (ngModelChange)="typeChange(type)">
+                <nz-option nzValue="text" nzLabel="Text"></nz-option>
+                <nz-option nzValue="toggle" nzLabel="Toggle"></nz-option>
+                <nz-option nzValue="image" nzLabel="Image"></nz-option>
+                <nz-option nzValue="date" nzLabel="Date"></nz-option>
+                <nz-option nzValue="email" nzLabel="Email"></nz-option>
+                <nz-option nzValue="tel" nzLabel="Phone Number"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <nz-form-control>
+              <label class="form-label">Title</label>
+              <input nz-input name="password" type="text" id="email9" formControlName="value">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <nz-form-control>
+              <label class="form-label">Key</label>
+              <input nz-input name="email" type="text" id="email" formControlName="key">
+              <!-- <nz-switch formControlName="value" formControlName="value" *ngIf="type == 'toggle'"></nz-switch> -->
+              <!-- <textarea rows="3" nz-input class="area-txt" formControlName="value" *ngIf="type == 'description'"></textarea> -->
+              <!-- <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" nzListType="picture-card"
+              [(nzFileList)]="fileList" [nzShowButton]="fileList.length < 8" [nzPreview]="handlePreview">
+              <div>
+                <i nz-icon nzType="plus"></i>
+                <div style="margin-top: 8px">Upload</div>
+              </div>
+            </nz-upload>
+            <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+              (nzOnCancel)="previewVisible = false">
+              <ng-template #modalContent>
+                <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+              </ng-template>
+            </nz-modal> -->
+              <!-- <nz-select ngModel="lucy" placeholder="Select" class="ctgory" [ngModelOptions]="{standalone: true}">
+              <nz-option nzValue="image" nzLabel="image"></nz-option>
+              <nz-option nzValue="category" nzLabel="category"></nz-option>
+              <nz-option nzValue="others" nzLabel="others"></nz-option>
+            </nz-select> -->
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label"></label>
+            <nz-form-control class="secure">
+              <span>Secure</span>
+              <label nz-checkbox formControlName="secure"></label>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [nzLoading]="isLoad" [disabled]="siteSettingForm.invalid"
+        (click)="createSetting()">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+    </div>
+  </ng-template>
+</nz-modal>

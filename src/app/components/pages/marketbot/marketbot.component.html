@@ -1,0 +1,709 @@
+<div id="main-layout1">
+  <div nz-row class="userlist__box-list">
+    <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+        <nz-card class="userlist__box">
+           <div class="userlist__card-content pd-data-ryt">
+               <div>
+                   <h1>{{botData?botData.count:'0'}}</h1>
+                   <h4>Total Bots</h4>
+               </div>
+           </div>
+        </nz-card>
+    </div>
+    <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+      <nz-card class="userlist__box">
+         <div class="userlist__card-content pd-data-ryt">
+             <div>
+                 <h1>{{botData?botData.active_spot_bot:'0'}}</h1>
+                 <h4>Active Spot Bots</h4>
+             </div>
+         </div>
+      </nz-card>
+  </div>
+  <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+    <nz-card class="userlist__box pd-data">
+       <div class="userlist__card-content pd-data-ryt">
+           <div>
+               <h1>{{botData?botData.active_fx_bot:'0'}}</h1>
+               <h4>Active FX Bots</h4>
+           </div>
+       </div>
+    </nz-card>
+</div>
+<div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+  <nz-card class="userlist__box">
+     <div class="userlist__card-content">
+         <div>
+             <h1>{{inActiveBot?inActiveBot:'0'}}</h1>
+             <h4>Inactive Bots</h4>
+         </div>
+     </div>
+  </nz-card>
+</div>
+   
+</div>
+  <div class="container-fluid">
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="security">
+          <div class="main-heading">
+            <h4 class="sec-head">Market Place</h4>
+            <button nz-button class="top-btn" (click)="showModal()">
+              <img src="../../../../assets/img/activity1.svg" height="20px">Insert Market Place</button>
+          </div>
+
+          <div class="box1">
+            <div class="main-tab-content">
+              <div class="tab-content">
+                <label class="show">Show</label>
+                <nz-select ngModel="value" id="select-box" (ngModelChange)="change($event)" [nzPlaceHolder]='10 '>
+                  <nz-option nzValue="10" nzLabel="10"></nz-option>
+                  <nz-option nzValue="25" nzLabel="25"></nz-option>
+                  <nz-option nzValue="50" nzLabel="50"></nz-option>
+                  <nz-option nzValue="100" nzLabel="100"></nz-option>
+                </nz-select>
+                <label class="show">entries</label>
+              </div>
+              <div class="search-box">
+                <!-- <input class="input-item" placeholder="Search" nz-input type="text" /> -->
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                  <input nz-input placeholder="Search by name or symbol" [(ngModel)]="searchTxt" (ngModelChange)="serarchList()" (keyup.enter)="getBotList(1,pageSize)"/>
+                  <!-- <button (click)="getAllUser(1,pageSize)"></button>  -->
+                </nz-input-group>
+                  <ng-template #suffixIconSearch>
+                    <i nz-icon nzType="search" (click)="getBotList(1,pageSize)"></i>
+                  </ng-template>
+              </div>
+            </div>
+            <nz-table #basicTable [nzData]="listOfData" id="first-table1">
+              <thead>
+                <tr>
+                  <!-- <th>S.no</th> -->
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Symbol</th>
+                  <th>URL</th>
+                  <th>Min</th>
+                  <th>Max</th>
+                  <th>Price</th>
+                  <th>Index</th>
+                  <th>Description</th>
+                  <th>Rating</th>
+                  <th>Auto Sell</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!isTableLoading">
+                <tr *ngFor="let data of listOfData;index as i">
+                  <!-- <td>{{10*pageIndex+(i+1)-10}}</td> -->
+                  <td>{{ data.name }}</td>
+                  <td>{{ data.bot_type }}</td>
+                  <td>{{ data.symbol }}</td>
+                  <td [nzBreakWord]="true">{{ data.stat }}</td>
+                  <td>{{ data.min }}</td>
+                  <td>{{ data.max }}</td>
+                  <td>{{ data.price }}</td>
+                  <td>{{ data.index }}</td>
+                  <td [nzBreakWord]="true">{{ data.description }}</td>
+                  <td>{{ data.rating }}</td>
+                  <td><span class="majors">
+                      <img src="../../../../assets/img/toggle-left.svg" height="18px" class="show-modal" *ngIf="!data.auto_sell">
+                      <img src="../../../../assets/img/toggle-right.svg" height="18px" class="show-modal" *ngIf="data.auto_sell">
+                    </span></td>
+                  <td><span class="major">
+                      <img src="../../../../assets/img/edit.svg" height="18px" (click)="showModal2(data._id)" nz-tooltip nzTooltipTitle="Edit"
+                        class="show-modal">
+                      <img src="../../../../assets/img/delete.svg" nz-tooltip nzTooltipTitle="Delete"
+                      height="18px" class="show-modals" nz-button
+                      nzSize="large" nzShape="round" class="authorize__remove-btn" nz-popconfirm
+                      nzPopconfirmTitle="Are you sure you want to delete?" nzOkType="danger" nzOkText="Yes"
+                      nzCancelText="No" (nzOnConfirm)="deleteBot(data._id)">
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+            <div class="page-btm">
+              <nz-pagination [nzTotal]="listCount" class="page" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                (nzPageIndexChange)="getBotList(pageIndex,pageSize)" class="page">
+              </nz-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="InsertSignal"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Insert Market Place</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="addBot">
+          <div nz-row class="padd-top">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Name</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="name" type="text" id="email9" formControlName="name">
+                  <div *ngIf="f.name?.touched && f.name?.invalid || f.name?.dirty">
+                    <p *ngIf="f.name.errors?.required" class="form-error">Name is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Type</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="type">
+                  <div *ngIf="f.type?.touched && f.type?.invalid || f.type?.dirty">
+                    <p *ngIf="f.type.errors?.required" class="form-error">Type is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Symbol</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="symbol">
+                  <div *ngIf="f.symbol?.touched && f.symbol?.invalid || f.symbol?.dirty">
+                    <p *ngIf="f.symbol.errors?.required" class="form-error">Symbol is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Price</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="price">
+                  <div *ngIf="f.price?.touched && f.price?.invalid || f.price?.dirty">
+                    <p *ngIf="f.price.errors?.required" class="form-error">Price is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Min</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="min">
+                  <div *ngIf="f.min?.touched && f.min?.invalid || f.min?.dirty">
+                    <p *ngIf="f.min.errors?.required" class="form-error">Min is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Max</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="max">
+                  <div *ngIf="f.max?.touched && f.max?.invalid || f.max?.dirty">
+                    <p *ngIf="f.max.errors?.required" class="form-error">Max is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Stat</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="stat">
+                  <div *ngIf="f.stat?.touched && f.stat?.invalid || f.stat?.dirty">
+                    <p *ngIf="f.stat.errors?.required" class="form-error">Stat is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Index</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="index">
+                  <div *ngIf="f.index?.touched && f.index?.invalid || f.index?.dirty">
+                    <p *ngIf="f.index.errors?.required" class="form-error">Index is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <div class="big-area-txt">
+                <label class="form-label">Description</label>
+                <div class="valid">
+                <nz-form-control>
+                  <textarea rows="3" nz-input class="mail" formControlName="description"></textarea>
+                  <div *ngIf="f.description?.touched && f.description?.invalid || f.description?.dirty">
+                    <p *ngIf="f.description.errors?.required" class="form-error">Description is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div nz-row class="padd-top">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label"><span >Choose Stat</span></label>
+                <div class="valid">
+                <nz-form-control>
+              <nz-select placeholder="Select" class="ctgory" formControlName="bot_type">
+                <nz-option nzLabel="Smart Trade" nzValue="SPOT"></nz-option>
+                <nz-option nzLabel="Nextfolio Fx" nzValue="FX"></nz-option>
+              </nz-select>
+            </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Rating</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="rating">
+                  <div *ngIf="f.rating?.touched && f.rating?.invalid || f.rating?.dirty">
+                    <p *ngIf="f.rating.errors?.required" class="form-error">Rating is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item class="form-elements mb-0">
+              <label class="form-label">Auto Sell</label>
+              <div class="valid">
+              <nz-form-control>
+                <nz-switch formControlName="autosell"></nz-switch>
+              </nz-form-control>
+              </div>
+            </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #InsertSignal>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [nzLoading]="isBot.add" (click)="addBotSubmit()" [disabled]="!addBot.valid">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+    </div>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisible2" (nzOnCancel)="handleCancel()" [nzFooter]="UpdateSignal"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Edit Signal</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="editBot">
+          <div nz-row class="padd-top">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Name</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="name" type="text" id="email9" formControlName="name" value="{{name}}">
+                  <div *ngIf="editBotForm.name?.touched && editBotForm.name?.invalid || editBotForm.name?.dirty">
+                    <p *ngIf="editBotForm.name.errors?.required" class="form-error">Name is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Type</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="type" value="{{type}}">
+                  <div *ngIf="editBotForm.type?.touched && editBotForm.type?.invalid || editBotForm.type?.dirty">
+                    <p *ngIf="editBotForm.type.errors?.required" class="form-error">Type is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Symbol</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="symbol" value="{{symbol}}">
+                  <div *ngIf="editBotForm.symbol?.touched && editBotForm.symbol?.invalid || editBotForm.symbol?.dirty">
+                    <p *ngIf="editBotForm.symbol.errors?.required" class="form-error">Symbol is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Price</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="price" value="{{price}}">
+                  <div *ngIf="editBotForm.price?.touched && editBotForm.price?.invalid || editBotForm.price?.dirty">
+                    <p *ngIf="editBotForm.price.errors?.required" class="form-error">Price is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Min</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="min" value="{{min}}">
+                  <div *ngIf="editBotForm.min?.touched && editBotForm.min?.invalid || editBotForm.min?.dirty">
+                    <p *ngIf="editBotForm.min.errors?.required" class="form-error">Min is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Max</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="max" value="{{max}}">
+                  <div *ngIf="editBotForm.max?.touched && editBotForm.max?.invalid || editBotForm.max?.dirty">
+                    <p *ngIf="editBotForm.max.errors?.required" class="form-error">Max is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Stat</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="stat" value="{{stat}}">
+                  <div *ngIf="editBotForm.stat?.touched && editBotForm.stat?.invalid || editBotForm.stat?.dirty">
+                    <p *ngIf="editBotForm.stat.errors?.required" class="form-error">Stat is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Index</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="index" value="{{index}}">
+                  <div *ngIf="editBotForm.index?.touched && editBotForm.index?.invalid || editBotForm.index?.dirty">
+                    <p *ngIf="editBotForm.index.errors?.required" class="form-error">Index is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <div class="big-area-txt">
+                <label class="form-label">Description</label>
+                <div class="valid">
+                <nz-form-control>
+                  <textarea rows="3" nz-input class="mail" formControlName="description" value="{{description}}"></textarea>
+                  <div *ngIf="editBotForm.description?.touched && editBotForm.description?.invalid || editBotForm.description?.dirty">
+                    <p *ngIf="editBotForm.description.errors?.required" class="form-error">Description is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div nz-row class="padd-top">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label"><span >Choose Stat</span></label>
+                <div class="valid">
+                <nz-form-control >
+              <nz-select placeholder="Select" class="ctgory" formControlName="bot_type">
+                <nz-option nzLabel="Smart Trade" nzValue="SPOT"></nz-option>
+                <nz-option nzLabel="Nextfolio Fx" nzValue="FX"></nz-option>
+              </nz-select>
+            </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Rating</label>
+                <div class="valid">
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="rating" value="{{rating}}">
+                  <div *ngIf="editBotForm.rating?.touched && editBotForm.rating?.invalid || editBotForm.rating?.dirty">
+                    <p *ngIf="editBotForm.rating.errors?.required" class="form-error">Rating is required</p>
+                  </div>
+                </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item class="form-elements mb-0">
+              <label class="form-label">Auto Sell</label>
+              <div class="valid">
+              <nz-form-control>
+                <nz-switch formControlName="autosell"></nz-switch>
+              </nz-form-control>
+              </div>
+            </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #UpdateSignal>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" (click)="updateBot()" [nzLoading] ="isBot.edit"  [disabled]="editBot.pristine || editBot.invalid">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+    </div>
+  </ng-template>
+</nz-modal>
+
+
+<!-- <nz-modal [(nzVisible)]="isVisible2" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Edit Signal</h2>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="editBot">
+          <div nz-row class="padd-top">
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Name</label>
+                <nz-form-control>
+                  <input nz-input name="password" type="text" id="email9" formControlName="name" value="{{name}}">
+                  <div *ngIf="editBotForm.name?.touched && editBotForm.name?.invalid || editBotForm.name?.dirty">
+                    <p *ngIf="editBotForm.name.errors?.required" class="form-error">Name is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Type</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="type" value="{{type}}"> 
+                  <div *ngIf="editBotForm.type?.touched && editBotForm.type?.invalid || editBotForm.type?.dirty">
+                    <p *ngIf="editBotForm.type.errors?.required" class="form-error">Type is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Symbol</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="symbol" value="{{symbol}}">
+                  <div *ngIf="editBotForm.symbol?.touched && editBotForm.symbol?.invalid || editBotForm.symbol?.dirty">
+                    <p *ngIf="editBotForm.symbol.errors?.required" class="form-error">Symbol is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Price</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="price" value="{{price}}">
+                  <div *ngIf="editBotForm.price?.touched && editBotForm.price?.invalid || editBotForm.price?.dirty">
+                    <p *ngIf="editBotForm.price.errors?.required" class="form-error">Price is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Min</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="min" value="{{min}}">
+                  <div *ngIf="editBotForm.min?.touched && editBotForm.min?.invalid || editBotForm.min?.dirty">
+                    <p *ngIf="editBotForm.min.errors?.required" class="form-error">Min is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Max</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="max" value="{{max}}">
+                  <div *ngIf="editBotForm.max?.touched && editBotForm.max?.invalid || editBotForm.max?.dirty">
+                    <p *ngIf="editBotForm.max.errors?.required" class="form-error">Min is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Stat</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="email" id="email" formControlName="stat" value="{{stat}}">
+                  <div *ngIf="editBotForm.stat?.touched && editBotForm.stat?.invalid || editBotForm.stat?.dirty">
+                    <p *ngIf="editBotForm.stat.errors?.required" class="form-error">Stat is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Index</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="index" value="{{index}}">
+                  <div *ngIf="editBotForm.index?.touched && editBotForm.index?.invalid || editBotForm.index?.dirty">
+                    <p *ngIf="editBotForm.index.errors?.required" class="form-error">Index is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <div class="big-area-txt">
+                <label class="form-label">Description</label>
+                <nz-form-control>
+                  <textarea rows="3" nz-input class="mail" formControlName="description" value="{{description}}"></textarea>
+                  <div *ngIf="editBotForm.description?.touched && editBotForm.description?.invalid || editBotForm.description?.dirty">
+                    <p *ngIf="editBotForm.description.errors?.required" class="form-error">Description is required</p>
+                  </div>
+                </nz-form-control>
+              </div>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" class="pd-ryt">
+              <nz-form-item class="form-elements">
+                <nz-form-control>
+              <nz-select nzPlaceHolder="Select a Trade" formControlName="bot_type">
+                <nz-option nzLabel="Smart Trade" nzValue="SPOT"></nz-option>
+                <nz-option nzLabel="Nextfolio Fx" nzValue="FX"></nz-option>
+              </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements">
+                <label class="form-label">Rating</label>
+                <nz-form-control>
+                  <input nz-input name="email" type="number" id="email" formControlName="rating" value="{{rating}}">
+                  <div *ngIf="editBotForm.rating?.touched && editBotForm.rating?.invalid || editBotForm.rating?.dirty">
+                    <p *ngIf="editBotForm.rating.errors?.required" class="form-error">Rating is required</p>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <nz-form-item class="form-elements">
+              <label class="form-label">Auto Cell</label>
+              <nz-form-control>
+                <nz-switch (ngModelChange)="stateChange($event)" formControlName="autosell"></nz-switch>
+              </nz-form-control>
+            </nz-form-item>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [disabled]="editBot.pristine || editBot.invalid" (click)="updateBot()">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+    </div>
+  </ng-template>
+</nz-modal> -->

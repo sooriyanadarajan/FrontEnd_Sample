@@ -1,0 +1,774 @@
+<app-userlayout></app-userlayout>
+<section class="bot">
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="23">
+            <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                <h4 class="bot__title">Bot</h4>
+            </div>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <nz-card >
+                <nz-tabset id="balance-tab" nzOuterBordered="false" [nzAnimated]="false">
+                    <nz-tab nzTitle="Smart Trade">
+                      <button class="bot__add-btn mr-t--4" 
+                      nz-button nzType="primary" nzShape="round" (click)="showModalsubscribe('SPOT')">Add Bot
+                    </button>
+                      <nz-table #botTable nzSize="middle" [nzData]="configbotList" [nzHideOnSinglePage]="'true'"
+                      [nzPageSize]="3">
+                      <thead>
+                        <tr>
+                          <th>Signal</th>
+                          <th>Stop Loss</th>
+                          <th>Fund Trade</th>
+                          <th>Order Type</th>
+                          <th>Take Profit</th>
+                          <th>Expiry Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="bot__table-data" *ngFor="let data of botTable.data; let i = index">
+                          <td>
+                            <div>{{data?.symbol}}</div><span class="bot__table-time">{{data?.createdAt|
+                              date:'short'}}</span>
+                          </td>
+                          <td>
+    
+                            <div class="bot__value-txt">{{data?.stopLoss}}%</div><a *ngIf="data?.status != 'EXPIRED'"
+                              class="bot__edit-popup" nz-dropdown [nzVisible]="data.editStop" nzTrigger="click"
+                              [nzDropdownMenu]="stopmenu" (click)="openStopEdit(i)">Edit</a>
+                            <form nz-form [formGroup]="stopLossEditForm">
+                              <nz-dropdown-menu #stopmenu="nzDropdownMenu">
+                                <ul class="bot__edit-dropdown" nz-menu nzSelectable>
+                                  <nz-form-control [nzErrorTip]="trailErrorTpl">
+                                    <div class="bot__edit-txt">
+                                      <h4 class="bot__trailing-txt">Stop Loss</h4>
+                                      <input nz-input type="number" class="bot__input-box" [ngModel]="stopEditValue"
+                                        formControlName="stopeditValue" />
+                                      <h5 class="bot__percent" nz-typography>%</h5>
+                                    </div>
+                                    <ng-template #trailErrorTpl let-control>
+                                      <ng-container *ngIf="control.hasError('required')">
+                                        Enter Stop Loss Value
+                                      </ng-container>
+                                      <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                                        Stop-loss needed to be 0.1 to 50!
+                                      </ng-container>
+                                    </ng-template>
+                                    <div class="bot__popup-btn">
+                                      <button class="bot__save-btn" nz-button nzType="primary" nzShape="round"
+                                        (click)="editStop(data)" [disabled]="stopLossEditForm.invalid">Save</button>
+                                      <button class="bot__cancel-btn" nz-button nzType="primary" nzShape="round"
+                                        (click)="cancelStopEdit(i)">Cancel
+                                      </button>
+                                    </div>
+                                  </nz-form-control>
+                                </ul>
+                              </nz-dropdown-menu>
+                            </form>
+                          </td>
+    
+                          <td>{{data?.fund}}</td>
+                          <td>{{data?.type}}</td>
+                          <td>
+                            <div class="bot__value-txt">{{data?.takeProfit}}%</div><a
+                              *ngIf="data?.status != 'EXPIRED'" class="bot__edit-popup" nz-dropdown
+                              [nzVisible]="data.editProfit" (click)="openProfitEdit(i)" nzTrigger="click"
+                              [nzDropdownMenu]="edit">Edit</a>
+    
+                            <form nz-form [formGroup]="botprofitEditForm">
+                              <nz-dropdown-menu #edit="nzDropdownMenu">
+                                <ul class="bot__edit-dropdown" nz-menu nzSelectable>
+                                  <nz-form-control [nzErrorTip]="profitErrorTpl">
+                                    <div class="bot__edit-txt">
+                                      <h4 class="bot__trailing-txt">Take Profit</h4>
+                                      <input nz-input type="number" class="bot__input-box"
+                                        [ngModel]="editProfitValue" name="profiltValue" formControlName="profitValue" />
+                                      <h5 class="bot__percent" nz-typography>%</h5>
+                                    </div>
+                                    <ng-template #profitErrorTpl let-control>
+                                      <ng-container *ngIf="control.hasError('required')">
+                                        please input your profit!
+                                      </ng-container>
+                                      <ng-container *ngIf="control.hasError('min')">
+                                        Take Profit Needes To Be Greater Than 0.1%
+                                      </ng-container>
+                                      <ng-container *ngIf="control.hasError('max')">
+                                        Take Profit Needes To Be Greater Than 0.1%
+                                      </ng-container>
+                                    </ng-template>
+                                    <div class="bot__popup-btn">
+                                      <button class="bot__save-btn" nz-button nzType="primary" nzShape="round"
+                                        (click)="editprofitvalue(data)" [disabled]="botprofitEditForm.invalid">Save</button>
+                                      <button class="bot__cancel-btn" (click)="cancelProfitEdit(i)" nz-button
+                                        nzType="primary" nzShape="round">Cancel</button>
+                                    </div>
+                                  </nz-form-control>
+                                </ul>
+                              </nz-dropdown-menu>
+                            </form>
+                          </td>
+                          <td>{{data?.expiry | date:'medium'}}</td>
+                          <td>
+                          <button class="bot__start-btn" *ngIf="data?.status != 'EXPIRED'"
+                            [ngClass]="{'stop-warning': data?.status == 'START', 'start-success':data?.status == 'STOP'}"
+                            nz-button nzType="primary" nzShape="round" (click)="editBotValue(data)"><span
+                              *ngIf="data?.status == 'STOP'">Start</span>
+                            <span *ngIf="data?.status == 'START'">STOP</span>
+                          </button>
+                          <button class="bot__renew-btn" *ngIf="data?.status == 'EXPIRED'" nz-button nzType="primary"
+                            nzShape="round" >
+                            Expired
+                          </button>
+                          <a  class="bot__setting-dropdown" nz-dropdown
+                            nzTrigger="click" [nzDropdownMenu]="setting"><span class="bot__setting-list">...</span>
+                          </a>
+                          <nz-dropdown-menu #setting="nzDropdownMenu">
+                            <ul nz-menu>
+                              <!-- <li nz-menu-item (click)="open_viewresult(data)">{{"viewresult" | translate}}</li> -->
+    
+                              <li nz-menu-item (click)="showEditBot(data)">Edit</li>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </td>
+                        </tr>
+                      </tbody>
+                    </nz-table>
+                    </nz-tab>
+                    <nz-tab nzTitle="Nexfolio Fx" (nzClick)="getBotList()">
+                      <button class="bot__add-btn mr-t--4" 
+                      nz-button nzType="primary" nzShape="round" (click)="showModalsubscribe('FX')">Add Bot
+                    </button>
+                      <nz-table #activeBot [nzData]="activeBotList">
+                        <thead>
+                            <tr>
+                                <th>Leverage Chosen</th>
+                                <th>Type</th>
+                                <th>Bot</th>
+                                <th>Automic Close Position</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let data of activeBot.data;let ind = index">
+                                <tr class="bot__table-data">
+                                    <!-- <td>BTCUSDT</td> -->
+                                    <td class="bot__table-value">{{data?.leverage}}</td>
+                                    <td>{{data?.type}}</td>
+                                    <td>{{data?.symbol}}</td>
+                                    <td>
+                                        <nz-switch [ngModel]="data?.auto_close"
+                                            (click)="configUpdate(data._id,data.auto_close == true?false:true,null,ind)">
+                                        </nz-switch>
+                                    </td>
+                                    <button *ngIf="data?.status == 'EXPIRED'" nz-button nzType="primary"
+                                        [ngClass]="{'bot__experied':data?.status == 'EXPIRED'}"
+                                        nzShape="round"><span>Expired</span></button>
+
+                                    <button *ngIf="data?.status != 'EXPIRED'" nz-button nzType="primary" class="bot__start-btn"
+                                        [ngClass]="{'stop-warning':data?.status == 'START', 'start-success':data?.status == 'STOP', 'bot__experied':data?.status == 'EXPIRED'}"
+                                        nzShape="round"
+                                        (click)="configUpdate(data._id,null,data.status,ind)"><span
+                                            *ngIf="data?.status == 'STOP'">Start</span><span
+                                            *ngIf="data?.status == 'START'">Stop</span></button>
+                                    <a  class="bot__setting-dropdown" nz-dropdown nzTrigger="click"
+                                        [nzDropdownMenu]="menu"> <span class="bot__setting-list">...</span>
+                                    </a>
+                                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                                        <ul class="bot__menu-list" nz-menu>
+                                            <!-- <li nz-menu-item>{{"ViewResult" | translate}}</li> -->
+                                            <li nz-menu-item *ngIf="data?.status != 'EXPIRED'"
+                                                (click)="editBothandleOk(data)">Edit</li>
+                                            <!-- <li nz-menu-item>{{"Delete" | translate}}</li> -->
+                                        </ul>
+                                    </nz-dropdown-menu>
+                                    <a class="bot__drop-addtarget" (click)="
+                                ToggleBotTarget(ind)"><span><img src="../../../../../assets/img/svg/chevron-down-white.svg" alt=""></span> </a>
+                                    <!-- <button class="future__drop-addtarget" nz-button nzType="primary" (click)="
+                                    ToggleBotTarget(ind)" nzShape="round" ><img class="future__downarrow-icon" src="../../../assets/img/svg/chevron-down-white.svg" alt=""></button> -->
+                                </tr>
+                                <tr class="dropdown-row" *ngIf="targetVal.active == ind">
+                                    <td colspan="12">
+                                        <div>
+                                            <form [formGroup]="Step2validateForm">
+                                                <div nz-row>
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                        nzXl="3">
+                                                        <nz-form-item
+                                                            *ngFor="let targetctrl of targetTypeofCtrl; let i = index">
+                                                            <nz-form-control
+                                                                [nzErrorTip]="bottargetTypeErrorTpl">
+                                                                <div nz-row>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="12">
+                                                                        <nz-form-label
+                                                                            [nzFor]="targetctrl.controlInstance">
+                                                                            Target Type
+                                                                        </nz-form-label>
+                                                                    </div>
+                                                                    <div id="select-bot" nz-col nzXs="24"
+                                                                        nzSm="24" nzMd="24" nzLg="24"
+                                                                        nzXl="12">
+                                                                        <nz-select [attr.id]="targetctrl.id"
+                                                                            [ngModel]="targetctrl.value"
+                                                                            [formControlName]="targetctrl.controlInstance"
+                                                                            [nzDropdownMatchSelectWidth]="false">
+                                                                            <nz-option nzValue="PRICE"
+                                                                                nzLabel="Price">
+                                                                            </nz-option>
+                                                                            <nz-option nzValue="PERCENTAGE"
+                                                                                nzLabel="Percentage">
+                                                                            </nz-option>
+                                                                        </nz-select>
+                                                                    </div>
+                                                                </div>
+                                                                <ng-template #bottargetTypeErrorTpl
+                                                                    let-control>
+                                                                    <ng-container
+                                                                        *ngIf="control.hasError('required')">
+                                                                        Please Select Target Type
+                                                                    </ng-container>
+                                                                </ng-template>
+                                                            </nz-form-control>
+                                                        </nz-form-item>
+                                                    </div>
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                        nzXl="3">
+                                                        <nz-form-item
+                                                            *ngFor="let tarCtrl of targetCtrl; let i = index">
+                                                            <nz-form-control
+                                                                [nzErrorTip]="bottargetErrorTpl">
+                                                                <div nz-row>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="12">
+                                                                        <nz-form-label class="target-txt"
+                                                                            [nzFor]="tarCtrl.controlInstance">
+                                                                            Target
+                                                                        </nz-form-label>
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="12">
+                                                                        <input class="target-input"
+                                                                            type="number" min="1"
+                                                                            [ngModel]="tarCtrl.value"
+                                                                            nzSize="large" nzSize="large"
+                                                                            nz-input [attr.id]="tarCtrl.id"
+                                                                            [formControlName]="tarCtrl.controlInstance" />
+                                                                    </div>
+                                                                </div>
+                                                                <ng-template #bottargetErrorTpl let-control>
+                                                                    <ng-container
+                                                                        *ngIf="control.hasError('required')">
+                                                                        Please Enter Target Value
+                                                                    </ng-container>
+                                                                    <ng-container
+                                                                        *ngIf="control.hasError('min')">
+                                                                        Please Enter Target Value Minimum Of
+                                                                        1
+                                                                    </ng-container>
+                                                                </ng-template>
+                                                            </nz-form-control>
+                                                        </nz-form-item>
+                                                    </div>
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                        nzXl="5">
+                                                        <nz-form-item
+                                                            *ngFor="let triggertype of triggerTypeofCtrl; let i = index">
+                                                            <nz-form-control>
+                                                                <div nz-row>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="12">
+                                                                        <nz-form-label class="target-txt"
+                                                                            [nzFor]="triggertype.controlInstance">
+                                                                            Trigger Type
+                                                                        </nz-form-label>
+                                                                    </div>
+                                                                    <div id="select-bot" nz-col nzXs="24"
+                                                                        nzSm="24" nzMd="24" nzLg="24"
+                                                                        nzXl="10">
+                                                                        <nz-form-control
+                                                                            [nzErrorTip]="bottriggetTypeErrorTpl">
+                                                                            <nz-select
+                                                                                [attr.id]="triggertype.id"
+                                                                                [ngModel]="triggertype.value"
+                                                                                [formControlName]="triggertype.controlInstance"
+                                                                                [nzDropdownMatchSelectWidth]="false">
+                                                                                <nz-option nzValue="MARKET"
+                                                                                    nzLabel="Market">
+                                                                                </nz-option>
+                                                                                <nz-option nzValue="LIMIT"
+                                                                                    nzLabel="Limit">
+                                                                                </nz-option>
+                                                                            </nz-select>
+                                                                            <ng-template
+                                                                                #bottriggetTypeErrorTpl
+                                                                                let-control>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('required')">
+                                                                                    Please Select Trigger
+                                                                                    Type
+                                                                                </ng-container>
+                                                                            </ng-template>
+                                                                        </nz-form-control>
+                                                                    </div>
+                                                                </div>
+                                                            </nz-form-control>
+                                                        </nz-form-item>
+                                                    </div>
+                                                    <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6"
+                                                        nzXl="12">
+                                                        <nz-form-item
+                                                            *ngFor="let qtyCtrl of qtyOfControl; let i = index">
+                                                            <nz-form-control [nzErrorTip]="botQuanErrorTpl">
+                                                                <div nz-row>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="5">
+                                                                        <nz-form-label class="target-txt"
+                                                                            [nzFor]="qtyCtrl.controlInstance">
+                                                                            Quantity (%)
+                                                                        </nz-form-label>
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24"
+                                                                        nzMd="24" nzLg="24" nzXl="3">
+                                                                        <input class="target-input"
+                                                                            type="number"
+                                                                            [ngModel]="qtyCtrl.value"
+                                                                            min="1" nzSize="large"
+                                                                            nzSize="large" nz-input
+                                                                            [attr.id]="qtyCtrl.id"
+                                                                            [formControlName]="qtyCtrl.controlInstance"
+                                                                            (ngModelChange)="calQuantity()" />
+
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                        nzLg="6" nzXl="4">
+                                                                        <button class="bot__add-btn"
+                                                                            nz-button nzType="primary"
+                                                                            [disabled]="Step2validateForm.get(qtyCtrl.controlInstance).invalid 
+                                                                                || Step2validateForm.get(targetCtrl[i].controlInstance).invalid || isWarning || Step2validateForm.get(triggerTypeofCtrl[i].controlInstance).invalid || Step2validateForm.get(targetTypeofCtrl[i].controlInstance).invalid"
+                                                                            nzShape="round"
+                                                                            *ngIf="!data?.target[i]?.isEdit"
+                                                                            (click)="targetAdd(data?._id,i,ind)">Add</button>
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                        nzLg="6" nzXl="4"
+                                                                        *ngIf="data?.target[i]?.isEdit">
+                                                                        <button class="bot__add-btn"
+                                                                            nz-button nzType="primary"
+                                                                            *ngIf="data?.target[i]?.isEdit"
+                                                                            [disabled]="Step2validateForm.get(qtyCtrl.controlInstance).invalid 
+                                                                                || Step2validateForm.get(targetCtrl[i].controlInstance).invalid || isWarning || Step2validateForm.get(triggerTypeofCtrl[i].controlInstance).invalid || Step2validateForm.get(targetTypeofCtrl[i].controlInstance).invalid"
+                                                                            nzShape="round"
+                                                                            (click)="targetUpdate(data?.target[i]._id,data?._id,i,ind)">Edit</button>
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                        nzLg="6" nzXl="4"
+                                                                        *ngIf="data?.target[i]?.isEdit">
+                                                                        <button class="bot__delete-btn"
+                                                                            nz-button nzType="primary"
+                                                                            *ngIf="data?.target[i]?.isEdit"
+                                                                            nzShape="round"
+                                                                            (click)="targetDelete(data?.target[i]._id,data?._id,i,ind,$event)"><img
+                                                                                class="bot__delete-icon"
+                                                                                src="../../../assets/img/svg/trash.svg"
+                                                                                alt=""></button>
+                                                                    </div>
+                                                                    <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                        nzLg="6" nzXl="4"
+                                                                        *ngIf="!data?.target[i]?.isEdit">
+                                                                        <button class="bot__delete-btn"
+                                                                            nz-button nzType="primary"
+                                                                            *ngIf="!data?.target[i]?.isEdit"
+                                                                            nzShape="round"
+                                                                            (click)="removeField(qtyCtrl, $event)"><img
+                                                                                class="bot__delete-icon"
+                                                                                src="../../../assets/img/svg/trash.svg"
+                                                                                alt=""></button>
+                                                                    </div>
+
+                                                                </div>
+                                                                <ng-template #botQuanErrorTpl let-control>
+                                                                    <ng-container class="color-red"
+                                                                        *ngIf="control.hasError('required')">
+                                                                        Please Enter Quantity In %
+                                                                    </ng-container>
+                                                                    <ng-container class="color-red"
+                                                                        *ngIf="control.hasError('min') || control.hasError('max')">
+                                                                        Quantity Should Be Min 1 And Max 100
+                                                                    </ng-container>
+                                                                </ng-template>
+                                                            </nz-form-control>
+                                                        </nz-form-item>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="text-muted my-3 px-3 cursor-pointer d-inline-block"
+                                            *ngIf="isWarning">
+                                            Quantity (%) Must Be Less Than Or Equal To 100
+                                        </div>
+                                        <div class="text-muted my-3 px-3 cursor-pointer d-inline-block"
+                                            *ngIf="!isAddShow" (click)="addField($event)">
+                                            + Add Target
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </nz-table>
+                        <!-- <nz-pagination class="bot__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </div>
+    </div>
+</section>
+
+<!-- Edit bot modal -->
+<nz-modal [(nzVisible)]="isEditBot" (nzOnCancel)="handleCancel()" [nzFooter]="null" nzWidth="380px"
+  nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+        <img src="../../..//assets/img/svg/bot.svg" alt="">
+      </div>
+      <div nz-col nzXs="19" nzSm="19" nzMd="19" nzLg="19" nzXl="19">
+        <h4 class="bot__edit-model-title">{{editData?.symbol}}</h4>
+      </div>
+    </div>
+    <form nz-form [formGroup]="botEditForm">
+      <div nz-row>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <div nz-row class="bot__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Stop Loss</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editStopLoss" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div>
+          <nz-form-control [nzErrorTip]="stopLossErrorTpl" *ngIf="editStopLoss">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="bot__input-box-model" min="1" type="number" nz-input placeholder="0.2"
+                formControlName="stopLossValue" [(ngModel)]="editStopLossValue"
+                (ngModelChange)="botStoplossCal(editStopLossValue)" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #stopLossErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Stop Loss Value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min') || control.hasError('max')">
+                Stop-loss needed to be 0.1 to 50!
+              </ng-container>
+
+            </ng-template>
+            <!-- <p *ngIf="buy_quan < 10.5 && editStopLossValue != null && editStopLossValue >= 0.1 && editStopLossValue <= 50"
+              class="error-warning">
+              Less than 10 USDT!
+            </p> -->
+          </nz-form-control>
+          <!-- <div nz-row class="bot__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Trailing</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editTrailing" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div> -->
+          <!-- <nz-form-control [nzErrorTip]="trailErrorTpl" *ngIf="editTrailing">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="bot__input-box-model" type="number" nz-input placeholder="0.2"
+                formControlName="trailValue" [(ngModel)]="editTrailingValue" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #trailErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Trailing Value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min')">
+                Trailing needed to be 0.1 to 5!
+              </ng-container>
+              <ng-container *ngIf="control.hasError('max')">
+                Trailing needed to be 0.1 to 5!
+              </ng-container>
+            </ng-template>
+          </nz-form-control> -->
+          <p class="bot__fund-txt">Fund(per trade in USDT)</p>
+          <nz-form-control [nzErrorTip]="fundErrorTpl">
+            <input class="bot__input-field-model" type="number" nz-input placeholder="11.74"
+              [(ngModel)]="editFund" formControlName="fundValue" (ngModelChange)="botStoplossCal(editStopLossValue)" />
+            <ng-template #fundErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Please Input Your Fund!
+              </ng-container>
+              <!-- <ng-container *ngIf="control.hasError('min')">
+                Enter minimum fund 10!
+              </ng-container> -->
+              <ng-container *ngIf="control.hasError('max')">
+                fund exceeds balance!
+              </ng-container>
+            </ng-template>
+            <ng-container *ngIf="editFund < 10 && editFund != null">
+             <p class="color-red">Enter minimum fund 10!</p> 
+            </ng-container>
+          </nz-form-control>
+          <p class="bot__order-txt">Order Type</p>
+          <nz-radio-group  [nzButtonStyle]="'solid'" [(ngModel)]="botType" [ngModelOptions]="{standalone: true}">
+            <label class="bot__Limit-model-btn" nz-radio-button nzValue="LIMIT">Limit</label>
+            <label class="bot__Market-model-btn" nz-radio-button nzValue="MARKET">Market</label>
+          </nz-radio-group>
+          <div nz-row class="bot__stop-loss">
+            <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+              <p>Take Porfit (or) Automatic Sell</p>
+            </div>
+            <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+              <nz-switch [(ngModel)]="editTakeProfit" (ngModelChange)="addcontrol()"
+                [ngModelOptions]="{standalone: true}"></nz-switch>
+            </div>
+          </div>
+          <nz-form-control [nzErrorTip]="autoErrorTpl" *ngIf="editTakeProfit">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input class="bot__input-box-model" type="number" nz-input placeholder="0.2"
+                formControlName="autoValue" [(ngModel)]="editProfitValue" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+            </ng-template>
+            <ng-template #autoErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Enter Auto sell or Take profit value
+              </ng-container>
+              <ng-container *ngIf="control.hasError('min')">
+                Enter minimum of 1
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+
+          <p class="bot__fund-txt">Extend Validity</p>
+          <nz-form-control [nzErrorTip]="expiryErrorTpl">
+            <!-- <input class="bot__input-field-model" type="date" nz-input placeholder="11.74"
+              [(ngModel)]="expirydate" formControlName="expiry" /> -->
+              <nz-date-picker class="date-pic" [(ngModel)]="expirydate" [ngModelOptions]="{standalone: true}"></nz-date-picker>
+            <ng-template #expiryErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Please Input Your Fund!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+
+          <div nz-row>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+              <button nz-button class="bot__save-model-btn" nzType="primary" nzShape="round"
+                [nzLoading]="isLoader.isEditBot" [disabled]="botEditForm.invalid || (buy_quan <= 10.5 && editStopLoss)"
+                (click)="editBotValue(false)">Save</button>
+            </div>
+            <div nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="6" nzXl="6">
+              <button nz-button class="bot__cancel-model-btn" nzType="primary" nzShape="round"
+                (click)="handleCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="editbotisVisible"  (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()" nzWidth="368px"  [nzFooter]="null">
+  <ng-container *nzModalContent>
+      <div nz-row>
+        <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+          <img src="../../..//assets/img/svg/bot.svg" alt="">
+        </div>
+        <div nz-col nzXs="19" nzSm="19" nzMd="19" nzLg="19" nzXl="19">
+          <h4 class="bot__edit-model-title">{{editBotData?.symbol}}</h4>
+          <p class="bot__btc-txt">BTCUSDT</p>
+        </div>
+      </div>
+      <form nz-form [formGroup]="FxbotEditForm">
+        <div nz-row>
+          <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+              <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                <p class="bot__quantity-txt">Quantity(%)</p>
+              </div>
+            <nz-form-control [nzErrorTip]="quantityTpl">
+              <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input class="bot__input-box-model" [(ngModel)]="botQuan"  formControlName="botQuantity"  type="number" nz-input placeholder="5"
+                  />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+              </ng-template>
+              <ng-template #quantityTpl let-control>
+                  <ng-container *ngIf="control.hasError('min')">
+                      Enter minimum of 1
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                      Please Enter Quantity In %
+                  </ng-container>
+              </ng-template>
+            </nz-form-control>
+            <div nz-row class="bot__stop-input" >
+              <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                <p class="bot__stop-loss">Stop Loss</p>
+              </div>
+              <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                <nz-switch 
+                [(ngModel)]="botstopSwitch" [ngModelOptions]="{standalone: true}" (ngModelChange)="changeStopLoss()"></nz-switch>
+              </div>
+            </div>
+            <nz-form-control [nzErrorTip]="botstopError" *ngIf="botstopSwitch">
+              <nz-input-group [nzSuffix]="suffixIconSearch">
+                <input class="bot__input-box-model" type="number" [(ngModel)]="botStopValue"  formControlName="botstopLossValue" nz-input placeholder="10"
+                 />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+              </ng-template>
+              <ng-template #botstopError let-control>
+                  <ng-container *ngIf="control.hasError('min')">
+                      Please input valid stop price!
+                   </ng-container>
+                   <ng-container *ngIf="control.hasError('required')">
+                      Please input your stop price!
+                   </ng-container>
+              </ng-template>
+            </nz-form-control>
+
+            <div nz-row class="bot__leverage-line">
+              <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                <p class="bot__leverage-txt">Leverage Chosen </p>
+              </div>
+              <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                  <p class="bot__value" [innerHTML]="botLeverage">36X</p>
+              </div>
+            </div>
+            <div id="slider-bot">
+              <nz-slider  
+              nzTooltipPlacement="bottom"  id="botSlider" #botLeverageChose="ngModel" [(ngModel)]="botLeverage"
+              nzTooltipPlacement="bottom" [nzMarks]="marksBot" [nzStep]="10" [ngModelOptions]="{standalone: true}" [nzMax]="60"></nz-slider>
+            </div>
+            <p class="bot__leverage-txt"> Select Type </p>
+            <nz-form-item>
+              <nz-radio-group formControlName="type" [(ngModel)]="botType"
+                  [nzButtonStyle]="'solid'">
+                  <label class="bot__limit-btn-model" nz-radio-button nzValue="LIMIT">Limit
+                  </label>
+                  <label class="bot__market-btn-model" nz-radio-button nzValue="MARKET">Market
+                  </label>
+                  <label class="bot__stop-btn-model" nz-radio-button nzValue="STOP">Stop Limit
+                  </label>
+              </nz-radio-group>
+          </nz-form-item>
+          <p class="bot__leverage-txt">Position</p>
+            <nz-form-item>
+              <nz-radio-group formControlName="position" [(ngModel)]="botPosition"
+                  [nzButtonStyle]="'solid'">
+                  <label class="bot__long-btn" nz-radio-button nzValue="LONG">Long
+                  </label>
+                  <label class="bot__short-btn" nz-radio-button nzValue="SHORT">Short
+                  </label>
+                  <label class="bot__both-btn" nz-radio-button nzValue="BOTH">Both
+                  </label>
+              </nz-radio-group>
+          </nz-form-item>
+          <div nz-row class="bot__position-input" >
+              <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                <p class="bot__stop-loss">Automatic Close Position</p>
+              </div>
+              <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                <nz-switch  [(ngModel)]="botClose" [ngModelOptions]="{standalone: true}"
+                  ></nz-switch>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bot__model-btn">
+          <button nz-button class="bot__next-btn" nzType="primary" nzShape="round"
+            (click)="botUpdate()" [disabled]="FxbotEditForm.invalid">Save</button>
+          <button nz-button class="bot__cancel-btn" nzType="primary" nzShape="round" (click)="handleCancel()"
+           >Cancel</button>
+        </div>
+      </form>
+    </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="EditisVisible" (nzOnCancel)="handleCancelbot()" (nzOnOk)="handleCancelbot()" [nzFooter]="null"
+  nzWidth="380px" nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div nz-col nzXs="5" nzSm="5" nzMd="4" nzLg="4" nzXl="5">
+        <img src="../../../assets/img/svg/bot.svg" alt="">
+      </div>
+      <div  nz-col nzXs="17" nzSm="17" nzMd="20" nzLg="20" nzXl="17">
+        <h4 class="bot__model-heading">Subscribe BOT</h4>
+        </div>
+    </div>
+    <div nz-row id="marketplace-model">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <p class="bot__payment-txt">Bot</p>
+        <nz-select class="bot__select-coin" nzAllowClear nzPlaceHolder="Select" [(ngModel)]="botId">
+          <nz-option class="bot__coin" [nzLabel]="data.name" [nzValue]="data" *ngFor="let data of botlistData;let i = index"></nz-option>
+         </nz-select>
+        <!-- <p class="smarttrade__payment-txt">Payment Method</p>
+        <nz-select class="smarttrade__select-coin" nzAllowClear nzPlaceHolder="Select" [(ngModel)]="paymentType">
+          <nz-option class="smarttrade__coin" nzLabel="BTC" nzValue="BTC"></nz-option>
+          <nz-option class="smarttrade__coin" nzLabel="ETH" nzValue="ETH"></nz-option>
+          <nz-option class="smarttrade__coin" nzLabel="USDT" nzValue="USDT"></nz-option>
+        </nz-select> -->
+        <p class="bot__Subscription-txt">Subscription</p>
+        <nz-select class="bot__select-month" nzAllowClear nzPlaceHolder="Select" [(ngModel)]="paymentYear">
+          <nz-option nzLabel="1 Month" [nzValue]="1"></nz-option>
+          <nz-option nzLabel="3 Months" nzValue="3"></nz-option>
+          <nz-option nzLabel="6 Months" nzValue="6"></nz-option>
+          <nz-option nzLabel="1 Year" nzValue="12"></nz-option>
+        </nz-select>
+        <!-- <p class="smarttrade__coupon-txt1">Coupon Code</p>
+        <input class="smarttrade__txt-box" nz-input type="txt" [(ngModel)]="couponCode" /> -->
+        <div class="bot__model-btn">
+          <button nz-button class="bot__next-btn" nzType="primary" [disabled]="paymentYear == null || botId == null" *ngIf="botAddType == 'SPOT'" [nzLoading]="isLoading" nzShape="round"
+            (click)="subscribeBOT()">Submit</button>
+            <button nz-button class="bot__next-btn" nzType="primary" [disabled]="paymentYear == null || botId == null" *ngIf="botAddType == 'FX'" [nzLoading]="isLoading" nzShape="round"
+            (click)="subscribeFXBOT()">Submit</button>
+          <button nz-button class="bot__cancel-btn" nzType="primary" nzShape="round"
+            (click)="handleCancelbot()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="addisVisible" (nzOnCancel)="handleCancelbot()"  [nzFooter]="null"
+  nzWidth="1160px" nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <h4 class="bot-title">Select Bot</h4>
+    <nz-empty nzNotFoundImage="simple" *ngIf="botlistData.length <= 0"></nz-empty>
+    <owl-carousel-o [options]="statuscustomOptions" #multiplestatus *ngIf="botlistData.length > 0">
+      <ng-template carouselSlide *ngFor="let data of bolistData;let i = index">
+        <div class="market-card">
+          <div class="addbot-model">
+            <img src="../../../assets/img/svg/bot.svg" alt="" height="60">
+            <h6 class="card-heading">{{data?.name}}</h6>
+            <nz-rate [ngModel]="data?.rating" nzDisabled></nz-rate>
+            <p class="card-para"> {{data?.description}}</p>
+            <div id="sub-btn">
+              <button class="subscribe-btn" nz-button nzType="primary" nzShape="round"
+                (click)="showModalsubscribe(data)">Subscribe</button><br>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+   </ng-container> 
+</nz-modal>

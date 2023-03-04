@@ -1,0 +1,129 @@
+$primarycolor: #00bbc6;
+$secondarycolor: #ffffff;
+$iconcolor: #000000;
+$defaultcolor: #bfbfbf;
+$nav-title:#383838;
+
+.header{
+    box-shadow: 0px 2px 6px 0px rgb(79 79 79 / 5%);
+    height: 75px;
+  &__logo{
+    padding-left:50px;
+    align-items: center;
+  }
+&__layout {
+  background-color: $secondarycolor;
+  padding: 0;
+  position:fixed;
+  z-index: 1000;
+  width: 100%;
+  height: 80px;
+}
+&__nav-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color:$nav-title;
+  padding-top: 7px;
+  font-family: "GoogleSans-Bold";
+}
+&__nav-btn {
+  background-color: $primarycolor;
+  border: none;
+  outline: none;
+  font-weight: 800px;
+  font-size: 22px;
+  padding: 0px;
+  margin-left: 30px;
+  margin-top: 9px;
+}
+&__popup-txt {
+  text-decoration: none;
+  color: $iconcolor;
+  font-weight: 500;
+  font-family: "GoogleSans-Light";
+  padding: 6px 16px;
+}
+&__popup-txt:hover{
+background:#f8f8f8;
+}
+&__bell-btn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+&__logout-icon{
+    padding-right: 10px;
+  }
+&__setting-btn{
+  background-color: transparent;
+  outline: none !important;
+  border: none !important;
+  padding: 0;
+  box-shadow: none !important;
+  margin-top: 24px;
+  margin-right: 20px;
+}
+&__bell-popup {
+  display: inline-flex;
+ width:255px;
+}
+&__popover-tag {
+  text-decoration: none;
+  right: 20px;
+  color: $defaultcolor;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 95px;
+}
+&__popover-content {
+  text-align: center;
+  color: $defaultcolor;
+  font-weight: 500;
+  font-size: 15px;
+}
+&__notification {
+  text-align:right;
+  padding-right:20px;
+}
+&__notification-list-heading{
+  font-family: "GoogleSans-Bold";
+  color: #383838;
+
+}
+&__notification-list{
+  height: 20vh;
+}
+&__notification-sub-list{
+  color: #e7e7e7;
+  font-family: "GoogleSans-Bold";
+ word-wrap: break-word;
+ }
+ &__setting-icon{
+   outline: none;
+   box-shadow: none;
+ }
+}
+
+@media (min-width: 320px) and (max-width:767px){
+  .header__nav-btn{
+    font-size: 17px;
+    padding: 7px;
+    margin-left: 14px;
+    margin-top: 9px;
+    width: 9%;
+  }
+  .header__logo{
+    height: 35px;
+  }
+  .header{
+    &__setting-btn{
+      display: none;
+    }
+    &__nav-title{
+      display: none;
+    }
+  }
+}

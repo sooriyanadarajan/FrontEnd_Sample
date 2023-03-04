@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Combined_Shape" data-name="Combined Shape" d="M17.5,16.667H14.167a.834.834,0,0,1-.833-.833v-15A.834.834,0,0,1,14.167,0H17.5a.834.834,0,0,1,.833.833v15A.834.834,0,0,1,17.5,16.667Zm-2.5-15V15h1.667V1.666Zm-4.167,15H7.5a.834.834,0,0,1-.833-.833V5A.834.834,0,0,1,7.5,4.167h3.333A.835.835,0,0,1,11.667,5V15.833A.835.835,0,0,1,10.833,16.667ZM8.333,5.833V15H10V5.833ZM4.167,16.667H.833A.834.834,0,0,1,0,15.833V9.166a.834.834,0,0,1,.833-.833H4.167A.834.834,0,0,1,5,9.166v6.667A.834.834,0,0,1,4.167,16.667ZM1.666,10v5H3.333V10Z" transform="translate(0 0)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_32" data-name="Group 32" transform="translate(-1070.667 -206)">
+    <circle id="Oval_Copy" data-name="Oval Copy" cx="18" cy="18" r="18" transform="translate(1070.667 206)" fill="#00bcc7"/>
+    <g id="chevron-down_copy" data-name="chevron-down copy" transform="translate(1078.667 214)">
+      <g id="Group_10" data-name="Group 10" transform="translate(0.833 1.667)">
+        <path id="Combined_Shape-2" data-name="Combined Shape" d="M17.5,16.667H14.167a.834.834,0,0,1-.833-.833v-15A.834.834,0,0,1,14.167,0H17.5a.834.834,0,0,1,.833.833v15A.834.834,0,0,1,17.5,16.667Zm-2.5-15V15h1.667V1.666Zm-4.167,15H7.5a.834.834,0,0,1-.833-.833V5A.834.834,0,0,1,7.5,4.167h3.333A.835.835,0,0,1,11.667,5V15.833A.835.835,0,0,1,10.833,16.667ZM8.333,5.833V15H10V5.833ZM4.167,16.667H.833A.834.834,0,0,1,0,15.833V9.166a.834.834,0,0,1,.833-.833H4.167A.834.834,0,0,1,5,9.166v6.667A.834.834,0,0,1,4.167,16.667ZM1.666,10v5H3.333V10Z" transform="translate(0 0)"/>
+        <g id="Mask_Group_10" data-name="Mask Group 10" clip-path="url(#clip-path)">
+          <g id="COLOR_black" data-name="COLOR/ black" transform="translate(-0.833 -1.667)">
+            <rect id="Rectangle" width="20" height="20" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

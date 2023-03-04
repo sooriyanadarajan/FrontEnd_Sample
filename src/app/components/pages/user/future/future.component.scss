@@ -1,0 +1,868 @@
+  $whit-color:#ffffff;
+  $text-color:#383838;
+  $danger-color:red;
+  $background-box:#c6f7fa;
+  $primary_color:#00bcc7;
+  $boxcontent-txt:#878f9d;
+  $box-color:#fafafa;
+  $heading-color:#BFBFBF;
+  $font-bold:'GoogleSans-Bold';
+  $font-regular:'GoogleSans-Regular';
+  $btn-sell: #f72a63;
+.future{
+    &__downarrow{
+        position: relative;
+        bottom:1px;
+    }
+    &__title-row{
+        margin-top: 20px;
+    }
+    &__content-box{
+    color: #00bcc7;
+    text-align: center;
+    padding-top: 20px;
+    font-weight: 700;
+    font-family: GoogleSans-Bold;
+    font-size: 16px;
+    border: none;
+    width:90%;
+    height: 60px;
+    background-color: #c6f7fa;
+    border-radius: 5px;
+    margin-top:5px;
+    
+}
+&__subcontent-box{
+    text-align: center;
+    padding-top: 5px;
+    font-weight: 700;
+    font-family: GoogleSans-Bold;
+    font-size: 16px;
+    border: none;
+    width:90%;
+    height: 60px;
+    background-color: #fafafa;
+    border-radius: 5px;
+    margin-top:5px;
+}
+&__label-heading{
+    margin-bottom:0px;
+   float: left;
+    color: #878f9d;
+    padding-left:10px;
+}
+&__label-sub{
+    margin-bottom: 0px;
+    float: left;
+    padding-left:10px;
+}
+&__label-sub-txt{
+    margin-bottom: 0px;
+    float: left;
+    padding-left:10px;
+    display: flex;
+}
+&__label-sub-content{
+    margin-bottom: 0px;
+    padding-left: 10px;
+    
+}
+&__label-danger{
+    margin-bottom: 0px;
+    float: left;
+    padding-left:10px;
+    color: red;
+}
+&__mode{
+    display: flex;
+   padding-top: 21px;
+   font-family: "GoogleSans-Bold";
+   p{
+       padding:0px 7px;
+   }
+}
+&__mode-switch{
+    padding-left:10px;
+    padding-right:10px;
+}
+&__usdt-amt{
+    font-size: 24px;
+    padding-top:13px;
+    padding-left: 25px;
+    font-family: "GoogleSans-Bold";
+    margin-bottom:0px;
+}
+&__Usdt-txt{
+    color: #878f9d;
+}
+&__chart{
+    width: 98%;
+    height: 384px;
+    border: none;
+    outline: none;
+    margin-bottom: 7px;
+}
+&__limit-btn{
+    border-radius: 18px;
+    color:#fff;
+    font-weight: 500;
+    text-align: center;
+    background-color:#BFBFBF;
+  
+    }
+    &__market-btn{
+        margin-left:8px;
+       border-radius: 18px;
+       color:#fff;
+       background-color:#BFBFBF;
+       text-align: center;
+       font-weight: 500;
+    }
+    &__stop-btn{
+    margin-left:8px;
+    border-radius: 18px;
+    color:#fff;
+    background-color:#BFBFBF;
+    text-align: center;
+    font-weight: 500;
+   }
+   &__radio-btn{
+       padding-top: 15px;
+   }
+   &__label-txt{
+    font-family: "GoogleSans-Bold";
+   }
+   &__cost-value{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    font-family: "GoogleSans-Bold";
+    padding: 5px 0px;
+   }
+   &__buy-long-btn{
+    background-color:#BFBFBF;
+    font-family: "GoogleSans-Bold";
+    width: 100%;
+    border: none;
+    margin-top:10px;
+    box-shadow: none;
+}
+  &__corss-title{
+    font-family: "GoogleSans-Bold";
+    color:#383838;
+    margin-bottom:0px;
+  }
+  &__rate-value{
+  color: #00bcc7;
+  }
+  &__price-txt{
+    font-family: "GoogleSans-Bold";
+    font-weight: 500;
+    color:#383838;
+    padding-top:10px;
+    margin-bottom:0px;
+}
+&__cross-ration{
+    margin-top:13px;
+}
+&__paginatiion{
+    float: right;
+   margin: 16px 0;
+}
+&__table-card{
+    margin-right:10px; 
+}
+&__timer{
+    font-size: 16px;
+}
+&__model-heading{
+    font-family: "GoogleSans-Bold";
+    color:#383838;
+    margin-bottom: 0px;
+}
+
+&__lable-txt {
+    color: #383838;
+    font-family: "GoogleSans-Bold";
+    font-weight: 600;
+}
+&__text-box {
+    font-family: "GoogleSans-Bold";
+    height: 40px;
+}
+&__confirm-btn {
+    background-color: #383838;
+    color: #fff;
+    font-family: "GoogleSans-Bold";
+    border: none;
+    height: 40px;
+}
+&__cancel-btn {
+    margin-left: 10px;
+    border: 1px solid #878f9d;
+    color: #383838;
+    font-size: 16px;
+    height: 40px;
+    background-color:transparent;
+    font-family: "GoogleSans-Bold";
+}
+&__cancel-btn:hover{
+    border: 1px solid rgb(255, 11, 11);
+    color:rgb(255, 11, 11);
+
+}
+&__box-content{
+    color: #00bcc7;
+    text-align: center;
+    font-weight: 700;
+    font-family: "GoogleSans-Bold";
+    font-size: 16px;
+    border: none;
+}
+&__position-table{
+    font-family: "GoogleSans-Bold";
+    color:#878f9d;
+    th{
+        width: 300px;
+    }
+}
+&__table-data{
+    font-family: "GoogleSans-Bold";
+    color:#383838;
+}
+&__data-btn{
+    width:20%;
+}
+&__limit-btntd{
+    background-color: #383838;
+    color: #fff;
+    font-family: "GoogleSans-Bold";
+    border: none;
+    height:33px;
+      padding: 6px 10px;
+    margin-right: 5px;
+}
+&__close_price_input {
+    border: 1px solid #f0f0f0;
+    background: #fff;
+    color:#383838;
+    border-radius: 30px;
+    height: 36px;
+    max-width: 100px;
+    min-width: 100px;
+    line-height: 36px;
+    text-align: center;
+}
+ &__experied {
+    background-color: #383838;
+    color: #fff;
+    font-family: "GoogleSans-Bold";
+    border: none;
+}
+&__sell-btn{
+    margin-left:20px;
+  }
+  &__model-title{
+      padding-top:10px;
+      padding-bottom:10px;
+  }
+  &__slider{
+      padding-top:10px;
+      padding-bottom:10px;
+  }
+  &__lable-txt{
+      color: $text-color;
+      font-family: $font-regular;
+      font-weight:600;
+  }
+  &__model-heading{
+      font-family:$font-bold;
+      color: $text-color;
+  }
+  &__confirm-btn{
+      background-color:  $text-color;
+      color: $whit-color;
+      font-family: $font-bold;
+      border: none;
+  }
+  &__cancel-btn{
+      font-family:$font-bold;
+      border: 1px solid $heading-color;
+      background-color:$whit-color;
+      color: $text-color;
+      margin-left: 10px;
+  }
+  &__cancel-btn:hover{
+      border: 1px solid $danger-color;
+      color:$danger-color;
+  }
+  &__btn{
+      margin-top: 20px;
+  }
+  &__table-data{
+      font-family: $font-regular;
+      font-weight: 600;
+      color: $text-color;
+  
+  }
+  &__table-value{
+      color:$primary_color;
+      font-family:$font-bold;
+      border-radius:3px;
+  }
+  &__start-btn{
+      background-color: $primary_color;
+      color: $whit-color;
+      font-family:$font-bold;
+      border: none;
+      font-size: 15px;
+  }
+  &__dropdown{
+      background-color:$text-color;
+      border-radius:18px;
+      color: $whit-color;
+      font-weight:600;
+      padding: 10px 12px;
+      font-family:$font-bold;
+      margin-left: 5px;
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+      span{
+      position: relative;
+      bottom:4px;
+      }
+  }
+  &__droupdown-menu{
+      position: relative;
+      bottom:4px;
+  }
+  &__droupdown-result{
+      position: relative;
+      bottom:4px;
+  }
+  &__menu-list{
+      color:$text-color;
+      font-family: $font-regular;
+      font-weight:600;
+     
+  }
+  &__mode{
+      display: inline-flex;
+      padding-top:21px;
+  }
+  &__oneway-mode{
+     font-family:$font-bold;
+     padding-right: 5px;
+  }
+  &__hedge-mode{
+     font-family:$font-bold;
+     padding-left: 5px;
+  }
+  &__sell-long-btn:disabled{
+      background-color:#F5F5F5;
+      font-family: $font-bold;
+      width: 100%;
+      border: none;
+  }
+  &__sell-long-btn:enabled{
+      background-color:$btn-sell;
+      width: 100%;
+      border: none;
+  }
+  &__buy-long-btn:disabled{
+      background-color:#F5F5F5;
+      font-family: $font-bold;
+      width: 100%;
+      border: none;
+  }
+  &__buy-long-btn:enabled{
+      background-color:$primary_color;
+      width: 100%;
+      border: none;
+  }
+  &__model-radio-btn{
+      border-radius: 36px;
+  
+  }
+  &__cross-btn{
+      margin-left: 20px;
+      border-radius: 50px;
+      width: 138px;
+      color:$whit-color;
+      background-color:$heading-color;
+      font-family:  $font-regular;
+      font-weight: 500;
+      text-align: center;
+      height: 36px;
+  }
+  
+  &__cross-text{
+      position: relative;
+      top:3px;
+  }
+  &__add-btn{
+   margin-left:30px;
+   background-color: $primary_color;
+   color: $whit-color;
+   font-family: $font-bold;
+   border: none;
+  }
+  &__delete-btn{
+     
+      background-color: $text-color;
+      border: none;
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+  
+  }
+  &__delete-icon{
+      position: relative;
+      bottom: 6px;
+      right: 10px;
+  }
+  &__experied{
+      background-color: $text-color;
+      color: $whit-color;
+      font-family: $font-bold;
+      border: none;
+  }
+  &__drop-addtarget{
+      background-color:$text-color;
+      border-radius:18px;
+      color: $whit-color;
+      font-weight:600;
+      padding: 9px 6px;
+      font-family:$font-bold;
+      margin-left: 5px;
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+    
+  }
+  &__downarrow-icon{
+      position: relative;
+      right: 10px;
+  }
+  &__input-box-model{
+      height: 30px;
+  }
+  &__quantity-txt{
+      font-family: $font-bold;
+      color: $text-color;
+      padding-top: 10px;
+      margin-bottom: 5px;
+  }
+  &__stop-loss{
+      color: $text-color;
+      font-family: $font-bold;
+  }
+  &__stop-input{
+      margin-top: 15px;
+  }
+  &__leverage-txt{
+      color: $text-color;
+      font-family: $font-bold;
+  }
+  &__leverage-line{
+      margin-top: 15px;
+  }
+  &__value{
+      font-family:$font-regular;
+      font-size: 1rem;
+      font-weight: 600;
+  }
+  &__position-input{
+      margin-top: 30px;
+  }
+  &__limit-btn-model{
+      border-radius:18px;
+      font-family: $font-regular;
+      color:$whit-color;
+      font-weight: 500;
+      background-color:$heading-color;
+      }
+      &__market-btn-model{
+          margin-left: 8px;
+         border-radius: 18px;
+         color:$whit-color;
+         background-color:$heading-color;
+         font-family:  $font-regular;
+         font-weight: 500;
+      }
+      &__stop-btn-model{
+         margin-left: 8px;
+      border-radius: 18px;
+      color:$whit-color;
+      background-color:$heading-color;
+      font-family:  $font-regular;
+      font-weight: 500;
+     }
+     &__long-btn{
+      border-radius:18px;
+      font-family: $font-regular;
+      color:$whit-color;
+      font-weight: 500;
+      background-color:$heading-color;
+      }
+      &__both-btn{
+          margin-left: 8px;
+         border-radius: 18px;
+         color:$whit-color;
+         background-color:$heading-color;
+         font-family:  $font-regular;
+         font-weight: 500;
+      }
+      &__short-btn{
+         margin-left: 8px;
+      border-radius: 18px;
+      color:$whit-color;
+      background-color:$heading-color;
+      font-family:  $font-regular;
+      font-weight: 500;
+     }
+     &__model-btn {
+      margin-top: 35px;
+    }
+    &__next-btn {
+      background-color: #f5f5f5;
+      border: 1px solid #e1e1e1;
+      color: #cecece;
+      font-size: 16px;
+      height: 36px;
+      font-weight: 500;
+      font-family: $font-bold;
+      width: 85px;
+    }
+    &__next-btn:hover {
+       background-color: $text-color;
+      border: 1px solid $text-color;
+      color: $whit-color;
+      font-size: 16px;
+      height: 36px;
+      font-weight: 500;
+      font-family:  $font-bold;
+    }
+    &__next-btn:enabled {
+      background-color: $text-color;
+     border: 1px solid$text-color;
+     color:  $whit-color;
+     font-size: 16px;
+     height: 36px;
+     font-weight: 500;
+     font-family:  $font-bold;
+   }
+    &__cancel-btn {
+      margin-left: 10px;
+      background-color: $whit-color;
+      border: 1px solid #878f9d;
+      color: $text-color;
+      font-size: 16px;
+      height: 36px;
+      font-family: $font-bold;
+    }
+    &__cancel-btn:hover {
+      background-color:  $whit-color;
+      border: 1px solid $danger-color;
+      color: $danger-color;
+      font-family:  $font-bold;
+    }
+    &__edit-model-title{
+        font-family: $font-bold;
+        margin-bottom: 5px;
+    }
+    &__btc-txt{
+      font-family: $font-bold;
+      font-size: 14px;
+      color: #878f9d;
+    }
+    &__table-data{
+      font-family: $font-bold;
+      color: $text-color;
+    }
+    &__history {
+      float: right;
+      background-color: #22d1d4;
+      border:none;
+      font-family: $font-bold;
+    }
+    &__txt-box{
+      font-family:$font-bold;
+    }
+    &__addbot {
+      float: right;
+      background-color: $primary_color;
+      border: 1px solid $primary_color;
+      font-weight: 500;
+      font-family: "GoogleSans-Bold";
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      top: 30px;
+      padding: 0 20px;
+      color: $whit-color;
+      left: 91.5%;
+      font-size: 16px;
+      height: 36px;
+    }
+    &__table-box{
+        // overflow-x: scroll;
+        // min-width: 100%;
+        width: 100%;
+    }
+}
+.add-isolated-btn {
+    color: #22d1d4!important;
+    border: 1px solid #22d1d4;
+    width: 27px;
+    height: 29px;
+}
+.profit-color {
+    color: #22d1d4!important;
+}
+.loss-color{
+    color: #f72a63;
+}
+.table-head{
+    th{
+        width: 300px !important;
+    }
+}
+#buy-tab1{
+    border-right: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+#buy-tab2{
+    border-right: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.stop-radio-group{
+    font-size: $font-bold;
+}
+.stop-warning {
+    background-color: #f72a63;
+    color: $whit-color;
+    font-family: $font-bold;
+    border: none;
+    padding: 4px 16px;
+    width: 85px;
+  }
+  
+  .start-success {
+    background-color:$primary_color;
+    color: $whit-color;
+    font-family: $font-bold;
+    border: none;
+    padding: 4px 16px;
+    width: 85px;
+
+  }
+  .target-input{
+      border-radius: 50px;
+      height: 35px;
+  }
+  .target-txt{
+      padding-left: 30px;
+  }
+  .profit-color {
+    color: #22d1d4 !important;
+  }
+  .loss-color {
+    color: #f72a63 !important;
+  }
+  .add-isolated-btn{
+    color: #22d1d4 !important;
+    border:1px solid #22d1d4;
+  }
+  .marign-tab{
+    margin: 0 32px 0 0;
+    padding: 12px 16px;
+  }
+  .editbot-modal{
+    padding: 22px 30px 30px;
+  }
+//   .price_bg{
+//       background-color: #ffe1e9;
+//       color: #f72a63;
+//       border:none;
+//   }
+//   .price_up-bg{
+//     background-color: #c6f7fa;
+//     color: #22d1d4;
+//     border:none;
+// }
+  .close_price_input{
+    border: 1px solid #f0f0f0;
+    background: #ffffff;
+    color: var(--text-color);
+    border-radius: 30px;
+    height: 36px;
+    max-width: 100px;
+    min-width: 100px;
+    line-height: 36px;
+    text-align: center;
+  }
+  .price_bg {
+    color: #f73168 !important;
+    background: #ffe1e9 !important;
+    border-radius: 5px !important;
+    font-family: $font-bold;
+    border: none !important;
+    padding: 5px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px !important;
+  }
+  .price_up-bg {
+    color:#4bd2da !important;
+    background: #c6f7fa !important;
+    border-radius: 5px !important;
+    font-family: $font-bold;
+    border: none !important;
+    padding: 5px !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px !important;
+  }
+  .page-btn{
+    margin-left: 78%;
+    margin-top:2%;
+    display: inline-flex;
+  }
+  .trade-preview-btn{
+      border: none !important;
+      outline: none !important;
+      background-color:#CCCDCD;
+      box-shadow: none !important;
+      padding: 1px 9px;
+      font-weight: 700;
+      font-size: 23px;
+      border-radius: 50%;
+      img{
+          position: relative;
+          bottom: 3px;
+      }
+  }
+  .trade-next-btn{
+    border: none !important;
+    outline: none !important;
+    background-color:#CCCDCD;
+    box-shadow: none !important;
+    margin-left: 10px;
+    padding: 1px 9px;
+    font-weight: 700;
+    font-size: 23px;
+    border-radius: 50%;
+    img{
+        position: relative;
+        bottom: 3px;
+    }
+  }
+  .result-data{
+    font-family:$font-bold;   
+    margin-top: 12px;
+    padding-right: 10px;
+  }
+  .position-table{
+    //   table{
+
+      th{
+          width:200px !important;
+      }
+      td{
+          width:200px;
+      }
+    // }
+    
+  }
+  .data-btn{
+    width:300px !important;
+  }
+.no-data-available{
+    text-align: center;
+    margin:3% 0%;
+}
+.downarrow{
+    position: relative;
+    bottom: 5px;
+}
+.fx-chart{
+    padding-top:1%;
+}
+.pagenation{
+    float: right;
+}
+.buylong-btn{
+    text-align: center;
+    margin-top: 20px;
+    justify-content:space-between;
+}
+.buy-long{
+    color: #fff;
+    background-color: #00bcc7;
+    border: #00bcc7;
+    font-family: $font-bold;
+    margin-right: 5px;
+    padding: 5.4px 6px;
+}
+.sell-long{
+    color: #fff;
+    background-color:#f72a63;
+    border: #f72a63;
+    font-family: $font-bold;
+    padding: 5.4px 6px;
+}
+.sell-long:disabled{
+    background-color:#F5F5F5;
+    font-family: $font-bold;
+   
+    border: none;
+}
+.buy-long:disabled{
+    background-color:#F5F5F5;
+    font-family: $font-bold;
+    border: none;
+}
+.color-red{
+    color:rgb(253, 7, 7);
+ }
+ .error-txt{
+    color:rgb(253, 7, 7);
+ }
+ .modal-title{
+    color: #383838;
+    font-family: "GoogleSans-Bold";
+  }
+  .model-subpara{
+    color: #383838;
+    font-family: "OpenSans-SemiBold";
+    margin-top:10px;
+  }
+  .model-btn{
+      margin-top: 15px;
+  }
+  .data-btn{
+      min-width:200px;
+  }
+  .data-btn1{
+    min-width:100;
+}
+@media (min-width:900px) and (max-width:1440px){
+    .future{
+        &__table-box{
+            overflow-x: scroll;
+            min-width: 100%;
+        }
+    }
+  
+}

@@ -1,0 +1,9 @@
+<nz-layout>
+    <nz-header><app-header></app-header></nz-header>
+    <nz-layout>
+      <nz-sider  nzCollapsible nzBreakpoint="lg" [nzCollapsedWidth]="0" class="side-nav" id="sideNav"><app-sidenav (valueChange)='closeNav()'></app-sidenav></nz-sider>
+      <nz-content class="content-layout"><router-outlet></router-outlet></nz-content>
+    </nz-layout>
+    <nz-footer><app-footer></app-footer></nz-footer>
+</nz-layout>
+

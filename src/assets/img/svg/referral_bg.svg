@@ -1,0 +1,32 @@
+<svg id="Group_10" data-name="Group 10" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="825" height="364" viewBox="0 0 825 364">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Mask" width="825" height="364" rx="10" transform="translate(0 0)" fill="#383838"/>
+    </clipPath>
+  </defs>
+  <g id="Group_21" data-name="Group 21">
+    <path id="Mask-2" data-name="Mask" d="M10,0H815a10,10,0,0,1,10,10V354a10,10,0,0,1-10,10H10A10,10,0,0,1,0,354V10A10,10,0,0,1,10,0Z" transform="translate(0 0)" fill="#37353d"/>
+    <g id="Group_21-2" data-name="Group 21" clip-path="url(#clip-path)">
+      <g id="Group_21-3" data-name="Group 21" transform="translate(642)" opacity="0.22">
+        <path id="Fill_1" data-name="Fill 1" d="M15.87,30.9A124.593,124.593,0,0,0,0,54.915L54.915,0A123.918,123.918,0,0,0,15.87,30.9" transform="translate(13.363 13.299)" fill="#504d58"/>
+        <path id="Fill_3" data-name="Fill 3" d="M100.774,2.184,2.158,100.8A124.521,124.521,0,0,0,0,120.541L120.547,0a125.041,125.041,0,0,0-19.773,2.184" transform="translate(0.056 0.055)" fill="#504d58"/>
+        <path id="Fill_5" data-name="Fill 5" d="M139.927,0,0,139.925a124.741,124.741,0,0,0,2.918,14.662L154.638,2.869A124.153,124.153,0,0,0,139.927,0" transform="translate(1.105 1.13)" fill="#504d58"/>
+        <path id="Fill_7" data-name="Fill 7" d="M162.429,0,0,162.428a123.75,123.75,0,0,0,5.677,11.914L174.345,5.678A123.66,123.66,0,0,0,162.429,0" transform="translate(9.406 9.401)" fill="#504d58"/>
+        <path id="Fill_9" data-name="Fill 9" d="M181.088,5.831c-2.453-2.066-4.98-3.986-7.54-5.831L0,173.547a123.454,123.454,0,0,0,7.821,9.768l175.5-175.5c-.747-.66-1.47-1.338-2.237-1.983" transform="translate(23.362 23.411)" fill="#504d58"/>
+        <path id="Fill_11" data-name="Fill 11" d="M2.232,177.484c2.455,2.069,4.984,3.989,7.547,5.836L183.323,9.768A123.471,123.471,0,0,0,175.5,0L0,175.506c.746.658,1.466,1.335,2.232,1.979" transform="translate(41.956 41.941)" fill="#504d58"/>
+        <path id="Fill_13" data-name="Fill 13" d="M11.912,174.346,174.342,11.917A123.622,123.622,0,0,0,168.665,0L0,168.669a123.441,123.441,0,0,0,11.912,5.677" transform="translate(64.893 64.923)" fill="#504d58"/>
+        <path id="Fill_15" data-name="Fill 15" d="M14.716,154.583,154.64,14.661A124.6,124.6,0,0,0,151.722,0L0,151.715a123.938,123.938,0,0,0,14.716,2.869" transform="translate(92.899 92.956)" fill="#504d58"/>
+        <path id="Fill_17" data-name="Fill 17" d="M19.767,118.371,118.393,19.75A124.515,124.515,0,0,0,120.551,0L0,120.552a125.115,125.115,0,0,0,19.767-2.181" transform="translate(128.034 128.061)" fill="#504d58"/>
+        <path id="Fill_19" data-name="Fill 19" d="M39.056,24.02A124.638,124.638,0,0,0,54.925,0L0,54.925A123.927,123.927,0,0,0,39.056,24.02" transform="translate(180.356 180.447)" fill="#504d58"/>
+      </g>
+    </g>
+  </g>
+  <g id="Group_3" data-name="Group 3" transform="matrix(0.875, -0.485, 0.485, 0.875, 285.711, 151.487)" opacity="0.22">
+    <path id="Fill_1-2" data-name="Fill 1" d="M84.923,147.091,42.464,73.546,0,0H169.846L127.384,73.546Z" transform="translate(0 0)" fill="#504d58"/>
+  </g>
+  <g id="Group_3_Copy_3" data-name="Group 3 Copy 3" transform="matrix(0.875, -0.485, 0.485, 0.875, 239.996, 207.874)" opacity="0.22">
+    <path id="Fill_1-3" data-name="Fill 1" d="M30.412,52.675l-15.2-26.337L0,0H60.823L45.617,26.337Z" transform="translate(197.931 228.821)" fill="#504d58"/>
+    <path id="Fill_1_Copy" data-name="Fill 1 Copy" d="M10.97,19,5.485,9.5,0,0H21.939L16.454,9.5Z" transform="translate(0.038 125.854)" fill="#504d58"/>
+    <path id="Fill_1_Copy_2" data-name="Fill 1 Copy 2" d="M10.97,19,5.485,9.5,0,0H21.939L16.454,9.5Z" transform="translate(301.176 0.742)" fill="#504d58"/>
+  </g>
+</svg>

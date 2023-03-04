@@ -1,0 +1,475 @@
+<div id="main-layout4">
+  <div class="container-fluid">
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="security">
+          <div class="main-heading">
+            <h4 class="sec-head">Coupon</h4>
+            <button nz-button class="top-btn" (click)="showModal()">
+              <img src="../../../../assets/img/tag.svg" height="20px">Add Coupon</button>
+          </div>
+
+          <div class="tabset-coupon">
+            <div class="box1">
+              <div class="main-heading">
+                <h4 class="sec-head">Count : {{listCount}}</h4>
+              </div>
+              <div class="main-tab-content">
+                <div class="tab-content">
+                  <label class="show">Show</label>
+                  <nz-select ngModel="value" id="select-box1" [nzPlaceHolder]='10' (ngModelChange)="change($event)">
+                    <nz-option nzValue="10" nzLabel="10"></nz-option>
+                    <nz-option nzValue="25" nzLabel="25"></nz-option>
+                    <nz-option nzValue="50" nzLabel="50"></nz-option>
+                    <nz-option nzValue="100" nzLabel="100"></nz-option>
+                  </nz-select>
+                  <label class="show">entries</label>
+                </div>
+                <div class="search-box">
+                  <!-- <input class="input-item" placeholder="Search" nz-input type="text" /> -->
+                  <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input nz-input placeholder="Search by name or email" [(ngModel)]="searchTxt" (ngModelChange)="serarchCoupon()" (keyup.enter)="getCoupanList(1,pageSize)"/>
+                    <!-- <button (click)="getAllUser(1,pageSize)"></button>  -->
+                  </nz-input-group>
+                    <ng-template #suffixIconSearch>
+                      <i nz-icon nzType="search" (click)="getCoupanList(1,pageSize)"></i>
+                    </ng-template>
+                </div>
+              </div>
+              <nz-table #basicTable [nzData]="listOfData" id="first-table4">
+                <thead>
+                  <tr>
+                    <th>S.no</th>
+                    <th>Created</th>
+                    <th>Coupon Code</th>
+                    <th>Description</th>
+                    <th>Discount</th>
+                    <th>Limit</th>
+                    <th>Used</th>
+                    <th>Expiry</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+              
+                <tbody *ngIf="!isTableLoading">
+                  <tr *ngFor="let data of listOfData ;index as i">
+                    <td>{{10*pageIndex+(i+1)-10}}</td>
+                    <td>{{ data.createdAt | date:"short"}}</td>
+                    <td class="add-access">{{ data.coupon }}</td>
+                    <td>{{ data.description }}</td>
+                    <td>{{ data.discount }}</td>
+                    <td>{{ data.limit }}</td>
+                    <td>{{ data.used?data.used:0}}</td>
+                    <td>{{ data.expiry | date:"short"}}</td>
+                    <td *ngIf="data.status"><span class="text-success"><img
+                          src="../../../../assets/img/check-circle.svg" height="18px"></span></td>
+                    <td *ngIf="!data.status"><span class="text-success"><img src="../../../../assets/img/x-circle.svg"
+                          height="18px"></span></td>
+                    <td><span class="major">
+                        <img src="../../../../assets/img/slash.svg" height="18px" class="show-modal"
+                          (click)="editCouponStatus(data)" title="Status" >
+                        <img src="../../../../assets/img/edit.svg" height="18px" (click)="showModal2(data._id)"
+                          class="show-modal" title="Edit">
+                        <img src="../../../../assets/img/share.svg" height="18px" class="show-modals" title="Share" (click)="showSendCouponModal(data)">
+                        <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals" nz-button title="Delete"
+                          nzSize="large" nzShape="round" class="authorize__remove-btn" nz-popconfirm
+                          nzPopconfirmTitle="Are you sure you want to delete?" nzOkType="danger" nzOkText="Yes"
+                          nzCancelText="No" (nzOnConfirm)="deleteCoupan(data._id)">
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+              <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+              <div class="page-btm">
+                <nz-pagination [nzTotal]="listCount" class="page" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                  (nzPageIndexChange)="getCoupanList(pageIndex,pageSize)" [nzPageIndex]="1" [nzTotal]="50" class="page">
+                </nz-pagination>
+              </div>
+            </div>
+
+
+            <!-- 
+            <nz-tab nzTitle="Expired">
+              <div class="box2">
+                <div class="main-heading">
+                  <h4 class="sec-head">Count : 3</h4>
+                </div>
+                <div class="main-tab-content">
+                  <div class="tab-content">
+                    <label class="show">Show</label>
+                    <nz-select ngModel="value" id="select-box2" [nzPlaceHolder]='10'>
+                      <nz-option nzValue="10" nzLabel="10"></nz-option>
+                      <nz-option nzValue="25" nzLabel="25"></nz-option>
+                      <nz-option nzValue="50" nzLabel="50"></nz-option>
+                      <nz-option nzValue="100" nzLabel="100"></nz-option>
+                    </nz-select>
+                    <label class="show">entries</label>
+                  </div>
+                  <div class="search-box">
+                    <input class="input-item" placeholder="Search" nz-input type="text" />
+                  </div>
+                </div>
+                <nz-table #basicTable [nzData]="listOfData" id="first-table5">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th>Created</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Discount</th>
+                      <th>Limit</th>
+                      <th>Used</th>
+                      <th>Expiry</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                      <td>{{ data.name }}</td>
+                      <td>{{ data.age }}</td>
+                      <td>{{ data.coupon }}</td>
+                      <td>{{ data.key }}</td>
+                      <td>{{ data.name }}</td>
+                      <td>{{ data.age }}</td>
+                      <td>{{ data.address }}</td>
+                      <td>{{ data.address }}</td>
+                      <td><span class="text-success"><img src="../../../../assets/img/check-circle.svg"
+                            height="18px"></span></td>
+                      <td><span class="major">
+                          <img src="../../../../assets/img/slash.svg" height="18px" class="show-modal">
+                          <img src="../../../../assets/img/edit.svg" height="18px" (click)="showModal3()"
+                            class="show-modal">
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+                <div class="page-btm">
+                  <nz-pagination *ngIf="listOfData.length > 0" [nzTotal]="listCount" class="page"
+                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                    (nzPageIndexChange)="getCoupanList(pageIndex,pageSize)"></nz-pagination>
+                </div>
+              </div>
+            </nz-tab> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="addFooter"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Create Coupon</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="addCoupan">
+          <nz-form-item class="form-elements">
+            <label class="form-label">Coupon Code</label>
+            <nz-form-control>
+              <input nz-input name="name" type="text" id="email9" formControlName="name">
+              <div *ngIf="f.name?.touched && f.name?.invalid || f.name?.dirty">
+                <p *ngIf="f.name.errors?.required" class="form-error">Coupon Code is required</p>
+                <p *ngIf="f.name.errors?.maxlength" class="form-error">Maximum of 15 Characters is allowed</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="big-area-txt">
+            <label class="form-label">Description</label>
+            <nz-form-control>
+              <textarea rows="3" nz-input class="mail" formControlName="description"></textarea>
+              <div *ngIf="f.description?.touched && f.description?.invalid || f.description?.dirty">
+                <p *ngIf="f.description.errors?.required" class="form-error">Description is required</p>
+                <p *ngIf="f.description.errors?.maxlength" class="form-error">Maximum of 200 Characters is allowed</p>
+              </div>
+            </nz-form-control>
+          </div>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Discount</label>
+            <nz-form-control>
+              <input nz-input name="Discount" type="number" id="email" formControlName="discount">
+              <div *ngIf="f.discount?.touched && f.discount?.invalid || f.discount?.dirty">
+                <p *ngIf="f.discount.errors?.required" class="form-error">Discount is required</p>
+                <p *ngIf="f.discount.errors?.pattern" class="form-error">Discount Cannot Be More Than 100</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Limit</label>
+            <nz-form-control>
+              <input nz-input name="limit" type="number" id="email" formControlName="limit">
+              <div *ngIf="f.limit?.touched && f.limit?.invalid || f.limit.dirty">
+                <p *ngIf="f.limit.errors?.required" class="form-error">Limit is required</p>
+                <p *ngIf="f.limit.errors?.min" class="form-error">Enter minimum of 1</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Expiry</label>
+            <nz-form-control>
+              <nz-date-picker (ngModelChange)="onChange($event)" class="date-pick" formControlName="expiry"  [nzDisabledDate]="disabledDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #addFooter>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [nzLoading]="isAddCouponLoad" [disabled]="!addCoupan.valid" (click)="coupanAdd()">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+    </div>
+  </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isVisible2" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Edit Active Coupon</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="editCoupan">
+          <nz-form-item class="form-elements">
+            <label class="form-label">Name</label>
+            <nz-form-control>
+              <input nz-input name="password" type="text" id="email9" [value]="name" formControlName="name">
+              <div *ngIf="EditCouponForm.name?.touched && EditCouponForm.name?.invalid || EditCouponForm.name?.dirty">
+                <p *ngIf="EditCouponForm.name.errors?.required" class="form-error">Name is required</p>
+                <p *ngIf="EditCouponForm.name.errors?.maxlength" class="form-error">Maximum of 15 Characters is allowed
+                </p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="big-area-txt">
+            <label class="form-label">Description</label>
+            <nz-form-control>
+              <textarea rows="3" nz-input class="mail" [value]="description" formControlName="description"></textarea>
+              <div
+                *ngIf="EditCouponForm.description?.touched && EditCouponForm.description?.invalid || EditCouponForm.description?.dirty">
+                <p *ngIf="EditCouponForm.description.errors?.required" class="form-error">Description is required</p>
+                <p *ngIf="EditCouponForm.description.errors?.maxlength" class="form-error">Maximum of 200 Characters is
+                  allowed</p>
+              </div>
+            </nz-form-control>
+          </div>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Discount</label>
+            <nz-form-control>
+              <input nz-input name="email" type="number" id="email" [value]="discount" formControlName="discount">
+              <div *ngIf="EditCouponForm.discount?.touched && EditCouponForm.discount?.invalid">
+                <p *ngIf="EditCouponForm.discount.errors?.required" class="form-error">Discount is required</p>
+                <p *ngIf="EditCouponForm.discount.errors?.pattern" class="form-error">Discount Cannot Be More Than 100
+                </p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Limit</label>
+            <nz-form-control>
+              <input nz-input name="email" type="number" id="email" [value]="limit" formControlName="limit">
+              <div *ngIf="EditCouponForm.limit?.touched && EditCouponForm.limit?.invalid || EditCouponForm.limit.dirty">
+                <p *ngIf="EditCouponForm.limit.errors?.required" class="form-error">Limit is required</p>
+                <p *ngIf="EditCouponForm.limit.errors?.min" class="form-error">Enter minimum of 1</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Expiry</label>
+            <nz-form-control>
+              <nz-date-picker (ngModelChange)="onChange($event)" class="date-pick" formControlName="expiry"  [nzDisabledDate]="disabledDate">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [nzLoading]="isEditCouponLoad" [disabled]="editCoupan.pristine || !editCoupan.valid"
+        (click)="editCouponForm()">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+    </div>
+  </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isVisible3" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Edit Expire Coupon</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form">
+          <nz-form-item class="form-elements">
+            <label class="form-label">Name</label>
+            <nz-form-control>
+              <input nz-input name="password" type="password" id="email9">
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="big-area-txt">
+            <label class="form-label">Description</label>
+            <nz-form-control>
+              <textarea rows="3" nz-input class="mail"></textarea>
+            </nz-form-control>
+          </div>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Discount</label>
+            <nz-form-control>
+              <input nz-input name="email" type="email" id="email">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Limit</label>
+            <nz-form-control>
+              <input nz-input name="email" type="email" id="email">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Expiry</label>
+            <nz-form-control>
+              <nz-date-picker (ngModelChange)="onChange($event)" class="date-pick"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm">Submit</button>
+      <button nz-button class="foot-cancel">Cancel</button>
+    </div>
+  </ng-template>
+</nz-modal>
+
+<!-- send coupon -->
+<nz-modal [(nzVisible)]="couponSendVisible" (nzOnCancel)="handleCancel()" [nzFooter]="couponmodalFooter"
+ [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+ <ng-container *nzModalContent>
+  <div nz-row class="brdr-btm">
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <h2 class="title">Send Notification</h2>
+   </div>
+  </div>
+  <div nz-row>
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <form nz-form class="coupon-model" [formGroup] = "notifyForm">
+
+      <nz-form-item class="form-elements">
+        <nz-form-control>
+          <label class="form-label">Type</label>
+          <nz-select  placeholder="Select" [(ngModel)]="type"  formControlName="type" (ngModelChange)="typechange(type)">
+            <nz-option nzValue="ALL" nzLabel="All"></nz-option>
+            <nz-option nzValue="CUSTOM-USER" nzLabel="Custom"></nz-option>
+            <nz-option nzValue="SUBSCRIBER" nzLabel="Subscribers"></nz-option>
+            <nz-option nzValue="BOT-SIGNAL" nzLabel="Signal"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-elements">
+        <nz-form-control>
+          <label class="form-label">NotificationType</label>
+          <nz-select  placeholder="Select" formControlName="notifytype">
+            <nz-option nzValue="PUSH" nzLabel="Push"></nz-option>
+            <nz-option nzValue="MAIL" nzLabel="Mail"></nz-option>
+             </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div *ngIf="type == 'CUSTOM-USER'">
+      <nz-form-item class="form-elements" *ngFor="let userctrl of userlistOfControl;let i = index" >
+        <nz-form-control>
+          <nz-form-label *ngIf="i == 0" [nzFor]="userctrl.userlistOfControl">User
+          </nz-form-label>
+          <input nzSize="large" nz-input
+              [attr.id]="userctrl.id"  [formControlName]="userctrl.controlInstance" placeholder="xyz@gmail.com"/>
+          <!-- <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+              (click)="removeField(sizectrl, $event)"></i> -->
+        </nz-form-control>
+       </nz-form-item>
+          <button nz-button (click)="addUserControl()">Add</button>
+    
+    </div>
+
+    <nz-form-item class="form-elements" *ngIf="type == 'BOT-SIGNAL'">
+      <nz-form-control>
+        <label class="form-label">Signal Type</label>
+        <nz-select  placeholder="Select" [(ngModel)]="botType" (ngModelChange)="getBotList(botType)" [ngModelOptions]="{standalone: true}">
+          <nz-option nzValue="SPOT" nzLabel="Smart Trade"></nz-option>
+          <nz-option nzValue="FX" nzLabel="Nexfolio FX"></nz-option>
+           </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+      <nz-form-item class="form-elements" *ngIf="type == 'BOT-SIGNAL'">
+        <nz-form-control>
+          <label class="form-label">Signal</label>
+          <nz-select  placeholder="Select" formControlName="signallist">
+            <nz-option [nzValue]="data._id" [nzLabel]="data.symbol" *ngFor="let data of botlistData"></nz-option>
+           </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+     <nz-form-item class="form-elements">
+       <nz-form-control>
+        <label class="form-label">Title</label>
+       <input nz-input type="text" formControlName="title">
+      </nz-form-control>
+     </nz-form-item>
+    <div class="big-area-txt">
+      <nz-form-item class="form-elements">
+       <nz-form-control>
+        <label class="form-label labels">Message</label>
+       <textarea rows="3" nz-input class="mail"  formControlName="message"></textarea>
+      </nz-form-control>
+      </nz-form-item>
+     </div>
+
+    </form>
+   </div>
+  </div>
+ </ng-container>
+ <ng-template #couponmodalFooter>
+  <div class="modal-footer-upd">
+   <button nz-button class="foot-confirm" (click)="sendNotificaton()" [disabled]="notifyForm.invalid" [nzLoading]="isLoading">Submit</button>
+   <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+  </div>
+ </ng-template>
+</nz-modal>

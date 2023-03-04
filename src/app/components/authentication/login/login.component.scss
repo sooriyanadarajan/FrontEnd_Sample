@@ -1,0 +1,206 @@
+$main-color:#00bcc7;
+$main-color1:#ffffff;
+$main-color5:#f72a63;
+
+.main{
+ height: 100vh;
+ display: flex;
+ align-items: center;
+ .login-form-main{
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0px 8px 24px -4px rgb(1 1 1 / 15%);
+    background: #fff;
+    .left-side{
+     background-color: $main-color;
+     .left-side1{
+      padding: 155px 30px 40px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .welcome-text{
+       color:$main-color1;
+       font-size:20px;
+       font-weight: 500;
+       margin-bottom: 10px;
+       font-family: "GoogleSans-Light";
+      }
+      .copy-text{
+       font-size: 14px;
+       color:$main-color1;
+       font-family: "GoogleSans-Regular";
+      }
+     }
+    }
+    .login-details{
+     padding: 25px;
+     .img-banner{
+      text-align: center;
+      line-height: 65px;
+      .logo-font{
+       font-weight: 500;
+       font-size: 18px;
+       font-family: "GoogleSans-Light";
+      }
+     }
+     .login-form{
+      .form-item{
+       margin-bottom: 18px;
+       .auth-label{
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-family: "GoogleSans-Light";
+       }
+       .input-box{
+        height: 40px;
+        border-radius: 5px;
+       }
+      }
+      .button-login{
+       line-height: 50px;
+       .last-space{
+        display: flex;
+        justify-content: space-between;
+        .login-form-forgot{
+         color: $main-color;
+         font-family: "GoogleSans-Light";
+        }
+       }
+       .login-form-button{
+        width: 100%;
+        height: 40px;
+        background-color: $main-color;
+        border-radius: 5px;
+        border: none;
+        outline: 0;
+        cursor: pointer;
+        .btn-text{
+         color: $main-color1;
+         font-size: 16px;
+         font-weight: 500;
+         text-transform: uppercase;
+         font-family: "GoogleSans-Light";
+        }
+       }
+
+       .login-form-button:disabled{
+        width: 100%;
+        height: 40px;
+        background-color: $main-color;
+        border-radius: 5px;
+        border: none;
+        outline: 0;
+        cursor: not-allowed;
+        .btn-text{
+         color: $main-color1;
+         font-size: 16px;
+         font-weight: 500;
+         text-transform: uppercase;
+         font-family: "GoogleSans-Light";
+        }
+       }
+
+       .login-form-button1{
+        width: 100%;
+        height: 40px;
+        background-color: $main-color;
+        border-radius: 5px;
+        border: none;
+        outline: 0;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .btn-text{
+         color: $main-color1;
+         font-size: 16px;
+         font-weight: 500;
+         text-transform: uppercase;
+         font-family: "GoogleSans-Light";
+        }
+       }
+      }
+     }
+    }
+
+  }
+}
+.main-form{
+  padding: 0px 20px;
+  .form-elements{
+      display: flex;
+      // flex-direction: column;
+      span{
+       font-size: 16px;
+       padding-right: 12px;
+       font-weight: 500;
+      }
+      ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+          height: 38px;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+      }
+   .form-label{
+          float: left;
+          font-size: 16px;
+          margin-bottom: 10px;
+          font-family: "GoogleSans-Regular";
+          padding-top: 25px;
+      }
+      .form-label1{
+          text-align: center;
+          font-size: 14px;
+          margin-bottom: 10px;
+          font-family: "GoogleSans-Regular";
+          padding-top: 25px;
+      }
+      input{
+          padding: 7px 7px;
+          border-radius: 5px;
+      }
+     
+      .mail{
+          padding: 7px 7px;
+          border-radius: 5px;
+      }
+  }
+}
+  .modal-footer-upd{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+   .foot-cancel{
+   background-color: $main-color1;
+   border: 1px solid #383838;
+   color: #383838;
+   font-family: "GoogleSans-Light";
+   border-radius: 25px;
+   height: 40px;
+   width: 100%;
+   &:hover{
+    border-color: $main-color5;
+    color:$main-color5;
+   }
+   }
+   .foot-confirm{
+    background-color: $main-color;
+    color:$main-color1;
+    font-size: 14px;
+    font-family: "GoogleSans-Light";
+    border-radius: 25px;
+    border: 1px solid $main-color;
+    height: 40px;
+    width: 100%;
+    margin-right: 15px;
+   }
+   }
+  // ::ng-deep .ant-modal-close{
+  //   display: none;
+  //   }
+  //   ::ng-deep .ant-modal-body{
+  //     padding: 0px;
+  //   }

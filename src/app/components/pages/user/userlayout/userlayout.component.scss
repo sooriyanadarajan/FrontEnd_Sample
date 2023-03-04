@@ -1,0 +1,84 @@
+.userlayout{
+   
+    &__list{
+        display: flex;
+        list-style: none;
+         width: 100%;
+         font-family: "GoogleSans-Light";
+         color:#687383;
+         font-size: 16px;
+         margin-bottom: 0px;
+         cursor: pointer;
+         justify-content: space-around;
+         align-items: center;
+         padding-left: 0;
+         li{
+            outline: none;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            img{
+                padding-right: 8px;
+            }
+            span{
+                display: flex;
+            }
+         }
+
+     }
+    &__user-view{
+        font-size:18px;
+        color: #00bcc7;
+    }
+    &__wallet-icon{
+        margin-top: -7%;
+    }
+    &__wallet-txt{
+        position: relative;
+        bottom: 0px;
+    }
+}
+@media (min-width: 900px) and (max-width: 1440px) {
+    .userlayout{
+        &__list{
+            overflow:auto;
+            padding-left:0px;
+            justify-content: end;
+            li {
+                padding: 0 4px;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                img{
+                    padding-right: 15px;
+                }
+            }
+    }
+    }
+}
+@media (min-width: 320px) and (max-width: 899px) {
+    .userlayout{
+        &__list{
+            overflow:auto;
+            padding-left:0px;
+            justify-content: end;
+            li {
+                padding: 0 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 100%;
+                img{
+                    padding-right: 15px;
+                }
+            }
+    }
+    }
+}
+.list-active{
+ color: #00bcc7;
+}
+.list-inactive{
+    color:#687383;
+}

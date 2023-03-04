@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="36" viewBox="0 0 36 36">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Shape" d="M12.016,16.511,6.667,12.691,1.318,16.511A.833.833,0,0,1,0,15.833V2.5A2.5,2.5,0,0,1,2.5,0h8.333a2.5,2.5,0,0,1,2.5,2.5V15.833a.834.834,0,0,1-.836.835A.821.821,0,0,1,12.016,16.511Z"/>
+    </clipPath>
+  </defs>
+  <g id="Group_33" data-name="Group 33" transform="translate(-656 -206)">
+    <circle id="Oval_Copy" data-name="Oval Copy" cx="18" cy="18" r="18" transform="translate(656 206)" fill="#00bcc7"/>
+    <g id="chevron-down_copy" data-name="chevron-down copy" transform="translate(664 214)">
+      <g id="Group_5" data-name="Group 5" transform="translate(3.333 1.667)">
+        <path id="Shape-2" data-name="Shape" d="M12.016,16.511,6.667,12.691,1.318,16.511A.833.833,0,0,1,0,15.833V2.5A2.5,2.5,0,0,1,2.5,0h8.333a2.5,2.5,0,0,1,2.5,2.5V15.833a.834.834,0,0,1-.836.835A.821.821,0,0,1,12.016,16.511Z"/>
+        <g id="Mask_Group_5" data-name="Mask Group 5" clip-path="url(#clip-path)">
+          <g id="COLOR_black" data-name="COLOR/ black" transform="translate(-3.333 -1.667)">
+            <rect id="Rectangle" width="20" height="20" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

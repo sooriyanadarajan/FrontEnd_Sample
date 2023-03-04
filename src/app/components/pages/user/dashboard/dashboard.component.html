@@ -1,0 +1,339 @@
+<app-userlayout></app-userlayout>
+<section class="userdashboard">
+    <div nz-row class="userdashboard__card-box">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="8">
+            <div class="userdashboard__header">
+                <h4 class="userdashboard__title">Profile</h4>
+               
+            </div>
+            <nz-card>
+                <img class="userdashboard__edit-icon"  nz-tooltip nzTooltipTitle="Edit user" (click)="showModal()" src="../../../../../assets/img/adminicon/edit-3.svg" alt="">
+                <div class="userdashboard__profile">
+                    <nz-avatar nzText="{{(userDetailData?.name | slice:0:1) | uppercase}}" [nzSize]="80"></nz-avatar>
+                </div>
+                <div class="userdashboard__list">
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/user-blue.svg"
+                            alt=""> User Name : <span>{{userDetailData?.name}}</span></p>
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/mail-blue.svg"
+                            alt=""> Email : <span>{{userDetailData?.email}}</span></p>
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/calendar.svg"
+                            alt=""> DOB : <span *ngIf="userDetailData?.DOB; else emptyData">{{userDetailData?.DOB | date:'dd/MM/yyyy'}}</span></p>
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/phone.svg"
+                            alt=""> Mobile : <span *ngIf="userDetailData?.mobileNum; else emptyData">{{userDetailData?.mobileNum}}</span></p>
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/map-pin.svg"
+                            alt="">Country : <span *ngIf="userDetailData?.country; else emptyData">{{userDetailData?.country}}</span></p>
+                    <p class="userdashboard__user-list"> <img src="../../../../../assets/img/adminicon/map-pin.svg"
+                            alt="">ZIP Code : <span *ngIf="userDetailData?.zipcode; else emptyData">{{userDetailData?.zipcode}}</span></p>
+                </div>
+            </nz-card>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="16">
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" id="dashbord-select">
+                    <nz-select class="userdashboard__select-txt" [(ngModel)]="dashboardType" nzBorderless
+                        (ngModelChange)="changeDashboardType()" [nzSuffixIcon]="suffixiconchevron">
+                        <nz-option nzLabel="Smart Trade" nzValue="SPOT"></nz-option>
+                        <nz-option nzLabel="Nexfolio FX" nzValue="FX"></nz-option>
+                    </nz-select>
+                    <ng-template #suffixiconchevron>
+                        <img class="userdashboard__dropdown"
+                            src="../../../../../assets/img/adminicon/chevron-down-blue.svg" alt="">
+                    </ng-template>
+
+                </div>
+            </div>
+            <div nz-row>
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard__box">
+                        <div class="userdashboard__card-content mg-lft">
+                            <div>
+                                <h6>Total Return (BTC)</h6>
+                                <h4>{{dailyProfitData?.totalBTC | number: '1.0-6'}}</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard_box mg-lft">
+                        <div class="userdashboard__card-content">
+                            <div>
+                                <h6>Total Return (USDT)</h6>
+                                <h4>{{dailyProfitData?.totalUSDT | number: '1.0-6'}}</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard_box mg-lft">
+                        <div class="userdashboard__card-content">
+                            <div>
+                                <h6>Signal Accuracy</h6>
+                                <h4>{{singalData}} %</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+
+
+            </div>
+            <div nz-row class="userdashboard__card-box1">
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard__box">
+                        <div class="userdashboard__card-content mg-lft">
+                            <div>
+                                <h6>Good Decision</h6>
+                                <h4>{{tradeDecisionData?.goodDecisionCount}}</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard_box mg-lft">
+                        <div class="userdashboard__card-content">
+                            <div>
+                                <h6>Bad Decisions</h6>
+                                <h4>{{tradeDecisionData?.badDecisionCount}}</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                    <nz-card class="userdashboard_box mg-lft">
+                        <div class="userdashboard__card-content">
+                            <div>
+                                <h6>Winning</h6>
+                                <h4>{{tradeDecisionData?.winning ? tradeDecisionData?.winning : '0'}} %</h4>
+                            </div>
+                            <div>
+                                <div class="userdashboard__icon-bg">
+                                    <img src="../../../../assets/img/svg/users.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+
+
+            </div>
+            <h4 class="userdashboard__assets">Top Assets</h4>
+            <div nz-row class="userdashboard__card-box">
+                <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body"
+                    *ngFor="let data of currentAssetList">
+                    <nz-card class="userdashboard__box">
+                        <div class="userdashboard__card-content mg-lft">
+                            <div>
+                                <h6>{{data?.name}}</h6>
+                                <h6>{{data?.free | number:'1.0-3'}} {{data?.coin}}</h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <!-- <img src="../../../../../assets/coins/{{data?.coin}}.svg" alt=""> -->
+                                    <nz-avatar nzSrc="../../../assets/coins/{{data?.coin | lowercase}}.svg"
+                                        [nzText]="data?.coin"></nz-avatar>
+                                </div>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                <!-- <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                        <nz-card class="userdashboard_box">
+                            <div class="userdashboard__card-content">
+                                <div>
+                                    <h6>TetherUS</h6>
+                                    <h6>372.69145558USDT</h6>
+                                </div>
+                                <div>
+                                    <div>
+                                    <img src="../../../../../assets/coins/usdt.svg" alt="">
+                                 </div>
+                                </div>
+                            </div>
+                         </nz-card>
+                    </div> -->
+                <!-- <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="8" nzXl="8" id="card-body">
+                        <nz-card class="userdashboard_box">
+                            <div class="userdashboard__card-content">
+                                <div>
+                                    <h6>Insolar</h6>
+                                    <h6>0.782INS</h6>
+                                </div>
+                                <div>
+                                    <div>
+                                    <img src="../../../../../assets/coins/ins.svg" alt="">
+                                 </div>
+                                </div>
+                            </div>
+                         </nz-card>
+                    </div> -->
+
+
+            </div>
+        </div>
+    </div>
+    <div nz-row >
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="8" class="userdashboard__card-piechart">
+            <nz-card class="userdashboard__pie-card">
+                <h3 class="userdashboard__title">Coin Holding</h3>
+                <nz-empty *ngIf="pieChartData.length == 0 !isTableLoading"  nzNotFoundImage="simple"></nz-empty>
+      
+                <canvas height="10vh" width="20vw" baseChart [data]="pieChartData" [labels]="pieChartLabels"
+                    [chartType]="pieChartType" boxWidth="4" [options]="pieChartOptions" [colors]="piechartColors"
+                    [plugins]="pieChartPlugins" [legend]="pieChartLegend" >
+                  </canvas>
+            </nz-card>
+
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12" nzXl="16" class="userdashboard__card-barchart">
+            <nz-card>
+                <h3 class="userdashboard__title">Daily Profit</h3>
+                <div *ngIf="!GraphData">
+                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+                <canvas *ngIf="GraphData" height="23vh" width="80vw" baseChart [datasets]="barChartData"
+                    [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType">
+                </canvas>
+
+            </nz-card>
+        </div>
+        
+    </div>
+</section>
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzWidth="450px"
+    [nzFooter]="modalFooter">
+    <ng-container *nzModalContent>
+        <h5 class="userdashboard__model-heading">User Details</h5>
+        <form nz-form [formGroup]="updateUserForm">
+            <div id="change-password">
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="usernameErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="email">User Name</nz-form-label>
+                        <input class="userdashboard__label-input" placeholder="User Name" nz-input 
+                            formControlName="username" [ngModel]="userDetailData.name"/>
+                    </nz-form-control>
+                    <ng-template #usernameErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please enter User name
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                            Please enter valid user name
+                        </ng-container>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="emailErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="emailaddress">Email</nz-form-label>
+                        <!-- <input class="userdashboard__label-input" placeholder="Email" nz-input formControlName="email"> -->
+                        <input class="userdashboard__label-input" placeholder="Email" nz-input
+                        formControlName="emailaddress" [ngModel]="userDetailData.email">
+                    </nz-form-control>
+                    <ng-template #emailErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please enter Email
+                        </ng-container>
+                        <!-- <ng-container *ngIf="control.hasError('pattern')">
+                            Please enter valid Emailaddress
+                        </ng-container> -->
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="dobErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="email">DOB</nz-form-label>
+                        <nz-date-picker class="userdashboard__date" formControlName="dob" format="mm/dd/yyyy" [ngModel]="userDetailData.DOB" [nzDisabledDate]="disabledDate"> </nz-date-picker>
+                    </nz-form-control>
+                    <ng-template #dobErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please enter Date of birth
+                        </ng-container>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="mobileErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="email">Mobile Number</nz-form-label>
+                        <input class="userdashboard__label-input" placeholder="Mobile Number" formControlName="mobile"
+                            nz-input [ngModel]="userDetailData.mobileNum">
+                    </nz-form-control>
+                    <ng-template #mobileErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please enter Mobile number
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                            Please enter valid Mobile number
+                        </ng-container>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="countryErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="email">Country</nz-form-label>
+                        <div id="select-country">
+                            <nz-select class="userdashboard__select-country" nzShowSearch nzAllowClear formControlName="country" [ngModel]="userDetailData.country"
+                                nzPlaceHolder="Select Country">
+                                <nz-option  [nzLabel]="data.name" [nzValue]="data.name" *ngFor="let data of countryList[0]"></nz-option>
+                
+                            </nz-select>
+                        </div>
+                    </nz-form-control>
+                    <ng-template #countryErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please select country
+                        </ng-container>
+                      </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="zipcodeErrorTpl">
+                        <nz-form-label class="userdashboard__model-label" nzFor="email">Zip Code</nz-form-label>
+                        <input class="userdashboard__label-input" placeholder="Zip Code" nz-input formControlName="zipcode" [ngModel]="userDetailData.zipcode">
+                    </nz-form-control>
+                    <ng-template #zipcodeErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">
+                            Please enter zip code
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                            Please enter valid zip code
+                        </ng-container>
+                      </ng-template>
+                </nz-form-item>
+            </div>
+        </form>
+    </ng-container>
+    <ng-template #modalFooter>
+        <div class="userdashboard__footer-btn">
+            <button class="userdashboard__confirm-btn" [nzLoading]="isEdit" [disabled]="updateUserForm.invalid" nz-button nzType="primary" nz-button
+                nzType="primary" (click)="editUser()">Confirm</button>
+            <button class="userdashboard__cancel-btn" nz-button nzType="primary" nz-button
+                nzType="primary" (click)="handleCancel()">Cancel</button>
+
+        </div>
+    </ng-template>
+</nz-modal>
+<ng-template #emptyData>
+      <span>
+        -
+      </span>
+   </ng-template>

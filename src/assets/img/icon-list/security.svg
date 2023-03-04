@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>security</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="security" fill-rule="nonzero">
+            <g id="1828288" transform="translate(10.000000, 7.000000)">
+                <path d="M14.875,8 L2.125,8 C0.953552224,8 0,8.94233396 0,10.1 L0,19.9 C0,21.057666 0.953552224,22 2.125,22 L14.875,22 C16.0464478,22 17,21.057666 17,19.9 L17,10.1 C17,8.94233396 16.0464478,8 14.875,8 Z" id="Path" fill="#878F9D"></path>
+                <path d="M15,5.33333333 L15,8 L13.0004883,8 L13.0004883,5.33333333 C13.0004883,3.36946617 11.2111817,1.77734375 9,1.77734375 C6.78881831,1.77734375 4.99951172,3.36946617 4.99951172,5.33333333 L4.99951172,8 L3,8 L3,5.33333333 C3,2.390625 5.68945312,0 9,0 C12.3105469,0 15,2.390625 15,5.33333333 Z" id="Path" fill="#CCCDCD"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,228 @@
+<section class="userlist">
+  <!-- <div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <div class="userlist__select">
+        <div>
+          <h4 class="userlist__title"> Total Users : {{userTotalCount}} </h4>
+        </div> -->
+        <!-- <div>
+          <nz-select class="userlist__select-option" nzPlaceHolder="Select option">
+            <nz-option nzLabel="All" nzValue="All"></nz-option>
+            <nz-option nzLabel="Subscribed" nzValue="jack"></nz-option>
+            <nz-option nzLabel="UnSubscribed" nzValue="lucy"></nz-option>
+          </nz-select>
+        </div> -->
+      <!-- </div>
+    </div>
+  </div> -->
+  <div nz-row class="userlist__box-list">
+    <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+        <nz-card class="userlist__box">
+           <div class="userlist__card-content pd-data-ryt">
+               <div>
+                   <h1>{{userData?userData.count:'0'}}</h1>
+                   <h4>Total Users</h4>
+               </div>
+           </div>
+        </nz-card>
+    </div>
+    <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+      <nz-card class="userlist__box">
+         <div class="userlist__card-content pd-data-ryt">
+             <div>
+                 <h1>{{dashboardPayment?dashboardPayment.subscribed_user_count:'0'}}</h1>
+                 <h4>Subscribed Users</h4>
+             </div>
+         </div>
+      </nz-card>
+  </div>
+  <div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+    <nz-card class="userlist__box">
+       <div class="userlist__card-content pd-data-ryt">
+           <div>
+               <h1>{{userData?userData.verified_user_count:'0'}}</h1>
+               <h4>Verified Users</h4>
+           </div>
+       </div>
+    </nz-card>
+</div>
+<div nz-col [nzSpan]="6" nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" id="card-body">
+  <nz-card class="userlist__box">
+     <div class="userlist__card-content">
+         <div>
+             <h1>{{userData?userData.map.length:'0'}}</h1>
+             <h4>No. of active country</h4>
+         </div>
+     </div>
+  </nz-card>
+</div>
+   
+</div>
+  <div nz-row>
+    <div class="userlist__table" nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <nz-card>
+        <div nz-row class="prop-display">
+        <div class="tab-content" nz-col nzXs="6" nzSm="6" nzMd="6" nzLg="12" nzXl="18">
+          <label class="pr-2">Show</label>
+          <nz-select [(ngModel)]="pageSize" id="select-box" (ngModelChange)="getAllUser(1,pageSize)">
+           <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+           <nz-option [nzValue]="25" nzLabel="25"></nz-option>
+           <nz-option [nzValue]="50" nzLabel="50"></nz-option>
+           <nz-option [nzValue]="100" nzLabel="100"></nz-option>
+         </nz-select>
+          <label class="pl-2">entries</label>
+         </div>
+        <div class="userlist__input-field" nz-col nzXs="18" nzSm="18" nzMd="18" nzLg="12" nzXl="6">
+          <nz-input-group class="userlist__input-group" [nzSuffix]="suffixIconSearch">
+          <input nz-input placeholder="Search by name or email" [(ngModel)]="searchTxt" (ngModelChange)="serarchUser()" (keyup.enter)="getAllUser(1,pageSize)"/>
+          <!-- <button (click)="getAllUser(1,pageSize)"></button>  -->
+        </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <button class="userlist__search-btn"nz-button nzType="primary" nzSearch [ngClass]="{'userlist__search-btn-enable':searchTxt.length > 0}">
+            <i nz-icon nzType="search" (click)="getAllUser(1,pageSize)"></i>
+            </button>
+          </ng-template>
+          <div class="userlist__add-user">
+            <img (click)="showModal()" src="../../../../../assets/img/adminicon/user-plus.svg" height="14" alt="">
+          </div>
+        </div>
+      </div>
+
+
+        <nz-table #middleTable nzSize="middle" [nzData]="userList" nzShowPagination="false" [nzPageSize]="pageSize" class="user-table">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Registration Date</th>
+              <th>Country Code</th>
+              <th>G2fa Status</th>
+              <th>Email Auth</th>
+              <th>Email Verified</th>
+              <!-- <th>Referred by</th>
+                <th>Membership</th>
+                <th>Membership Expiry</th> -->
+                <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!isTableLoading"> 
+            <tr *ngFor="let data of middleTable.data;let i =  index">
+              <td> {{pageSize*pageIndex+(i+1)-pageSize}} </td>
+              <td><div id="user-avatar">
+                <nz-avatar class="user_avatar-img" [nzShape]="'square'" nzText="{{(data?.name | uppercase) | slice:0:1}}"></nz-avatar>
+                <a class="userlist__table-data" (click)="viewUser(data._id,data.name)" routerLink="/user/{{data._id}}/dashboard">{{data?.name}}</a>
+              </div> 
+               </td>
+              <td>{{data?.email}}</td>
+              <td><span *ngIf="data?.createdAt; else emptyData">{{data?.createdAt | date:'medium'}}</span></td>
+              <td><span *ngIf="data?.country_code; else emptyData">{{data?.country_code | uppercase}}</span></td>
+              <td><nz-switch nzSize="small" [ngModel]="data?.enable2FA" [disabled]="data.enable2FA == false" (click)="editUser(data,{enable2FA:false},'2fa')"></nz-switch></td>
+              <td><nz-switch nzSize="small" [ngModel]="data?.enableEmailVerification" [disabled]="!data?.enableEmailVerification" (click)="editUser(data,{enableEmailVerification:false},'emailVerify')" ></nz-switch></td>
+              <td>
+                <span class="cursor-pointer verified" nz-tooltip nzTooltipTitle="Email verify"  *ngIf="data?.isVerified" [disabled]="data?.isVerified">Verifed</span>
+                <span class="cursor-pointer pending" nz-tooltip nzTooltipTitle="Email Verify" *ngIf="!data?.isVerified" (click)="editUser(data,{isVerified:true},'isverify')">Pending</span>
+              
+                <!-- <nz-switch nzSize="small" [ngModel]="data?.isVerified" [disabled]="data?.isVerified" (click)="editUser(data,{isVerified:true})" ></nz-switch> -->
+              </td>
+              <td>
+                <nz-switch nzSize="small" [ngModel]="data?.status" (click)="statusChange(data)"></nz-switch>
+                </td>
+              <td>
+                <!-- <img src="../../../../assets/img/edit.svg" height="18px" class="maj-img" nz-tooltip nzTooltipTitle="Edit" (click)="editUserModel(data)"> -->
+                <img src="../../../../assets/img/icon-list/eye.svg" height="18px" class="maj-img view-icon" nz-tooltip nzTooltipTitle="View" routerLink="/user/{{data._id}}/dashboard">
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+        <nz-pagination *ngIf="userList.length > 0" class="userlist__paginatiion" [(nzPageIndex)]="pageIndex"
+          [nzTotal]="userTotalCount" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getAllUser(pageIndex,pageSize)">
+        </nz-pagination>
+      </nz-card>
+
+    </div>
+  </div>
+</section>
+<nz-modal [(nzVisible)]="isVisible" nzCentered (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+  [nzFooter]="confirmFooter" nzWidth="420px">
+  <ng-container *nzModalContent>
+    <h2 *ngIf="!isEdit">Add User</h2>
+    <h2 *ngIf="isEdit">Edit User</h2>
+    <form nz-form [formGroup]="createUserForm">
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="nameErrorTpl">
+          <nz-form-label>User Name</nz-form-label>
+          <input nz-input type="text" formControlName="username">
+        </nz-form-control>
+        <ng-template #nameErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter User name
+          </ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Please enter valid name
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="emailErrorTpl">
+          <nz-form-label>Email</nz-form-label>
+          <input nz-input type="email" formControlName="email">
+        </nz-form-control>
+        <ng-template #emailErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter Email Address
+          </ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Please enter valid Email Address
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item *ngIf="!isEdit">
+        <nz-form-control [nzErrorTip]="passwordErrorTpl">
+          <nz-form-label>Password</nz-form-label>
+          <input nz-input type="password" formControlName="password">
+        </nz-form-control>
+        <ng-template #passwordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter Password
+          </ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Please enter valid Password
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+      <nz-form-item *ngIf="!isEdit">
+        <nz-form-control [nzErrorTip]="confirmpasswordErrorTpl">
+          <nz-form-label>Confirm Password</nz-form-label>
+          <input nz-input type="password" formControlName="confirmpassword">
+        </nz-form-control>
+        <ng-template #confirmpasswordErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            Please enter Password
+          </ng-container>
+          <ng-container *ngIf="control.hasError('pattern')">
+            Please enter valid Password
+          </ng-container>
+          <ng-container *ngIf="control.hasError('mustMatch')">
+            Password not same
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-template #confirmFooter>
+    <button class="userlist__confirm-btn" nz-button nzType="primary" [nzLoading]="isLoading" [disabled]="createUserForm.invalid" [nzSize]="size"
+      nzShape="round" (click)="userCreate()" *ngIf="!isEdit">Confirm</button>
+      <button class="userlist__confirm-btn" nz-button nzType="primary" [nzLoading]="isLoading" [disabled]="createUserForm.invalid" [nzSize]="size"
+      nzShape="round" (click)="editUser(EditData,{name:this.createUserForm.value.username,email:this.createUserForm.value.email})" *ngIf="  isEdit">Update</button>
+    <button class="userlist__cancel-btn" nz-button nzType="primary" (click)="handleCancel()" [nzSize]="size"
+      nzShape="round">Cancel</button>
+  </ng-template>
+</nz-modal>
+<ng-template #emptyData>
+  <span>
+    -
+  </span>
+</ng-template>

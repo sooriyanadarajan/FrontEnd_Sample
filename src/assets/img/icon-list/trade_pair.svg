@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>trade_pair</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="trade_pair" fill-rule="nonzero">
+            <g id="3358798" transform="translate(6.000000, 8.000000)">
+                <g id="solid">
+                    <path d="M15.4995,-2.66453526e-15 C13.1295,-2.66453526e-15 10.9845,0.978 9.441,2.547 C14.514,3.024 18.4995,7.3035 18.4995,12.4995 C18.4995,14.0175 18.15,15.4515 17.5425,16.7415 C21.2445,15.8235 24,12.4815 24,8.5005 C24,3.813 20.187,-2.66453526e-15 15.4995,-2.66453526e-15 Z" id="Path" fill="#CCCDCD"></path>
+                    <path d="M8.5005,4.0005 C3.813,4.0005 0,7.8135 0,12.4995 C0,17.1855 3.813,21 8.5005,21 C13.188,21 17.001,17.187 17.001,12.4995 C17.001,7.812 13.1865,4.0005 8.5005,4.0005 Z" id="Shape" fill="#878F9D"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

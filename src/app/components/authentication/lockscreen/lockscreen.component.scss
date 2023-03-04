@@ -1,0 +1,131 @@
+$main-color:#00bcc7;
+$main-color1:#ffffff;
+
+#main{
+ height: 100vh;
+ display: flex;
+ align-items: center;
+ #img-back-page{
+  //max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-image: url('../../../../assets/img/poste.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+    background-position: center;
+ #login-form-main{
+    max-width: 370px;
+    width: 100%;
+    background: #fff;
+    margin: 0 auto;
+    box-shadow: 0px 8px 24px -4px rgb(1 1 1 / 15%);
+    .left-side{
+     background-color: $main-color;
+     .left-side1{
+      padding: 155px 30px 40px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .welcome-text{
+       color:$main-color1;
+       font-size:20px;
+       font-weight: 500;
+       margin-bottom: 10px;
+       font-family: "OpenSans-SemiBold";
+      }
+      .copy-text{
+       font-size: 14px;
+       color:$main-color1;
+       font-family: "GoogleSans-Regular";
+      }
+     }
+    }
+    .login-details{
+     padding: 25px;
+     .img-banner{
+      text-align: center;
+      line-height: 65px;
+      padding-bottom: 20px;
+      .logo-font{
+       font-weight: 500;
+       font-size: 18px;
+       font-family: "OpenSans-SemiBold";
+      }
+     }
+     .login-form{
+      .form-item{
+       margin-bottom: 18px;
+       .auth-label{
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-family: "OpenSans-SemiBold";
+       }
+       .input-box{
+        height: 40px;
+        border-radius: 5px;
+       }
+      }
+      .button-login{
+       line-height: 50px;
+       .last-space{
+        display: flex;
+        justify-content: space-between;
+        .login-form-forgot{
+         color: $main-color;
+         font-family: "OpenSans-SemiBold";
+        }
+       }
+     
+      }
+     }
+    }
+  }
+ }
+}
+
+code-input {
+  --color: #171516;
+  --item-background: transparent;
+  --item-border: 1px solid #ddd;
+  --item-border-bottom: 1px solid #ddd;
+  --item-border-bottom-focused: 1px solid #ddd;
+  --item-border-bottom-has-value: 1px solid #ddd;
+  --item-border-focused: 1px solid #ddd;
+  --item-border-has-value: 1px solid #ddd;
+  --item-border-radius: 5px;
+  --item-height:50px;
+  --item-shadow-focused: 0px 1px 5px #ddd;
+  --item-spacing: 4px;
+  --text-security-type: disc;
+  color: var(--color);
+  display: flex;
+  font-size: inherit;
+  transform: translateZ(0);
+  width: 100%;
+}
+.title-txt{
+  font-family: "GoogleSans-Bold";    
+  color: #383838;
+  padding-top: 10px;
+  font-size:16px;
+}
+.login-form-button{
+  width: 100%;
+  height: 40px;
+  background-color: $main-color;
+  border-radius: 5px;
+  border: none;
+  margin-top: 10px;
+  .btn-text{
+   color: $main-color1;
+   font-size: 16px;
+   font-weight: 500;
+   text-transform: uppercase;
+   font-family: "OpenSans-SemiBold";
+  }
+ }

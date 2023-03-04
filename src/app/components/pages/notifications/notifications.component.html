@@ -1,0 +1,282 @@
+<div id="main-layout5">
+ <div class="container-fluid">
+  <div nz-row>
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <div class="security">
+     <div class="main-heading">
+      <h4 class="sec-head">Notifications</h4>
+      <button nz-button class="top-btn" (click)="showModal()">
+       <img src="../../../../assets/img/bell.svg" height="20px">Send Notification</button>
+     </div>
+     <div class="notification-bg">
+
+      <nz-tabset [nzAnimated]='false' class="tabset-note">
+       <nz-tab nzTitle="All Users" (nzClick)="getNotification(1,limit,'ALL')">
+        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+        <nz-empty *ngIf="notificationList.length == 0 !isTableLoading"  nzNotFoundImage="simple"></nz-empty>
+        <ul nz-list  nzBordered nzSize="large" class="list-ul" *ngIf="notificationList.length > 0 && !isTableLoading">
+         <li nz-list-item *ngFor="let item of notificationList" nzNoFlex>
+          <ul nz-list-item-actions>
+           <nz-list-item-action class="action-img">
+            <img src="../../../../assets/img/delete.svg" height="18px" class="show-modal" nz-button  nz-popconfirm
+            nzPopconfirmTitle="Are you sure you want to delete?"
+            nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+            (nzOnConfirm)="deleteNotification(item._id)">
+           </nz-list-item-action>
+          </ul>
+          <h4 class="title-font"> {{item?.title}}</h4>
+          {{ item?.message }}
+         </li>
+        </ul>
+        <div class="page-btm">
+         <nz-pagination [(nzPageIndex)]="page" [nzTotal]="totalNotification" class="page" [(nzPageSize)]="limit" (nzPageIndexChange)="getNotification(page,limit,'ALL')"></nz-pagination>
+        </div>
+       </nz-tab>
+
+
+       <nz-tab nzTitle="Custom" (nzClick)="getNotification(1,limit,'CUSTOM-USER')">
+        <!-- <ul nz-list [nzDataSource]="data" nzBordered nzSize="large" class="list-ul">
+         <li nz-list-item *ngFor="let item of data" nzNoFlex>
+          <ul nz-list-item-actions>
+           <nz-list-item-action class="action-img">
+            <img src="../../../../assets/img/delete.svg" height="18px" class="show-modal">
+           </nz-list-item-action>
+          </ul>
+          {{ item }}
+         </li>
+        </ul> -->
+        <nz-table #customTable [nzData]="notificationList" [nzShowPagination]="false">
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+               <th>Type</th>
+              <th>Users List</th>
+              <th>Title</th>
+              <th>Message</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+           <tbody *ngIf="!isTableLoading">
+            <tr *ngFor="let data of customTable.data; let i = index">
+              <!-- <td>{{10 * page + (i+1) - 10}}</td> -->
+              <td>{{data?.createdAt | date:'medium'}}</td>
+              <td>{{data?.type}}</td>
+              <td>
+                <img src="../../../../assets/img/adminicon/blue-eye.svg" title="View User List" height="18px" class="maj-img view-icon"  (click)="showUserList(data?.user_list)">
+              </td>
+              <td>{{data?.title}}</td>
+              <td>{{data?.message}}</td>
+              <td>
+                <img src="../../../../assets/img/delete.svg" height="18px"  nz-button class="show-modal" nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete?" title="Delete" 
+                nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                (nzOnConfirm)="deleteNotification(data._id)">
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+       
+        <div class="page-btm">
+          <nz-pagination [(nzPageIndex)]="page" [nzTotal]="totalNotification" class="page" [(nzPageSize)]="limit" (nzPageIndexChange)="getNotification(page,limit,'CUSTOM-USER')"></nz-pagination>
+        </div>
+       </nz-tab>
+
+
+       <nz-tab nzTitle="Subscribers" (nzClick)="getNotification(1,limit,'SUBSCRIBER')">
+        <!-- <ul nz-list [nzDataSource]="data1" nzBordered nzSize="large" class="list-ul">
+         <li nz-list-item *ngFor="let item of data" nzNoFlex>
+          <ul nz-list-item-actions>
+           <nz-list-item-action class="action-img">
+            <img src="../../../../assets/img/delete.svg" height="18px" class="show-modal">
+           </nz-list-item-action>
+          </ul>
+          {{ item }}
+         </li>
+        </ul>
+        <div class="page-btm">
+         <nz-pagination [nzPageIndex]="1" [nzTotal]="50" class="page"></nz-pagination>
+        </div> -->
+      
+        <nz-table #customTable [nzData]="notificationList" [nzShowPagination]="false">
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+               <th>Type</th>
+              <th>Title</th>
+              <th>Message</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!isTableLoading">
+            <tr *ngFor="let data of customTable.data; let i = index">
+              <!-- <td>{{10 * page + (i+1) - 10}}</td> -->
+              <td>{{data?.createdAt | date:'medium'}}</td>
+              <td>{{data?.type}}</td>
+              <td>{{data?.title}}</td>
+              <td>{{data?.message}}</td>
+              <td>
+                <img src="../../../../assets/img/delete.svg" height="18px" nz-button class="show-modal" nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete?"
+                nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                (nzOnConfirm)="deleteNotification(data._id)">
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+        
+        <div class="page-btm">
+          <nz-pagination [(nzPageIndex)]="page" [nzTotal]="totalNotification" class="page" [(nzPageSize)]="limit" (nzPageIndexChange)="getNotification(page,limit,'SUBSCRIBER')"></nz-pagination>
+        </div>
+      </nz-tab>
+
+
+      <nz-tab nzTitle="Bot Signal" (nzClick)="getNotification(1,limit,'BOT-SIGNAL')">
+        <nz-table #customTable [nzData]="notificationList" [nzShowPagination]="false">
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+              <th>Type</th>
+              <th>Bot name</th>
+              <th>Title</th>
+              <th>Message</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+           <tbody *ngIf="!isTableLoading">
+            <tr *ngFor="let data of customTable.data; let i = index">
+              <!-- <td>{{10 * page + (i+1) - 10}}</td> -->
+              <td>{{data?.createdAt | date:'medium'}}</td>
+              <td>{{data?.type}}</td>
+              <td>{{data?.bot_id?.name}}</td>
+              <td>{{data?.title}}</td>
+              <td>{{data?.message}}</td>
+              <td>
+                <img src="../../../../assets/img/delete.svg" height="18px" nz-button class="show-modal" nz-popconfirm nzPopconfirmTitle="Are you sure you want to delete?"
+                nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                (nzOnConfirm)="deleteNotification(data._id)" >
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+       
+        <div class="page-btm">
+          <nz-pagination [(nzPageIndex)]="page" [nzTotal]="totalNotification" class="page" [(nzPageSize)]="limit" (nzPageIndexChange)="getNotification(page,limit,'BOT-SIGNAL')"></nz-pagination>
+        </div>
+      </nz-tab>
+
+      </nz-tabset>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter"
+ [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+ <ng-container *nzModalContent>
+  <div nz-row class="brdr-btm">
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <h2 class="title">Send Notification</h2>
+   </div>
+  </div>
+  <div nz-row>
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <form nz-form class="main-form" [formGroup] = "notifyForm">
+
+      <nz-form-item class="form-elements">
+        <nz-form-control>
+          <label class="form-label">Type</label>
+          <nz-select  placeholder="Select" [(ngModel)]="type"  formControlName="type" (ngModelChange)="typechange(type)">
+            <nz-option nzValue="ALL" nzLabel="All Users"></nz-option>
+            <nz-option nzValue="CUSTOM-USER" nzLabel="Custom"></nz-option>
+            <nz-option nzValue="SUBSCRIBER" nzLabel="Subscribers"></nz-option>
+            <nz-option nzValue="BOT-SIGNAL" nzLabel="Signal"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-elements">
+        <nz-form-control>
+          <label class="form-label">NotificationType</label>
+          <nz-select  placeholder="Select" formControlName="notifytype">
+            <nz-option nzValue="PUSH" nzLabel="Push"></nz-option>
+            <nz-option nzValue="MAIL" nzLabel="Mail"></nz-option>
+             </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div *ngIf="type == 'CUSTOM-USER'">
+      <nz-form-item class="form-elements" *ngFor="let userctrl of userlistOfControl;let i = index" >
+        <nz-form-control>
+          <nz-form-label *ngIf="i == 0" [nzFor]="userctrl.userlistOfControl">User
+          </nz-form-label>
+          <input nzSize="large" nz-input
+              [attr.id]="userctrl.id"  [formControlName]="userctrl.controlInstance" placeholder="xyz@gmail.com"/>
+          <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
+              (click)="removeField(userctrl, $event,i)"></i>
+        </nz-form-control>
+       </nz-form-item>
+          <button nz-button (click)="addUserControl()">Add</button>
+    
+    </div>
+
+    <nz-form-item class="form-elements" *ngIf="type == 'BOT-SIGNAL'">
+      <nz-form-control>
+        <label class="form-label">Signal Type</label>
+        <nz-select  placeholder="Select" [(ngModel)]="botType" (ngModelChange)="getBotList(botType)" [ngModelOptions]="{standalone: true}">
+          <nz-option nzValue="SPOT" nzLabel="Smart Trade"></nz-option>
+          <nz-option nzValue="FX" nzLabel="Nexfolio FX"></nz-option>
+           </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+      <nz-form-item class="form-elements" *ngIf="type == 'BOT-SIGNAL'">
+        <nz-form-control>
+          <label class="form-label">Signal</label>
+          <nz-select  placeholder="Select" formControlName="signallist">
+            <nz-option [nzValue]="data._id" [nzLabel]="data.symbol" *ngFor="let data of botlistData"></nz-option>
+           </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+     <nz-form-item class="form-elements">
+       <nz-form-control>
+        <label class="form-label">Title</label>
+       <input nz-input type="text" formControlName="title">
+      </nz-form-control>
+     </nz-form-item>
+    <div class="big-area-txt">
+      <nz-form-item class="form-elements">
+       <nz-form-control>
+        <label class="form-label labels">Message</label>
+       <textarea rows="3" nz-input class="mail" formControlName="message"></textarea>
+      </nz-form-control>
+      </nz-form-item>
+     </div>
+
+    </form>
+   </div>
+  </div>
+ </ng-container>
+ <ng-template #modalFooter>
+  <div class="modal-footer-upd">
+   <button nz-button class="foot-confirm" (click)="sendNotificaton()" [disabled]="notifyForm.invalid" [nzLoading]="isLoading">Submit</button>
+   <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+  </div>
+ </ng-template>
+</nz-modal>
+
+<nz-modal
+      [(nzVisible)]="isVisibleMiddle"
+      nzTitle="User Email List"
+      nzCentered
+      (nzOnCancel)="handleCancelMiddle()"
+    [nzFooter]="null" >
+      <ng-container *nzModalContent>
+        <p *ngFor="let data of userData">{{data}}</p>
+         </ng-container>
+    </nz-modal>

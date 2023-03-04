@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56" viewBox="0 0 56 56">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Combined_Shape" data-name="Combined Shape" d="M11,22A11,11,0,1,1,22,11v1a4,4,0,0,1-7.259,2.318A5,5,0,1,1,16,11v1a2,2,0,0,0,4,0V11a9,9,0,1,0-9,9,8.928,8.928,0,0,0,5.472-1.854,1,1,0,0,1,1.4.185,1,1,0,0,1-.186,1.4A10.912,10.912,0,0,1,11,22ZM11,8a3,3,0,1,0,3,3A3,3,0,0,0,11,8Z" transform="translate(1 1)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_28" data-name="Group 28" transform="translate(-219 -226)">
+    <circle id="Oval" cx="28" cy="28" r="28" transform="translate(219 226)" fill="#504d58"/>
+    <g id="chevron-down_copy" data-name="chevron-down copy" transform="translate(235 242)">
+      <g id="Group_13" data-name="Group 13">
+        <path id="Combined_Shape-2" data-name="Combined Shape" d="M11,22A11,11,0,1,1,22,11v1a4,4,0,0,1-7.259,2.318A5,5,0,1,1,16,11v1a2,2,0,0,0,4,0V11a9,9,0,1,0-9,9,8.928,8.928,0,0,0,5.472-1.854,1,1,0,0,1,1.4.185,1,1,0,0,1-.186,1.4A10.912,10.912,0,0,1,11,22ZM11,8a3,3,0,1,0,3,3A3,3,0,0,0,11,8Z" transform="translate(1 1)"/>
+        <g id="Mask_Group_13" data-name="Mask Group 13" clip-path="url(#clip-path)">
+          <g id="COLOR_black" data-name="COLOR/ black">
+            <rect id="Rectangle" width="24" height="24" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

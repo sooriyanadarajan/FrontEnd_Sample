@@ -1,0 +1,38 @@
+.notification{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__table-data{
+            font-family: "GoogleSans-Light";
+        }
+        &__data{
+            width:50% !important;
+        }
+        &__data-heading{
+            font-size: 16px;
+            color: #383838;
+        }
+        &__data-sub-heading{
+            font-size: 12px;
+            color: #AEB3B5;
+        }
+        &__data-month{
+            text-align: center;
+            font-size: 12px;
+            color: #AEB3B5;
+    
+        }
+        &__clearall-btn{
+            color: #fff;
+            background-color:#00bcc7;
+            font-family: "GoogleSans-Light";
+            border:none;
+            float: right;
+        }
+    }

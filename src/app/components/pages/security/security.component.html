@@ -1,0 +1,295 @@
+
+<div id="main-layout">
+  <div class="container-fluid">
+   <div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+     <div class="security">
+     <h4 class="sec-head">Security</h4>
+
+     <div nz-row class="box">
+      <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" class="update">
+       <p class="chnge-password">Change Password</p>
+       <p class="box-text">Be sure that your password is safe and strong.</p>
+      </div>
+      <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+      <button nz-button id="modal1" class="update-button" (click)="showModal()"><span class="btn-text">Update</span></button>
+     </div>
+     </div>
+
+     <div nz-row class="box">
+       <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" class="update">
+       <p class="chnge-password">Two-Factor Authentication</p>
+       <p class="box-text">For more security enable an authentication.</p>
+      </div>
+      <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+      <button nz-button id="modal2" class="update-button" (click)="showG2faModal()" *ngIf="!g2fStatus"><span class="btn-text">Enable</span></button>
+      <button nz-button id="modal2" class="update-button" (click)="showG2faModal1()" *ngIf="g2fStatus"><span class="btn-text">Disable</span></button>
+      </div>
+     </div>
+
+     <div nz-row class="box">
+      <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" class="update">
+      <p class="chnge-password">Pin Lock</p>
+      <p class="box-text">For more security enable an authentication.</p>
+     </div>
+     <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8">
+     <button nz-button id="modal2" class="update-button" *ngIf="!isIdle" (click)="showPinLock()"><span class="btn-text">Enable</span></button>
+     <button nz-button id="modal2" class="update-button" *ngIf="isIdle" (click)="showPinLock()"><span class="btn-text">Disable</span></button>
+     </div>
+    </div>
+ 
+     <h4 class="sec-head">Activity Log</h4>
+     <div class="box1">
+      <div class="main-tab-content">
+     <div class="tab-content">
+      <label class="show">Show</label>
+      <nz-select ngModel="pageSize" id="select-box" [nzPlaceHolder]='10' (ngModelChange)="change($event)">
+       <nz-option nzValue="10" nzLabel="10"></nz-option>
+       <nz-option nzValue="25" nzLabel="25"></nz-option>
+       <nz-option nzValue="50" nzLabel="50"></nz-option>
+       <nz-option nzValue="100" nzLabel="100"></nz-option>
+     </nz-select>
+      <label class="show">entries</label>
+     </div>
+     <!-- <div class="search-box">
+      <input class="input-item" placeholder="Search" nz-input type="text"/>
+     </div> -->
+    </div>
+     <nz-table #basicTable [nzData]="listOfData" id="first-table">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Browser</th>
+          <th>OS</th>
+          <th>Platform</th>
+          <th>IP</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!isTableLoading">
+        <tr *ngFor="let data of listOfData">
+          <td>{{ data.createdAt| date:"short" }}</td>
+          <td>{{ data.browser }}</td>
+          <td>{{ data.os }}</td>
+          <td>{{ data.platform }}</td>
+          <td>{{ data.ip }}</td>
+          <td>{{ data.location }}</td>
+        </tr>
+      </tbody>
+      </nz-table>
+      <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      <div class="page-btm">
+       <nz-pagination *ngIf="listOfData.length > 0"  [nzTotal]="listCount" class="page" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getActiveLog(pageIndex,pageSize)"></nz-pagination>
+      </div>
+    </div>
+  </div>
+ </div>
+ </div>
+</div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="modalFooter" [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' } ">
+ <ng-container>
+  <div nz-row class="brdr-btm">
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <h2 class="title">Change Password</h2>
+     </div>
+  </div>
+  <div nz-row>
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+     <form nz-form class="main-form" [formGroup]="securityForm">
+       <nz-form-item class="form-elements">
+         <label class="form-label" >Old Password</label>
+         <nz-form-control>
+           <input nz-input name="password" type="password" id="email9" formControlName="oldPassword">
+           <div *ngIf="f.oldPassword.touched && f.oldPassword.invalid || f.oldPassword.dirty">
+             <p *ngIf="f.oldPassword.errors?.required" class="form-error">Old Password is required</p>
+             <p *ngIf="f.oldPassword.errors?.pattern" class="form-error">Please Enter A Valid Password</p>
+             <p *ngIf="f.oldPassword.errors?.maxlength" class="form-error">Maximum Of 15 Characters Only allowed</p>
+           </div>
+         </nz-form-control>
+       </nz-form-item >
+
+       <nz-form-item class="form-elements">
+         <label class="form-label labels" >New Password</label>
+         <nz-form-control>
+           <input nz-input name="password" type="password" id="email" formControlName="newPassword">
+           <div *ngIf="f.newPassword.touched && f.newPassword.invalid || f.newPassword.dirty">
+             <p *ngIf="f.newPassword.errors?.required" class="form-error">New Password is required</p>
+             <p *ngIf="f.newPassword.errors?.pattern" class="form-error">Please Enter A Valid Password</p>
+             <p *ngIf="f.newPassword.errors?.maxlength" class="form-error">Maximum Of 15 Characters Only allowed</p>
+           </div>
+         </nz-form-control>
+       </nz-form-item >
+
+       <nz-form-item class="form-elements">
+         <label class="form-label labels" >Confirm New Password</label>
+         <nz-form-control>
+           <input nz-input name="password" type="password" id="email" formControlName="confirmPassword">
+           <div *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid || f.confirmPassword.dirty">
+             <p *ngIf="f.confirmPassword.errors?.required" class="form-error">Confirm Password Is Required</p>
+             <p *ngIf="f.confirmPassword.errors?.pattern" class="form-error">Please Enter A Valid Confirm Password </p>
+             <p *ngIf="f.confirmPassword.errors?.mustMatch" class="form-error">Password Does Not Match</p>
+             <p *ngIf="f.confirmPassword.errors?.maxlength" class="form-error">Maximum Of 15 Characters Only allowed</p>
+           </div>
+         </nz-form-control>
+       </nz-form-item >
+       <ng-template #modalFooter>
+         <div class="modal-footer-upd">
+         <button nz-button class="foot-confirm" [disabled]="!securityForm.valid" type="submit" nz-button (click)="changePasswordForm()">Confirm</button>
+         <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+       </div>
+       </ng-template>
+     </form>
+     </div>
+  </div>
+ </ng-container>
+ 
+</nz-modal>
+
+<nz-modal [(nzVisible)]="g2faisVisible" (nzOnCancel)="handleCancel()" [nzFooter]="securityFooter" [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+ <ng-container>
+   <div nz-row class="brdr-btm">
+     <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <h2 class="title">Enable Authenticator</h2>
+       </div>
+    </div>
+    <div nz-row>
+     <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <div class="para">
+        <ol>
+          <li>Get Google Authenticator from App Store or Google Play and set up an account.</li>
+          <li>Scanning the QR code or enter the backup key.</li>
+        </ol>
+      </div>
+       </div>
+    </div>
+    <div nz-row>
+     <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" class="disp">
+     <img src={{img}} height="180px" width="180px">
+       </div>
+       <div nz-col nzXs="16" nzSm="16" nzMd="16" nzLg="16" nzXl="16" class="lisp">
+        <ul class="list-qr">
+          <li><p class="qr">Save backup Key</p></li>
+          <li><div class="copy-txt">
+            <nz-input-group>
+              <input type="text" nz-input [(ngModel)]="inputValue" value="{{secret}}" disabled/>
+            </nz-input-group>
+            <div class="img-copy">
+            <img src="../../../assets/img/svg/copy.svg" alt="" nzTooltipTitle="{{copied}}"
+            (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard [cbContent]="secret" nz-tooltip
+            nzTooltipTrigger='click' class="copied"></div>
+          </div>
+          </li>
+          <!-- <li class="code-group"> -->
+           <!-- <input type="text" nz-input placeholder="8347rhfihfuijfn" nzSize="large" value={{secret}}/> -->
+           <!-- <p>{{secret}} <img src="../../../assets/img/svg/copy.svg" alt="" nzTooltipTitle="{{copied}}"
+             (mouseout)="copied=''" (click)="disableTooltip()" ngxClipboard [cbContent]="secret" nz-tooltip
+             nzTooltipTrigger='click' class="copied"></p>
+         </li> -->
+          <li><p class="qr1">If unable to scan the QR code, please enter code manually into the app.</p> </li>
+        </ul>
+       </div>
+    </div>
+    <div nz-row>
+     <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+       <form nz-form class="main-form" [formGroup]="google2FactorForm">
+         <nz-form-item class="form-elements">
+           <label class="form-label1">Enter 2-Factor Authentication code</label>
+           <nz-form-control>
+             <input nz-input name="email" type="text" id="email" class="mail" placeholder="Enter 6 digit code" formControlName="input2Factor" maxlength="6" >
+             <div *ngIf="google2FactorForm.get('input2Factor').touched && google2FactorForm.get('input2Factor').invalid || google2FactorForm.get('input2Factor').dirty">
+               <p *ngIf="google2FactorForm.get('input2Factor').errors?.required" class="form-error">Enter 6 digit code</p>
+               <p *ngIf="google2FactorForm.get('input2Factor').errors?.minlength" class="form-error">Should Contain Maximium of 6 Letters</p>
+             </div>
+           </nz-form-control>
+         </nz-form-item >
+         <ng-template #securityFooter>
+           <div class="modal-footer-upd">
+            <button nz-button class="foot-confirm" type="submit" nz-button [disabled]="!google2FactorForm.valid" (click)="googleAuthForm()">Confirm</button>
+            <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+           
+         </div>
+         </ng-template>
+       </form>
+       </div>
+    </div>
+ </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="g2faisVisible1" (nzOnCancel)="handleCancel()" [nzFooter]="securityFooter" [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+       <h2 class="title">Disable Authenticator</h2>
+        </div>
+      </div>
+     <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="google2FactorForm">
+          <nz-form-item class="form-elements">
+            <label class="form-label1">Enter 2-Factor Authentication code</label>
+            <nz-form-control>
+              <input nz-input name="email" type="text" id="email" class="mail" placeholder="Enter 6 digit code" formControlName="input2Factor" maxlength="6" >
+              <div *ngIf="google2FactorForm.get('input2Factor').touched && google2FactorForm.get('input2Factor').invalid || google2FactorForm.get('input2Factor').dirty">
+                <p *ngIf="google2FactorForm.get('input2Factor').errors?.required" class="form-error">Enter 6 digit code</p>
+                <p *ngIf="google2FactorForm.get('input2Factor').errors?.minlength" class="form-error">Should Contain Maximium of 6 Letters</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item >
+          <ng-template #securityFooter>
+            <div class="modal-footer-upd">
+              <button nz-button class="foot-confirm" type="submit" nz-button [disabled]="!google2FactorForm.valid" (click)="googleAuthForm()">Confirm</button>
+             <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+          </div>
+          </ng-template>
+        </form>
+        </div>
+     </div>
+  </ng-container>
+ </nz-modal>
+
+ <nz-modal [(nzVisible)]="isPinLockVisible"  nzCentered (nzOnCancel)="handleCancel()" [nzFooter]="null"  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }"  nzWidth="380px">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+       <h2 class="title" *ngIf="!isIdle">Enable Pin Lock</h2>
+       <h2 class="title" *ngIf="isIdle">Disable Pin Lock</h2>
+        </div>
+      </div>
+     <div nz-row>
+    
+        <div  nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+          <h5 class="title-txt">Enter your pin</h5>
+          <div class="model-otp">
+          <code-input [isCodeHidden]="true"
+                [isNonDigitsCode]="false"
+                [codeLength]="4"
+                (codeChanged)="onCodeChanged($event)"
+                (codeCompleted)="onCodeCompleted($event)">
+        </code-input>
+        </div>
+          <!-- <form nz-form class="main-form" [formGroup]="pinLockForm" >
+            <nz-form-item class="form-elements">
+              <label class="form-label2">Enter Pin Here</label>
+              <nz-form-control>
+                <input nz-input name="email" type="number"  class="mail" placeholder="Enter your pin" formControlName="pinCode" maxlength="6" >
+                <div *ngIf="pinLockForm.get('pinCode').touched && pinLockForm.get('pinCode').invalid || pinLockForm.get('pinCode').dirty">
+                  <p *ngIf="pinLockForm.get('pinCode').errors?.required" class="form-error">Please enter your pin!</p>
+                  <p *ngIf="pinLockForm.get('pinCode').errors?.pattern" class="form-error">Should Contain Maximium of 6 Letters and minimum of 4 letters</p>
+                </div>
+              </nz-form-control>
+            </nz-form-item >
+           </form>-->
+          <div class="model-btn">
+            <button nz-button class="submit-btn" type="submit" nzShape="round" *ngIf="!isIdle" nz-button (click)="updatePinLock()">Enable</button>
+            <button nz-button class="submit-btn" type="submit" nzShape="round" *ngIf="isIdle" nz-button  (click)="disablePinLock()">Disable</button>
+           <button nz-button class="cancel-btn" nzShape="round" (click)="handleCancel()">Cancel</button>
+        </div> 
+          </div>
+     
+     </div>
+  </ng-container>
+ </nz-modal>

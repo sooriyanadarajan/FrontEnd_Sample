@@ -1,0 +1,93 @@
+.history{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__table{
+            font-family: "GoogleSans-Light";
+        }
+        &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__input-field{
+          width: 30%;
+          float: right;
+          height: 38px;
+          font-size: 16px;
+          border-radius: 3px;
+          margin-bottom: 10px;
+          font-family: "GoogleSans-Light";
+        }
+        &__table-time {
+            color:#cccdcd;
+          }
+          &__value-txt{
+              color:#00bcc7;
+          }
+          &__openorder-cancel{
+              border: none;
+              padding: 0px;
+              height: 0px;
+              background-color: transparent;
+          }
+          &__transfer-btn{
+            background: #00bcc7;
+            padding: 6px 20px;
+            border-radius: 50px;
+            background-color: #00bcc7;
+            font-weight: 600;
+            color:#fff;
+            border: none;
+            height: 37px;
+            outline: none;
+            font-family: "GoogleSans-Bold";
+        }
+        &__label-txt{
+            font-family: "GoogleSans-Bold";
+            color:#878f9d !important;
+        }
+        &__reset-btn{
+            background: #00bcc7;
+            padding: 6px 25px;
+            border-radius: 50px;
+            background-color: #00bcc7;
+            font-weight: 600;
+            border: none;
+            height: 37px;
+            outline: none;
+            color: #fff;
+            margin-right: 10px;
+        }
+        &__serach-btn{
+            background: #00bcc7;
+            padding: 6px 25px;
+            border-radius: 50px;
+            background-color: #00bcc7;
+            font-weight: 600;
+            border: none;
+            height: 37px;
+            outline: none;
+            color: #fff;
+        }
+        &__history{
+            font-size: 14px;
+            color: #878f9d!important;
+            font-family: "GoogleSans-Bold";
+            float: right;
+        }
+        &__input-style{
+            margin-left: 10px;
+        }
+        &__history-btn{
+         margin-top:35px;
+         float:right;
+        }
+    }
+    .profit-color{
+        color:#00bcc7;
+    }
+    .loss-color{
+        color:#f72a63;
+    }

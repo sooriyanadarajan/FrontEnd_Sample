@@ -1,0 +1,52 @@
+<app-userlayout></app-userlayout>
+<section class="notification">
+<div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="23">
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <h4 class="notification__title">Notification</h4>
+        </div>
+    </div>
+</div>
+<div nz-row>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <nz-card>
+            <div  *ngIf="notificationList.length <= 0">
+                <nz-empty nzNotFoundImage="simple"></nz-empty>
+            </div>
+            <button nz-button *ngIf="notificationList.length > 0" class="notification__clearall-btn" nzSize="large"
+            nzShape="round" nz-popconfirm
+            nzPopconfirmTitle="Are you sure to delete all notification?"
+            nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+            (nzOnConfirm)="clearAllNotification()">Clear All
+            </button>
+            <!-- <button  *ngIf="notificationList.length > 0" class="notification__clearall-btn" nz-button nzType="primary" nzShape="round" (click)="clearAllNotification()">Clear All</button> -->
+            <nz-table #middleTable nzSize="middle" [nzData]="notificationList" [nzShowPagination]="false">
+                <!-- <thead>
+                    <tr>
+                        <th>Pair/Price</th>
+                        <th>CurrentPrice</th>
+                        <th>Signal</th>
+                        <th>Fund</th>
+                        <th>Quantity</th>
+                        <th>Stop Loss</th>
+                        <th>Fixed Profit</th>
+                        <th>Profit</th>
+                        <th>Action</th>
+                    </tr>
+                </thead> -->
+                <tbody *ngFor="let data of middleTable.data">
+                    <tr class="notification__table-data">
+                        <td class="notification__data"> <div class="notification__data-heading">{{data?.title}}</div> <div class="notification__data-sub-heading"> {{data?.message}}</div> </td>
+                        <td class="notification__data-month">{{data?.createdAt | dateAgo}}</td>
+
+                    </tr>
+               
+                </tbody>
+            </nz-table>
+            <nz-pagination *ngIf="notificationList.length > 0" class="notification__paginatiion" [(nzPageIndex)]="pageIndex"
+                [nzTotal]="notificationCount" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getNotification(pageIndex,pageSize)">
+              </nz-pagination>
+        </nz-card>
+    </div>
+</div>
+</section>

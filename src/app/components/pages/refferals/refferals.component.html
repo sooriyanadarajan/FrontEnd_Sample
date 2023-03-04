@@ -1,0 +1,66 @@
+<div id="main-layout2">
+ <div class="container-fluid">
+  <div nz-row>
+   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+    <div class="security">
+     <div class="main-heading">
+      <h4 class="sec-head">Refferals : 0</h4>
+      <div class="generate">
+       <input nz-input placeholder="Username" nzSize="large" class="gen-input" />
+       <button nz-button class="top-btn">Generate</button>
+      </div>
+</div>
+   
+    <div class="box1">
+     <div class="main-tab-content">
+    <div class="tab-content">
+     <label class="show">Show</label>
+     <nz-select ngModel="value" id="select-box" [nzPlaceHolder]='10'>
+      <nz-option nzValue="10" nzLabel="10"></nz-option>
+      <nz-option nzValue="25" nzLabel="25"></nz-option>
+      <nz-option nzValue="50" nzLabel="50"></nz-option>
+      <nz-option nzValue="100" nzLabel="100"></nz-option>
+    </nz-select>
+     <label class="show">entries</label>
+    </div>
+    <div class="search-box">
+   
+     <input class="input-item" placeholder="Search" nz-input type="text"/>
+    </div>
+   </div>
+    <nz-table #basicTable [nzData]="listOfData" id="first-table2">
+     <thead>
+       <tr>
+         <th>S.no</th>
+         <th>Created</th>
+         <th>Username</th>
+         <th>Count</th>
+         <th>Refferal Code</th>
+         <th>Action</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let data of basicTable.data">
+         <td>{{ data.key }}</td>
+         <td>{{ data.name }}</td>
+         <td>{{ data.age }}</td>
+         <td>{{ data.address }}</td>
+         <td><span class="text-success">{{ data.enabl}}</span></td>
+         <td><span class="major">
+          <img src="../../../../assets/img/edit.svg" height="18px">
+          <img src="../../../../assets/img/delete.svg" height="18px" class="show-modal">
+         </span>
+        </td>
+       </tr>
+     </tbody>
+     </nz-table>
+     <div class="page-btm">
+      <nz-pagination [nzPageIndex]="1" [nzTotal]="50" class="page"></nz-pagination>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+

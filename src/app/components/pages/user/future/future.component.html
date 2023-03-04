@@ -1,0 +1,1524 @@
+<app-userlayout></app-userlayout>
+<section class="future">
+    <div nz-row class="future__title-row">
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="4" nzXXl="3" id="future-select">
+            <nz-select nzShowSearch nzPlaceHolder="BTCUSDT" [nzSuffixIcon]="suffixiconfx" [(ngModel)]="coinSelectedValue"
+                nzShowSearch (ngModelChange)="PairChange(coinSelectedValue)">
+                <nz-option *ngFor="let option of tradePairData" [nzLabel]="option.symbol" [nzValue]="option.symbol">
+                </nz-option>
+                <ng-template #suffixiconfx>
+                    <img class="future__downarrow" src="../../../../../assets/img/svg/chevron-down (1).svg" height="22"
+                        alt="">
+                </ng-template>
+            </nz-select>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="3" nzXXl="2">
+            <div class="future__content-box" (click)="showMarginChange()">
+                <nz-tag nzNoAnimation nz-tooltip nzTooltipTitle="Margin" class="future__box"
+                   >
+                    {{marginType}}
+                </nz-tag>
+
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="3" nzXXl="2">
+            <div class="future__content-box">
+                <a nz-tooltip nzTooltipPlacement="top" nzTooltipTitle="Leverage">
+                    <div class="future__box">
+                        <p class="future__box-content" (click)="showModal()">{{selected.leverage}}X</p>
+                        <nz-modal [(nzVisible)]="isVisible" nzMaskClosable="false" (nzOnCancel)="handleCancel()"
+                            (nzOnOk)="handleOk()" [nzFooter]="null" nzWidth="400px">
+                            <ng-container *nzModalContent>
+                                <h2 class="future__model-heading">Adjust Leverage</h2>
+                                <p class="future__lable-txt">Leverage</p>
+                                <input class="future__text-box" nz-input type="number"
+                                    [(ngModel)]="selected.tempLeverage" (focusout)="LeverageChangeValidate()"
+                                    id="leverageChange" />
+                                <nz-slider id="slider" #leverageChose="ngModel" [(ngModel)]="selected.tempLeverage"
+                                    nzTooltipPlacement="bottom" [nzMarks]="marksBot" [nzMax]="60">
+                                </nz-slider>
+                               
+                                <div class="future__btn">
+                                    <button nz-button class="future__confirm-btn" [nzLoading]="isLeaverageLoad"
+                                        (click)="ChangeLeverage(leverageChose)" nzType="primary" [disabled]="selected.tempLeverage <= 0"
+                                        nzShape="round">Confirm</button>
+                                    <button nz-button class="future__cancel-btn" nzType="primary"
+                                        (click)="isVisible = false" nzShape="round">Cancel</button>
+                                </div>
+                            </ng-container>
+                        </nz-modal>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="3" nzXXl="2">
+            <div class="future__subcontent-box">
+                <p class="future__label-heading">Market</p>
+                <p class="future__label-sub">{{marketData.mark | number: "1.0-2"}}</p>
+
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="4" nzXXl="3">
+            <div class="future__subcontent-box">
+                <p class="future__label-heading">Funding/8h</p>
+                <p class="future__label-sub-txt"> {{marketData.fundingRate
+                    | number: "1.2-4"
+                    }}% <nz-countdown class="future__timer" [nzValue]="marketData.nextFundTime"
+                        class="future__box-content3">
+                    </nz-countdown>
+                </p>
+
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="4" nzXXl="3">
+            <div class="future__subcontent-box">
+                <p class="future__label-heading">24h Change</p>
+                <p class="future__label-danger">{{ marketData["24hrChange"] }} <span> {{marketData["24hrChangePer"]
+                        | number: "1.2-2"}}%</span></p>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="3" nzXXl="2">
+            <div class="future__subcontent-box">
+                <p class="future__label-heading">24h High</p>
+                <p class="future__label-sub">{{marketData['24hrHigh'] | number}}</p>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="5" nzXXl="4">
+            <div class="future__mode">
+                <p>OnewayMode</p>
+                <nz-switch [ngModel]="hedgeMode" [nzDisabled]="disable" (click)="updatemode()" class="mx-2">
+                </nz-switch>
+                <p>HedgeMode</p>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="4" nzXXl="3">
+            <div class="future__usdt-amt">
+                <p>{{userDetail?.availableBalance | number: "1.0-2"}}<span class="future__Usdt-txt">USDT</span></p>
+            </div>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="18">
+
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="24">
+                    <div>
+                        <div class="future__chart" id="technical-analysis"></div>
+                    </div>
+                </div>
+                <!-- <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="12" nzXl="12">
+                   <div>
+                        <div id="technical-analysis-two" class="future__chart"></div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- <div nz-row>
+                <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="12" nzXl="12">
+                   <div>
+                        <div id="technical-analysis-three" class="future__chart"></div>
+                    </div>
+                </div>
+                <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="12" nzXl="12">
+                     <div>
+                        <div id="technical-analysis-four" class="future__chart"></div>
+                    </div>
+                </div>
+            </div> -->
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-card class="future__table-card">
+                        <nz-tabset id="balance-tab" nzOuterBordered="false" [nzAnimated]="false">
+                            <nz-tab nzTitle="Position ({{positionData.length}})" (nzClick)="getPosition()">
+                                <div class="future__table-box">
+                                <table class="future__position-table">
+                                    <thead class="table-head">
+
+                                        <th>Symbol/Entry Price</th>
+                                        <th>Market Price</th>
+                                        <th>Quantity</th>
+                                        <th> Liq. Price</th>
+                                        <th>Margin</th>
+                                        <th>Trade</th>
+                                        <th>PNL(ROE%)</th>
+                                        <th>Close Position</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody class="future__table-data" *ngIf="positionData.length >= 0">
+                                        <ng-container *ngFor="
+                                                let data of positionData;
+                                                let i = index;
+                                            ">
+
+                                            <tr>
+                                                <td class="data-btn">
+                                                    <div>
+                                                        {{ data?.symbol }} -
+                                                        <span class="profit-color">{{
+                                                            data.entryPrice
+                                                            }}</span>
+                                                    </div>
+                                                    <!-- <div class="text-muted font-weight-lighter">
+                                                        {{ "Quantity" | translate }}
+                                                        {{ data?.positionAmt }}
+                                                    </div> -->
+                                                </td>
+                                                <td>
+                                                    <nz-tag class="price_bg">{{data?.markPrice}}</nz-tag>
+                                                </td>
+                                                <td>
+                                                    <div> {{ data?.positionAmt }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ data?.liquidationPrice | number:'1.0-3'}}</div>
+                                                </td>
+                                                <td>
+                                                    <div *ngIf="data?.marginType != 'Cross'">
+                                                        {{data?.isolatedMargin | number:'1.1-2'}}
+                                                        <button nz-button nzType="default" nzShape="circle" nzGhost
+                                                        class="add-isolated-btn" (click)="isolatedMargin(data,i)">
+                                                        +
+                                                    </button>
+                                                        <br> ({{data?.marginType}})
+                                                       
+                                                    </div>
+                                                    <div *ngIf="data?.marginType == 'Cross'">
+                                                        {{data?.crossMarginRatio | number:'1.1-2'}} ({{data?.marginType}})
+                                                    </div>
+                                                </td>
+                                                <td >
+                                                    <span class="profit-color" *ngIf="data?.positionAmt > 0">Long</span>
+                                                    <span class="loss-color" *ngIf="data?.positionAmt < 0">Short</span>
+                                                </td>
+                                                <td class="data-btn1">
+                                                    <span>{{
+                                                        data?.pnl | number: "1.2-2"
+                                                        }}</span>
+                                                    <nz-progress [nzStatus]="
+                                                data?.roe < 0 ? 'exception': 'active'" [nzPercent]="data.roe"
+                                                        [nzWidth]="28"
+                                                        [ngClass]="data?.roe > 0 ? 'profit-color' : 'loss-color'"
+                                                        [nzStrokeWidth]="13" nzType="circle" [nzShowInfo]="false">
+                                                    </nz-progress>
+                                                    <span [ngClass]="{
+                                                        'loss-color': data?.roe < 0,
+                                                        'profit-color': data?.roe >= 0
+                                                    }">{{
+                                                        data?.roe | number: "1.2-2"
+                                                        }}% </span>
+
+                                                </td>
+                                                <td>
+                                                    <input type="number" nz-input #ClosePriceInput
+                                                        [ngModel]="data?.closePrice" class="future__close_price_input">
+                                                    <!-- {{data?.closePrice}} -->
+                                                </td>
+                                                <td class="data-btn">
+                                                    <button nz-button nzSize="large" class="future__limit-btntd"
+                                                        nzShape="round" [disabled]="i == closeOrderId"
+                                                        (click)="closeLimit(data,'LIMIT',ClosePriceInput.value,i)">
+                                                        Limit
+                                                    </button>
+                                                    <button nz-button nzSize="large" class="future__limit-btntd"
+                                                        nzShape="round" [disabled]="i == closeOrderId"
+                                                        (click)="closeLimit(data,'MARKET',ClosePriceInput.value,i)">
+                                                        Market
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div *ngIf="positionData.length <= 0" class="no-data-available">
+                                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                                </div>
+                            </nz-tab>
+                            <nz-tab nzTitle="Active Bot" (nzClick)="getBotList()">
+                                <nz-table #activeBot [nzData]="activeBotList">
+                                    <thead>
+                                        <tr>
+                                            <th>Leverage Chosen</th>
+                                            <th>Type</th>
+                                            <th>Bot</th>
+                                            <th>Automic Close Position</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let data of activeBot.data;let ind = index">
+                                            <tr class="future__table-data">
+                                                <!-- <td>BTCUSDT</td> -->
+                                                <td class="future__table-value">{{data?.leverage}}</td>
+                                                <td>{{data?.type}}</td>
+                                                <td>{{data?.symbol}}</td>
+                                                <td>
+                                                    <nz-switch [ngModel]="data?.auto_close"
+                                                        (click)="configUpdate(data._id,data.auto_close == true?false:true,null,ind)">
+                                                    </nz-switch>
+                                                </td>
+                                                <button *ngIf="data?.status == 'EXPIRED'" nz-button nzType="primary"
+                                                    [ngClass]="{'future__experied':data?.status == 'EXPIRED'}"
+                                                    nzShape="round"><span>Expired</span></button>
+
+                                                <button *ngIf="data?.status != 'EXPIRED'" nz-button nzType="primary"
+                                                    [ngClass]="{'stop-warning':data?.status == 'START', 'start-success':data?.status == 'STOP', 'future__experied':data?.status == 'EXPIRED'}"
+                                                    nzShape="round"
+                                                    (click)="configUpdate(data._id,null,data.status,ind)"><span
+                                                        *ngIf="data?.status == 'STOP'">Start</span><span
+                                                        *ngIf="data?.status == 'START'">Stop</span></button>
+                                                <a class="future__dropdown" nz-dropdown nzTrigger="click"
+                                                    [nzDropdownMenu]="menu"> <span class="droupdown-result">...</span>
+                                                </a>
+                                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                                    <ul class="future__menu-list" nz-menu>
+                                                        <!-- <li nz-menu-item>{{"ViewResult" | translate}}</li> -->
+                                                        <li nz-menu-item *ngIf="data?.status != 'EXPIRED'"
+                                                            (click)="editBothandleOk(data)">Edit</li>
+                                                        <!-- <li nz-menu-item>{{"Delete" | translate}}</li> -->
+                                                    </ul>
+                                                </nz-dropdown-menu>
+                                                <a class="future__drop-addtarget" (click)="
+                                            ToggleBotTarget(ind)"><span><img
+                                                            src="../../../assets/img/svg/chevron-down-white.svg"
+                                                            alt=""></span> </a>
+                                                <!-- <button class="future__drop-addtarget" nz-button nzType="primary" (click)="
+                                            ToggleBotTarget(i)" nzShape="round" ><img class="future__downarrow-icon" src="../../../assets/img/svg/chevron-down-white.svg" alt=""></button> -->
+                                            </tr>
+                                            <tr class="dropdown-row" *ngIf="targetVal.active == ind">
+                                                <td colspan="12">
+                                                    <div>
+                                                        <form [formGroup]="Step2validateForm">
+                                                            <div nz-row>
+                                                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                                    nzXl="3">
+                                                                    <nz-form-item
+                                                                        *ngFor="let targetctrl of targetTypeofCtrl; let i = index">
+                                                                        <nz-form-control
+                                                                            [nzErrorTip]="bottargetTypeErrorTpl">
+                                                                            <div nz-row>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="12">
+                                                                                    <nz-form-label
+                                                                                        [nzFor]="targetctrl.controlInstance">
+                                                                                        Target Type
+                                                                                    </nz-form-label>
+                                                                                </div>
+                                                                                <div id="select-bot" nz-col nzXs="24"
+                                                                                    nzSm="24" nzMd="24" nzLg="24"
+                                                                                    nzXl="12">
+                                                                                    <nz-select [attr.id]="targetctrl.id"
+                                                                                        [ngModel]="targetctrl.value"
+                                                                                        [formControlName]="targetctrl.controlInstance"
+                                                                                        [nzDropdownMatchSelectWidth]="false">
+                                                                                        <nz-option nzValue="PRICE"
+                                                                                            nzLabel="Price">
+                                                                                        </nz-option>
+                                                                                        <nz-option nzValue="PERCENTAGE"
+                                                                                            nzLabel="Percentage">
+                                                                                        </nz-option>
+                                                                                    </nz-select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <ng-template #bottargetTypeErrorTpl
+                                                                                let-control>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('required')">
+                                                                                    Please Select Target Type
+                                                                                </ng-container>
+                                                                            </ng-template>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                                    nzXl="3">
+                                                                    <nz-form-item
+                                                                        *ngFor="let tarCtrl of targetCtrl; let i = index">
+                                                                        <nz-form-control
+                                                                            [nzErrorTip]="bottargetErrorTpl">
+                                                                            <div nz-row>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="12">
+                                                                                    <nz-form-label class="target-txt"
+                                                                                        [nzFor]="tarCtrl.controlInstance">
+                                                                                        Target
+                                                                                    </nz-form-label>
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="12">
+                                                                                    <input class="target-input"
+                                                                                        type="number" min="1"
+                                                                                        [ngModel]="tarCtrl.value"
+                                                                                        nzSize="large" nzSize="large"
+                                                                                        nz-input [attr.id]="tarCtrl.id"
+                                                                                        [formControlName]="tarCtrl.controlInstance" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <ng-template #bottargetErrorTpl let-control>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('required')">
+                                                                                    Please Enter Target Value
+                                                                                </ng-container>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('min')">
+                                                                                    Please Enter Target Value Minimum Of
+                                                                                    1
+                                                                                </ng-container>
+                                                                            </ng-template>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24"
+                                                                    nzXl="5">
+                                                                    <nz-form-item
+                                                                        *ngFor="let triggertype of triggerTypeofCtrl; let i = index">
+                                                                        <nz-form-control>
+                                                                            <div nz-row>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="12">
+                                                                                    <nz-form-label class="target-txt"
+                                                                                        [nzFor]="triggertype.controlInstance">
+                                                                                        Trigger Type
+                                                                                    </nz-form-label>
+                                                                                </div>
+                                                                                <div id="select-bot" nz-col nzXs="24"
+                                                                                    nzSm="24" nzMd="24" nzLg="24"
+                                                                                    nzXl="10">
+                                                                                    <nz-form-control
+                                                                                        [nzErrorTip]="bottriggetTypeErrorTpl">
+                                                                                        <nz-select
+                                                                                            [attr.id]="triggertype.id"
+                                                                                            [ngModel]="triggertype.value"
+                                                                                            [formControlName]="triggertype.controlInstance"
+                                                                                            [nzDropdownMatchSelectWidth]="false">
+                                                                                            <nz-option nzValue="MARKET"
+                                                                                                nzLabel="Market">
+                                                                                            </nz-option>
+                                                                                            <nz-option nzValue="LIMIT"
+                                                                                                nzLabel="Limit">
+                                                                                            </nz-option>
+                                                                                        </nz-select>
+                                                                                        <ng-template
+                                                                                            #bottriggetTypeErrorTpl
+                                                                                            let-control>
+                                                                                            <ng-container
+                                                                                                *ngIf="control.hasError('required')">
+                                                                                                Please Select Trigger
+                                                                                                Type
+                                                                                            </ng-container>
+                                                                                        </ng-template>
+                                                                                    </nz-form-control>
+                                                                                </div>
+                                                                            </div>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                                <div nz-col nzXs="24" nzSm="24" nzMd="6" nzLg="6"
+                                                                    nzXl="12">
+                                                                    <nz-form-item
+                                                                        *ngFor="let qtyCtrl of qtyOfControl; let i = index">
+                                                                        <nz-form-control [nzErrorTip]="botQuanErrorTpl">
+                                                                            <div nz-row>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="5">
+                                                                                    <nz-form-label class="target-txt"
+                                                                                        [nzFor]="qtyCtrl.controlInstance">
+                                                                                        Quantity (%)
+                                                                                    </nz-form-label>
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24"
+                                                                                    nzMd="24" nzLg="24" nzXl="3">
+                                                                                    <input class="target-input"
+                                                                                        type="number"
+                                                                                        [ngModel]="qtyCtrl.value"
+                                                                                        min="1" nzSize="large"
+                                                                                        nzSize="large" nz-input
+                                                                                        [attr.id]="qtyCtrl.id"
+                                                                                        [formControlName]="qtyCtrl.controlInstance"
+                                                                                        (ngModelChange)="calQuantity()" />
+
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                                    nzLg="6" nzXl="4">
+                                                                                    <button class="future__add-btn"
+                                                                                        nz-button nzType="primary"
+                                                                                        [disabled]="Step2validateForm.get(qtyCtrl.controlInstance).invalid 
+                                                                                            || Step2validateForm.get(targetCtrl[i].controlInstance).invalid || isWarning || Step2validateForm.get(triggerTypeofCtrl[i].controlInstance).invalid || Step2validateForm.get(targetTypeofCtrl[i].controlInstance).invalid"
+                                                                                        nzShape="round"
+                                                                                        *ngIf="!data?.target[i]?.isEdit"
+                                                                                        (click)="targetAdd(data?._id,i,ind)">Add</button>
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                                    nzLg="6" nzXl="4"
+                                                                                    *ngIf="data?.target[i]?.isEdit">
+                                                                                    <button class="future__add-btn"
+                                                                                        nz-button nzType="primary"
+                                                                                        *ngIf="data?.target[i]?.isEdit"
+                                                                                        [disabled]="Step2validateForm.get(qtyCtrl.controlInstance).invalid 
+                                                                                            || Step2validateForm.get(targetCtrl[i].controlInstance).invalid || isWarning || Step2validateForm.get(triggerTypeofCtrl[i].controlInstance).invalid || Step2validateForm.get(targetTypeofCtrl[i].controlInstance).invalid"
+                                                                                        nzShape="round"
+                                                                                        (click)="targetUpdate(data?.target[i]._id,data?._id,i,ind)">Edit</button>
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                                    nzLg="6" nzXl="4"
+                                                                                    *ngIf="data?.target[i]?.isEdit">
+                                                                                    <button class="future__delete-btn"
+                                                                                        nz-button nzType="primary"
+                                                                                        *ngIf="data?.target[i]?.isEdit"
+                                                                                        nzShape="round"
+                                                                                        (click)="targetDelete(data?.target[i]._id,data?._id,i,ind,$event)"><img
+                                                                                            class="future__delete-icon"
+                                                                                            src="../../../assets/img/svg/trash.svg"
+                                                                                            alt=""></button>
+                                                                                </div>
+                                                                                <div nz-col nzXs="24" nzSm="24" nzMd="6"
+                                                                                    nzLg="6" nzXl="4"
+                                                                                    *ngIf="!data?.target[i]?.isEdit">
+                                                                                    <button class="future__delete-btn"
+                                                                                        nz-button nzType="primary"
+                                                                                        *ngIf="!data?.target[i]?.isEdit"
+                                                                                        nzShape="round"
+                                                                                        (click)="removeField(qtyCtrl, $event)"><img
+                                                                                            class="future__delete-icon"
+                                                                                            src="../../../assets/img/svg/trash.svg"
+                                                                                            alt=""></button>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <ng-template #botQuanErrorTpl let-control>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('required')">
+                                                                                    Please Enter Quantity In %
+                                                                                </ng-container>
+                                                                                <ng-container
+                                                                                    *ngIf="control.hasError('min') || control.hasError('max')">
+                                                                                    Quantity Should Be Min 1 And Max 100
+                                                                                </ng-container>
+                                                                            </ng-template>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                    <div *ngIf="isWarning">
+                                                        Quantity (%) Must Be Less Than Or Equal To 100
+                                                    </div>
+                                                    <div *ngIf="!isAddShow" (click)="addField($event)">
+                                                        + Add Target
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </nz-table>
+                                <!-- <nz-pagination class="future__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+                            </nz-tab>
+                            <nz-tab nzTitle="Open Order" (nzClick)="getOpenOrder()">
+                                <table class="future__position-table">
+                                    <thead class="table-head">
+                                            <th>Symbol/Entry Price</th>
+                                            <th>Amount</th>
+                                            <th>Side</th>
+                                            <th>Order ID</th>
+                                            <th>Order Type</th>
+                                            <th>Trigger Condition</th>
+                                            <th>Reduce Only</th>
+                                            <th>Action</th>
+                                      </thead>
+
+                                    <tbody class="future__table-data" *ngIf="openOrderHistory.length > 0">
+                                        <tr *ngFor="let data of openOrderHistory; let i = index">
+                                            <td class="data-btn">
+                                                <div>
+                                                    {{ data?.symbol }} -
+                                                    <span class="profit-color">{{
+                                                        data.price
+                                                        | number: "1.0-2"
+                                                        }}</span>
+                                                </div>
+                                                <div>
+                                                    {{ data.time | date:'short' }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <nz-tag class="price_bg"> {{ data?.origQty }}
+                                                    </nz-tag>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>{{ data?.side }}</div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{ data?.orderId }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{ data?.type }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{data?.stopPrice}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <span class="loss-color" *ngIf="data?.reduceOnly == false">No</span>
+                                                    <span class="profit-color"
+                                                        *ngIf="data?.reduceOnly == true">Yes</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button nz-button nzType="primary" class="future__experied" 
+                                                    nzShape="round" (click)="cancelOrder(data,i)">Cancel</button>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="openOrderHistory.length <= 0" class="no-data-available">
+                                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                                </div>
+                            </nz-tab>
+                            <nz-tab nzTitle="Trade History" (nzClick)="getTradeHistory(index,size)">
+                                <nz-table #historyTable [nzData]="tradeHistory" [nzShowPagination]="false">
+                                    <thead>
+                                        <tr>
+                                            <th>Date/Time</th>
+                                            <th>Coin Pair/Entry Price</th>
+                                            <th>Quantity</th>
+                                            <th>Exit Price</th>
+                                            <th>Position</th>
+                                            <th>Profit</th>
+                                            <th>PNL</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of historyTable.data">
+                                            <td>
+                                                {{ data?.updatedAt | date: "medium" }}
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{ data?.symbol }} -
+                                                    <span class="profit-color">{{
+                                                        data.entryPrice
+                                                        | number: "1.0-2"
+                                                        }}</span>
+                                                </div>
+                                                <div>
+                                                    {{ data.time }}
+                                                </div>
+                                            </td>
+                                            <!-- <td>
+                                                <div>
+                                                    {{ data?._id }}
+                                                </div>
+                                            </td> -->
+                                            <td>
+                                                <div>{{ data.quantity }}</div>
+                                            </td>
+                                            <td>
+                                                <div class="profit-color">
+                                                    {{ data.exitPrice }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="long" *ngIf="data?.side == 'BUY'">Long</span>
+                                                <span class="long" *ngIf="data?.side == 'SELL'">Short</span>
+                                            </td>
+                                            <td>
+                                                <div [ngClass]="{
+                                                        'profit-color':
+                                                            data.profit > 0,
+                                                        'loss-color':
+                                                            data.profit < 0
+                                                    }">
+                                                    {{ data.profit | number:'1.0-2' }}%
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <nz-tag [ngClass]="
+                                                            data?.pnl < 0
+                                                                ? 'ant-tag-red'
+                                                                : 'ant-tag-green'
+                                                        ">
+                                                        {{ data?.pnl | number:'1.0-2' }}
+                                                    </nz-tag>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <button nz-button class="future__openorder-cancel" nzSize="large"
+                                                        nzShape="round" nz-popconfirm
+                                                        nzPopconfirmTitle="Are you sure to delete this order?"
+                                                        nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                                        (nzOnConfirm)="deleteTradeHistory(data._id)"><img
+                                                            src="../../../assets/img/svg/trash-delete.svg" height="20"
+                                                            alt="">
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <!-- <nz-pagination class="future__paginatiion" [nzPageIndex]="1" [nzTotal]="500"></nz-pagination> -->
+                                <nz-pagination *ngIf="tradeHistory.length > 0" class="future__paginatiion"
+                                    [(nzPageIndex)]="index" [(nzPageSize)]="size" [nzTotal]="totalHistoryCount"
+                                    (nzPageIndexChange)="getTradeHistory(index,size)"></nz-pagination>
+                            </nz-tab>
+                        </nz-tabset>
+                    </nz-card>
+                </div>
+            </div>
+        </div>
+        <div nz-col nzXs="24" nzSm="22" nzMd="24" nzLg="24" nzXl="6">
+            <div id="tabset-card">
+                <nz-card>
+                    <nz-tabset id="future-tab" nzOuterBordered="false" [nzAnimated]="false">
+                        <nz-tab class="futuree__buy-tab" nzTitle="Buy/Long" (nzClick)="changeForm(true,1)">
+                            <form nz-form [formGroup]="buyForm" class="login-form">
+                                <nz-form-item id="buy-long">
+                                    <nz-radio-group class="future__radio-btn" formControlName="type"
+                                        [nzButtonStyle]="'solid'" (ngModelChange)="changeValidation(buyForm)">
+                                        <label class="future__limit-btn" nz-radio-button nzValue="LIMIT">Limit
+                                        </label>
+                                        <label class="future__market-btn" nz-radio-button nzValue="MARKET">Market
+                                        </label>
+                                        <label class="future__stop-btn" nz-radio-button nzValue="STOP">Stop
+                                        </label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                                <nz-form-item *ngIf="buyForm.value.type == 'STOP'" id="buy-round">
+                                    <nz-radio-group formControlName="stopType" (ngModelChange)="stopCurrentPrice()">
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-LIMIT">Stop Limit
+                                        </label>
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-MARKET">Stop Market
+                                        </label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                                <nz-form-item *ngIf="buyForm.value.type == 'STOP'">
+                                    <nz-form-control [nzErrorTip]="buyStopPriceErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="price">Trigger Price
+                                            </nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group nzSuffix="USDT">
+                                                <input type="number" class="future__txt-box" nz-input appTwoDigitDecimaNumber [value]="pricePrecision-1"
+                                                    formControlName="stopPrice" (input)="TriggerCostBuy()" />
+                                            </nz-input-group>
+                                        </div>
+
+                                        <ng-template #buyStopPriceErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('min')">
+                                                Please input valid trigger price!
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                Please input your trigger price!
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item *ngIf="
+                                    buyForm.value.type == 'LIMIT' ||
+                                    (buyForm.value.type == 'STOP' &&
+                                        buyForm.value.stopType == 'STOP-LIMIT')
+                                ">
+                                    <nz-form-control [nzErrorTip]="buyPriceErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="price">Price
+                                            </nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group nzSuffix="USDT">
+
+                                                <input type="number" appTwoDigitDecimaNumber [value]="pricePrecision-1" (input)="ProcessCostMaxBuy(buyForm, marketData.mark);changePrice(buyForm)"
+                                                    class="future__txt-box" nz-input formControlName="price" />
+                                            </nz-input-group>
+                                        </div>
+
+                                        <ng-template #buyPriceErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('min')">
+                                                Please input valid price!
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                Please input your price!
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control [nzErrorTip]="buyQuanErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="quantity">Quantity
+                                            </nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group [nzSuffix]="selected.mainCoin">
+                                                <input type="number" class="future__txt-box" nz-input appTwoDigitDecimaNumber [value]="coinPrecision-1"
+                                                    (ngModelChange)="TriggerCostBuy()" formControlName="quantity"
+                                                    [(ngModel)]="quantity" />
+                                            </nz-input-group>
+                                        </div>
+                                        <ng-template #buyQuanErrorTpl let-control>
+                                            <!-- <ng-container *ngIf="control.hasError('max')">
+                                                Quantity exceeds max buy!
+                                            </ng-container> -->
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                Please Enter Quantity In
+                                            </ng-container>
+                                        </ng-template>
+                                        <div class="error-txt">
+                                            <ng-container class="error-txt"
+                                                *ngIf="buyForm.value.quantity < selected.min && buyForm.value.quantity > 0">
+                                                Enter minimum Quantity of {{selected.min}}!
+                                            </ng-container>
+                                            <ng-container class="color-red" *ngIf="buyForm.value.quantity > selected.maxBuy">
+                                                Quantity exceeds max buy!
+                                            </ng-container>
+                                        </div>
+                                        <div class="color-red">
+                                            <ng-container class="color-red"
+                                                *ngIf="buyTotalValue < 5 && buyForm.value.quantity >= selected.min && buyTotalValue !=0">
+                                                Enter quantity worth of 5 USDT !
+                                            </ng-container>
+                                            <!-- <ng-container class="color-red" *ngIf="quantity > selected.maxBuy">
+                                                Quantity exceeds max buy!
+                                            </ng-container> -->
+
+                                        </div>
+
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-slider [nzTipFormatter]="formatter" [nzMarks]="marks" nzTooltipPlacement="bottom"
+                                     formControlName="percentage"
+                                    (nzOnAfterChange)="ChangePercentage('BUY')"></nz-slider>
+                                <div class="future__cost-value">
+                                    <div>Cost</div>
+                                    <div> <span>{{ selected.cost | number: "1.2-5" }}</span> <span>{{ selected.baseCoin
+                                            }}</span></div>
+                                </div>
+                                <div class="future__cost-value">
+                                    <div>Max Buy</div>
+                                    <div> <span>{{ selected.maxBuy }} {{ selected.mainCoin}}</span></div>
+                                </div>
+                                <nz-form-item *ngIf="!hedgeMode">
+                                    <nz-form-control>
+                                        <button nz-button nzType="primary" [nzLoading]="isBuyLoad" nzSize="large"
+                                            nzShape="round" class="future__buy-long-btn"
+                                            [disabled]="!buyForm.valid || buyTotalValue < 5|| quantity > selected.maxBuy || quantity < selected.min"
+                                            (click)="BuySubmit('BUY',null)">
+                                            Buy
+                                        </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-control *ngIf="hedgeMode">
+                                    <div class="buylong-btn">
+                                        <button nz-button nzType="primary" [nzLoading]="loading.buy" nzSize="large"
+                                            nzShape="round" class="buy-long"
+                                            [disabled]="!buyForm.valid || quantity > selected.maxBuy ||buyTotalValue < 5 || buyForm.value.quantity < selected.min" 
+                                            (click)="BuySubmit('BUY','LONG')">
+                                            Open Long
+                                        </button>
+                                        <button nz-button nzType="danger" [nzLoading]="loading.sell" nzSize="large"
+                                            nzShape="round" class="sell-long"
+                                            [disabled]="!buyForm.valid || quantity > selected.maxBuy ||buyTotalValue < 5 || buyForm.value.quantity < selected.min"
+                                            (click)="BuySubmit('SELL','SHORT')">
+                                            Open Short
+                                        </button>
+                                    </div>
+                                </nz-form-control>
+                            </form>
+                            <!-- <form >
+                                <nz-form-item  id="buy-long">
+                                    <nz-radio-group class="future__radio-btn" formControlName="type"
+                                        [nzButtonStyle]="'solid'">
+                                        <label class="future__limit-btn" nz-radio-button nzValue="LIMIT">Limit
+                                        </label>
+                                        <label class="future__market-btn" nz-radio-button nzValue="MARKET">Market
+                                        </label>
+                                        <label class="future__stop-btn" nz-radio-button nzValue="STOP">Stop Limit
+                                        </label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                                <nz-form-item  id="sell-round">
+                                    <nz-radio-group >
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-LIMIT">StopLimit
+                                        </label>
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-MARKET">StopMarket
+                                        </label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-form-label class="future__label-txt"> Tigger Price</nz-form-label>
+                                      <input nz-input >
+                                    </nz-form-control>
+                                    <nz-form-control>
+                                        <nz-form-label class="future__label-txt">Price</nz-form-label>
+                                      <input nz-input >
+                                    </nz-form-control>
+                                    <nz-form-control>
+                                        <nz-form-label class="future__label-txt">Quality</nz-form-label>
+                                      <input nz-input >
+                                    </nz-form-control>
+                                  </nz-form-item >
+                                  <div id="buy-slider">
+                                    <nz-slider></nz-slider>
+                                  </div>
+                                  <div class="future__cost-value">
+                                      <div>Cost</div>
+                                      <div>11.8276USDT</div>
+                                  </div>
+                                  <div class="future__cost-value">
+                                    <div>Max Buy</div>
+                                    <div>76BTC</div>
+                                </div>
+                                <nz-form-item >
+                                    <nz-form-control>
+                                        <button nz-button nzType="primary" nzSize="large" nzShape="round" class="future__buy-long-btn">Buy</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                      
+                                    
+                            </form> -->
+                        </nz-tab>
+                        <nz-tab class="future__sell-tab" nzTitle="Sell/Short" (nzClick)="changeForm(false,0)">
+                            <form nz-form [formGroup]="sellForm" class="login-form">
+                                <div class="mb-3 sell-radio-group">
+                                    <nz-form-item id="sell-radio-group">
+                                        <nz-radio-group class="future__radio-btn" formControlName="type"
+                                            [nzButtonStyle]="'solid'" (ngModelChange)="changeValidation(sellForm)">
+                                            <label class="future__limit-btn" nz-radio-button nzValue="LIMIT">Limit
+                                            </label>
+                                            <label class="future__market-btn" nz-radio-button nzValue="MARKET">Market
+                                            </label>
+                                            <label class="future__stop-btn" nz-radio-button nzValue="STOP">Stop
+                                            </label>
+                                        </nz-radio-group>
+                                    </nz-form-item>
+                                </div>
+                                <nz-form-item *ngIf="sellForm.value.type == 'STOP'" id="sell-round">
+                                    <nz-radio-group class="stop-radio-group" formControlName="stopType" (ngModelChange)="stopCurrentPrice()">
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-LIMIT">Stop Limit
+                                        </label>
+                                        <label class="future__price-txt" nz-radio nzValue="STOP-MARKET">Stop Market
+                                        </label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                                <nz-form-item *ngIf="
+                                            sellForm.value.type == 'LIMIT' ||
+                                            (sellForm.value.type == 'STOP' &&
+                                                sellForm.value.stopType == 'STOP-LIMIT')
+                                        ">
+                                    <nz-form-control [nzErrorTip]="sellPriceErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="price">Price
+                                            </nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group [nzSuffix]="selected.baseCoin">
+                                                <input type="number" nz-input formControlName="price" appTwoDigitDecimaNumber [value]="pricePrecision-1"
+                                                    (input)="ProcessCostMaxBuy(sellForm, marketData.mark);changePrice(sellForm)" />
+                                            </nz-input-group>
+                                        </div>
+
+                                        <ng-template #sellPriceErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('min')">
+                                                Please input valid price!
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                Please input your price!
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item *ngIf="sellForm.value.type == 'STOP'">
+                                    <nz-form-control [nzErrorTip]="buyStopPriceErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="price">Trigger Price</nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group nzSuffix="USDT"> 
+                                                <input type="number" nz-input formControlName="stopPrice" appTwoDigitDecimaNumber [value]="pricePrecision-1"
+                                                    (input)="TriggerCostBuy()" />
+                                            </nz-input-group>
+                                        </div>
+
+                                        <ng-template #buyStopPriceErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('min')">
+                                                Please input valid stop price!
+                                            </ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">
+                                                Please input your stop price!
+                                            </ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-control [nzErrorTip]="sellQuanErrorTpl">
+                                        <div id="price-text">
+                                            <nz-form-label nzFor="quantity">Quantity</nz-form-label>
+                                        </div>
+                                        <div id="sell-long-input">
+                                            <nz-input-group [nzSuffix]="selected.mainCoin">
+                                                <input type="number" nz-input formControlName="quantity" appTwoDigitDecimaNumber [value]="coinPrecision-1"
+                                                [(ngModel)]="sellQuantity" (input)="TriggerCostBuy()" />
+                                            </nz-input-group>
+                                        </div>
+                                        <ng-template #sellQuanErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('min')">
+                                                Enter minimum Quantity of {{selected.min}}!
+                                            </ng-container>
+                                           <ng-container *ngIf="control.hasError('required')">
+                                                Enter quantity worth of 5 USDT!
+                                            </ng-container>
+                                        </ng-template>
+                                        <div class="error-txt">
+                                            <ng-container class="color-red"
+                                                *ngIf="sellForm.value.quantity < selected.min && sellForm.value.quantity > 0">
+                                                Enter minimum Quantity of {{selected.min}}!
+                                            </ng-container>
+                                            <ng-container class="color-red"
+                                                *ngIf="buyTotalValue < 5 && sellForm.value.quantity >= selected.min && buyTotalValue !=0">
+                                                Enter quantity worth of 5 USDT!
+                                            </ng-container>
+                                            <ng-container class="color-red" *ngIf="sellForm.value.quantity > selected.maxBuy">
+                                                Quantity exceeds max sell!
+                                            </ng-container>
+                                            
+                                        </div>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <div class="danger-slider" id="sell-slider">
+                                    <nz-slider [nzTipFormatter]="formatter" [nzMarks]="marksBuySell"  nzTooltipPlacement="bottom"
+                                        formControlName="percentage" (nzOnAfterChange)="ChangePercentage('SELL')">
+                                    </nz-slider>
+                                </div>
+                                <div class="future__cost-value">
+                                    <div>Cost</div>
+                                    <div> <span>{{ selected.cost | number: "1.2-5" }}</span> <span>{{ selected.baseCoin
+                                            }}</span></div>
+                                </div>
+                                <div class="future__cost-value">
+                                    <div>Max Buy</div>
+                                    <div> <span>{{ selected.maxBuy | number: "1.2-5"}} {{ selected.mainCoin}}</span></div>
+                                </div>
+                                <button *ngIf="!hedgeMode" nz-button nzType="primary" nzSize="large"
+                                    [nzLoading]="isSellLoad" nzShape="round" class="future__sell-long-btn"
+                                    [disabled]="!sellForm.valid || sellForm.value.quantity  > selected.maxBuy || buyTotalValue < 5  || sellForm.value.quantity < selected.min"
+                                    (click)="SellSubmit('SELL',null)">
+                                    Sell
+                                </button>
+
+                                <nz-form-item class="mb-0" *ngIf="hedgeMode">
+                                    <nz-form-control>
+                                        <div class="buylong-btn">
+                                            <button nz-button nzType="primary" nzSize="large" [nzLoading]="loading.sell"
+                                                nzShape="round" class="buy-long"
+                                                [disabled]=" sellForm.invalid || positionData.length <= 0
+                                                || sellQuantity > selected.maxBuy || buyTotalValue < 5 || sellForm.value.quantity < selected.min" (click)="SellSubmit('BUY','SHORT')">
+                                                Close Short
+                                            </button>
+                                            <button nz-button nzType="danger" nzSize="large" [nzLoading]="loading.buy"
+                                                nzShape="round" class="sell-long"
+                                                [disabled]="sellForm.invalid || positionData.length <= 0
+                                                || sellQuantity > selected.maxBuy ||buyTotalValue < 5 ||sellForm.value.quantity < selected.min" (click)="SellSubmit('SELL','LONG')">
+                                                Close Long
+                                            </button>
+                                        </div>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </form>
+                            <!-- <form >
+                                    <nz-form-item  id="sell-short">
+                                        <nz-radio-group class="future__radio-btn" formControlName="type"
+                                            [nzButtonStyle]="'solid'">
+                                            <label class="future__limit-btn" nz-radio-button nzValue="LIMIT">Limit
+                                            </label>
+                                            <label class="future__market-btn" nz-radio-button nzValue="MARKET">Market
+                                            </label>
+                                            <label class="future__stop-btn" nz-radio-button nzValue="STOP">Stop Limit
+                                            </label>
+                                        </nz-radio-group>
+                                    </nz-form-item>
+                                    <nz-form-item  id="sell-round">
+                                        <nz-radio-group  >
+                                            <label class="future__price-txt" nz-radio nzValue="STOP-LIMIT">StopLimit
+                                            </label>
+                                            <label class="future__price-txt" nz-radio nzValue="STOP-MARKET">StopMarket
+                                            </label>
+                                        </nz-radio-group>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-form-label class="future__label-txt"> Tigger Price</nz-form-label>
+                                          <input nz-input >
+                                        </nz-form-control>
+                                        <nz-form-control>
+                                            <nz-form-label class="future__label-txt">Price</nz-form-label>
+                                          <input nz-input >
+                                        </nz-form-control>
+                                        <nz-form-control>
+                                            <nz-form-label class="future__label-txt">Quality</nz-form-label>
+                                          <input nz-input >
+                                        </nz-form-control>
+                                      </nz-form-item >
+                                      <div id="buy-slider">
+                                        <nz-slider></nz-slider>
+                                      </div>
+                                      <div class="future__cost-value">
+                                          <div>Cost</div>
+                                          <div>11.8276USDT</div>
+                                      </div>
+                                      <div class="future__cost-value">
+                                        <div>Max Buy</div>
+                                        <div>76BTC</div>
+                                    </div>
+                                    <nz-form-item >
+                                        <nz-form-control>
+                                            <button nz-button nzType="primary" nzSize="large" nzShape="round" class="future__buy-long-btn">Sell</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                          
+                                        
+                                    </form> -->
+                        </nz-tab>
+                    </nz-tabset>
+                </nz-card>
+            </div>
+            <div id="ratio-card" *ngIf="positionData.length > 0">
+                <nz-card class="future__cross-ration">
+                    <h1 class="future__corss-title">Cross Margin Ration</h1>
+                </nz-card>
+            </div>
+            <div id="ratio-card" *ngIf="positionData.length > 0">
+                <nz-card class="future__cross-ration">
+                    <div class="future__cost-value">
+                        <div>Margin Rate</div>
+                        <div class="future__rate-value">{{crossMarginRatio.marginRatio}} USDT</div>
+                    </div>
+                </nz-card>
+            </div>
+            <div id="ratio-card" *ngIf="positionData.length > 0">
+                <nz-card class="future__cross-ration">
+                    <div class="future__cost-value">
+                        <div>Maintenance Margin</div>
+                        <div>{{ crossMarginRatio.maintenanceMargin }} USDT</div>
+                    </div>
+                </nz-card>
+            </div>
+            <div id="ratio-card" *ngIf="positionData.length > 0">
+                <nz-card class="future__cross-ration">
+                    <div class="future__cost-value">
+                        <div>Margin Balance</div>
+                        <div>{{ crossMarginBalance | number: "1.2-2"}} USDT</div>
+                    </div>
+                </nz-card>
+            </div>
+            <div id="ratio-card" *ngIf="positionData.length > 0">
+                <nz-card class="future__cross-ration">
+                    <div class="future__cost-value">
+                        <div>Unrealized PNL</div>
+                        <div>{{crossMarginRatio.unpnl | number: "1.2-2"}} USDT</div>
+                    </div>
+                </nz-card>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<nz-modal [(nzVisible)]="marginChangeisVisible" [nzTitle]="marginChangeTitle"
+    (nzOnCancel)="marginChangeisVisible = false" nzWidth="400px" nzMaskClosable="false" nzClosable="false"
+    [nzFooter]="null">
+    <ng-template #marginChangeTitle>
+        <div>
+            <h4 class="modal-title">
+                {{ coinSelectedValue}} Margin Mode
+            </h4>
+            <div>
+                <i-feather name="x" class="cursor-pointer"></i-feather>
+            </div>
+        </div>
+    </ng-template>
+    <div>
+        <div nz-row>
+            <div class="radio-btn" nz-col nzXs="2" nzSm="22" nzMd="24" nzLg="24" nzXl="24">
+
+                <nz-radio-group [(ngModel)]="marginMode" [nzButtonStyle]="'solid'">
+                    <label class="future__cross-btn" nz-radio-button nzValue="Cross"
+                        [nzDisabled]="isFound && marginType != 'Cross'"><span
+                            class="future__cross-text">Cross</span></label>
+                    <label class="future__cross-btn" nz-radio-button nzValue="Isolated"
+                        [nzDisabled]="isFound && marginType != 'Isolated'"><span
+                            class="future__cross-text">Isolated</span></label>
+                </nz-radio-group>
+            </div>
+        </div>
+        <ul>
+            <li class="model-subpara">Switching the margin mode will only apply it to the selected contract.</li>
+        </ul>
+        <nz-collapse [nzBordered]="false">
+            <nz-collapse-panel [nzHeader]="'What are Cross and Isolated modes?'" [nzActive]="false"
+                [ngStyle]="{'border': 0}">
+                <p><strong>Cross Margin Mode:</strong>Share your margin balance across all open positions to avoid
+                    liquidation. In the event of liquidation you risk losing your full margin balance along with any
+                    remaining open positions.</p>
+                <p><strong>Isolated Margin Mode:</strong>Manage your risk on individual positions by restricting the
+                    amount of margin allocated to each. If the margin ratio of a position reached 100%, the position
+                    will be liquidated. Margin can be added or removed to positions using this mode.</p>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+    <div class="model-btn">
+        <!-- <button nz-button class="future__confirm-btn" nzSize="large" nzShape="round" [nzLoading]="marginLoad"
+            [disabled]="openOrderHistory.length > 0 || positionData.length > 0" (click)="ChangeMarginType()">
+            Confirm
+        </button> -->
+        <button nz-button class="future__confirm-btn" nzSize="large" nzShape="round" [nzLoading]="marginLoad"
+        [disabled]="isFound" (click)="ChangeMarginType()">
+        Confirm
+        </button>
+        <button nz-button nzType="default" nzSize="large" nzShape="round" class="future__cancel-btn"
+            (click)="marginChangeisVisible = false">
+            Cancel
+        </button>
+    </div>
+</nz-modal>
+
+<!-- Modal -- Isolated Margin --Strat's -->
+<nz-modal class="editbot-modal" nzWrapClassName="vertical-center-modal" nzClassName="isolated-modal"
+    [(nzVisible)]="isolatedMarginisVisible" (nzOnCancel)="isolatedMarginisVisible = false" nzWidth="420"
+    nzClosable="false" [nzFooter]="null" nzWidth="400px">
+    <ng-template #isolatedMarginTitle>
+        <div>
+            <div>
+                <div class="modal-close-icon" (click)="isolatedMarginisVisible = false">
+                    <i-feather name="x" class="cursor-pointer"></i-feather>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <div>
+        <nz-tabset [nzAnimated]="false" [nzSelectedIndex]="0">
+            <nz-tab class="marign-tab" nzTitle="Add Margin">
+                <form nz-form [formGroup]="addMarginForm">
+                    <nz-form-item>
+                        <nz-form-label nzFor="amount" class="future__lable-txt">Amount</nz-form-label>
+                        <nz-form-control nzErrorTip="Please enter amount between 0.01 to {{selected.balance}}!">
+                            <nz-input-group [nzSuffix]="suffixCoinSymbol">
+                                <input type="number" nz-input formControlName="amount"
+                                    (ngModelChange)="checkMarginValue()" />
+                            </nz-input-group>
+                            <ng-template #suffixCoinSymbol>USDT</ng-template>
+                        </nz-form-control>
+
+                    </nz-form-item>
+                    <div>
+                        <span class="text-grey future__lable-txt">Currently Margin for {{coinSelectedValue}}:</span>
+                        <span>{{isolatedData.isolatedMargin}} USDT</span>
+                    </div>
+                    <div>
+                        <span class="text-grey future__lable-txt">Available Balance:</span>
+                        <span>{{selected.balance}} USDT</span>
+                    </div>
+                    <!-- <div>
+                        <span class="text-grey">Liq.Price after Adjusting:</span>
+                        <span>0.00 USDT</span>
+                    </div> -->
+                    <div>
+                        <button nz-button nzSize="large" class="future__confirm-btn" nzShape="round"
+                            [disabled]="addMarginForm.invalid" [nzLoading]="loading.marginload" (click)="modifyMargin(isolatedData,1,addMarginForm)">
+                            Confirm
+                        </button>
+                        <button nz-button nzType="default" nzSize="large" nzShape="round" class="future__cancel-btn"
+                            (click)="isolatedMarginisVisible = false">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </nz-tab>
+            <nz-tab nzTitle="Remove Margin">
+                <form nz-form [formGroup]="removeMarginForm">
+                    <nz-form-item>
+                        <nz-form-label nzFor="email">Amount</nz-form-label>
+                        <nz-form-control
+                            nzErrorTip="Please enter less than or equal to {{isolatedData.isolatedMargin -((isolatedData.entryPrice *isolatedData.positionAmt)/selected.leverage)}}!">
+                            <nz-input-group [nzSuffix]="suffixCoinSymbol">
+                                <input type="text" nz-input formControlName="amount"
+                                    (ngModelChange)="checkremoveMarginValue()" />
+                            </nz-input-group>
+                            <ng-template #suffixCoinSymbol>USDT</ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <div>
+                        <span class="text-grey">Currently Assigned Margin</span>
+                        <span>{{isolatedData.isolatedMargin}} USDT</span>
+                    </div>
+                    <div>
+                        <span class="text-grey">Max removable:</span>
+                        <span>{{isolatedData.isolatedMargin -((isolatedData.entryPrice *
+                            isolatedData.positionAmt)/selected.leverage)}}
+                            USDT</span>
+                    </div>
+                    <!-- <div class="d-flex align-items-center justify-content-between">
+                        <span class="text-grey">Liq.Price after reduction:</span>
+                        <span>0.00 USDT</span>
+                    </div> -->
+                    <div>
+                        <button nz-button nzSize="large" class="future__confirm-btn" nzShape="round" [nzLoading]="loading.marginload"
+                            [disabled]="removeMarginForm.value.amount > (isolatedData.isolatedMargin -((isolatedData.entryPrice * isolatedData.positionAmt)/selected.leverage)) "
+                            (click)="modifyMargin(isolatedData,2,removeMarginForm)">
+                            Confirm
+                        </button>
+                        <button nz-button nzType="default" nzSize="large" nzShape="round" class="future__cancel-btn"
+                            (click)="isolatedMarginisVisible = false">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </nz-tab>
+        </nz-tabset>
+    </div>
+</nz-modal>
+<!-- Modal -- Isolated Margin --End -->
+
+<nz-modal [(nzVisible)]="editbotisVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleCancel()" nzWidth="368px"
+    [nzFooter]="null">
+    <ng-container *nzModalContent>
+        <div nz-row>
+            <div nz-col nzXs="5" nzSm="5" nzMd="5" nzLg="5" nzXl="5">
+                <img src="../../..//assets/img/svg/bot.svg" alt="">
+            </div>
+            <div nz-col nzXs="19" nzSm="19" nzMd="19" nzLg="19" nzXl="19">
+                <h4 class="future__edit-model-title">{{editBotData?.symbol}}</h4>
+                <p class="future__btc-txt">BTCUSDT</p>
+            </div>
+        </div>
+        <form nz-form [formGroup]="botEditForm">
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                        <p class="future__quantity-txt">Quantity(%)</p>
+                    </div>
+                    <nz-form-control [nzErrorTip]="quantityTpl">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input class="future__input-box-model" [(ngModel)]="botQuan" formControlName="botQuantity"
+                                type="number" nz-input placeholder="5" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+                        </ng-template>
+                        <ng-template #quantityTpl let-control>
+                            <ng-container *ngIf="control.hasError('min')">
+                                Enter minimum of 1
+                            </ng-container>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please Enter Quantity In %
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                    <div nz-row class="future__stop-input">
+                        <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                            <p class="future__stop-loss">Stop Loss</p>
+                        </div>
+                        <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                            <nz-switch [(ngModel)]="botstopSwitch" [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="changeStopLoss()"></nz-switch>
+                        </div>
+                    </div>
+                    <nz-form-control [nzErrorTip]="botstopError" *ngIf="botstopSwitch">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input class="future__input-box-model" type="number" [(ngModel)]="botStopValue"
+                                formControlName="botstopLossValue" nz-input placeholder="10" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                            <img src="../../../assets/img/svg/percent.svg" height="12" alt="">
+                        </ng-template>
+                        <ng-template #botstopError let-control>
+                            <ng-container *ngIf="control.hasError('min')">
+                                Please input valid stop price!
+                            </ng-container>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please input your stop price!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+
+                    <div nz-row class="future__leverage-line">
+                        <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                            <p class="future__leverage-txt">Leverage Chosen </p>
+                        </div>
+                        <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                            <p class="future__value" [innerHTML]="botLeverage">36X</p>
+                        </div>
+                    </div>
+                    <nz-slider nzTooltipPlacement="bottom" id="botSlider" #botLeverageChose="ngModel"
+                        [(ngModel)]="botLeverage" nzTooltipPlacement="bottom" [nzMarks]="marksBot" [nzStep]="10"
+                        [ngModelOptions]="{standalone: true}" [nzMax]="60"></nz-slider>
+                    <p class="future__leverage-txt"> Select Type </p>
+                    <nz-form-item>
+                        <nz-radio-group formControlName="type" [(ngModel)]="botType" [nzButtonStyle]="'solid'">
+                            <label class="future__limit-btn-model" nz-radio-button nzValue="LIMIT">Limit
+                            </label>
+                            <label class="future__market-btn-model" nz-radio-button nzValue="MARKET">Market
+                            </label>
+                            <label class="future__stop-btn-model" nz-radio-button nzValue="STOP">Stop Limit
+                            </label>
+                        </nz-radio-group>
+                    </nz-form-item>
+                    <p class="future__leverage-txt">Position</p>
+                    <nz-form-item>
+                        <nz-radio-group formControlName="position" [(ngModel)]="botPosition" [nzButtonStyle]="'solid'">
+                            <label class="future__long-btn" nz-radio-button nzValue="LONG">Long
+                            </label>
+                            <label class="future__short-btn" nz-radio-button nzValue="SHORT">Short
+                            </label>
+                            <label class="future__both-btn" nz-radio-button nzValue="BOTH">Both
+                            </label>
+                        </nz-radio-group>
+                    </nz-form-item>
+                    <div nz-row class="future__position-input">
+                        <div nz-col nzXs="21" nzSm="21" nzMd="21" nzLg="21" nzXl="21">
+                            <p class="future__stop-loss">Automatic Close Position</p>
+                        </div>
+                        <div nz-col nzXs="3" nzSm="3" nzMd="3" nzLg="3" nzXl="3">
+                            <nz-switch [(ngModel)]="botClose" [ngModelOptions]="{standalone: true}"></nz-switch>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="future__model-btn">
+                <button nz-button class="future__next-btn" nzType="primary" nzShape="round"  [nzLoading]="loading.botUpdateLoad" (click)="botUpdate()"
+                    [disabled]="botEditForm.invalid">Save</button>
+                <button nz-button class="future__cancel-btn" nzType="primary" nzShape="round"
+                    (click)="handleCancel()">Cancel</button>
+            </div>
+        </form>
+    </ng-container>
+</nz-modal>
+<!-- <nz-modal [(nzVisible)]="addisVisible" (nzOnCancel)="handleCancelbot()" (nzOnOk)="handleOkbot()" nzFooter="null"
+  nzWidth="1160px" nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <h4 class="bot-title">{{"selectbot" | translate}}</h4>
+    <nz-empty nzNotFoundImage="simple" *ngIf="BOTList.length <= 0"></nz-empty>
+    <owl-carousel-o [options]="statuscustomOptions" #multiplestatus *ngIf="BOTList.length > 0">
+      <ng-template carouselSlide *ngFor="let data of BOTList;let i = index">
+        <div class="market-card">
+          <div class="addbot-model">
+            <img src="../../../assets/img/svg/bot.svg" alt="" height="60">
+            <h6 class="card-heading">{{data?.name}}</h6>
+            <nz-rate [ngModel]="data?.rating" nzDisabled></nz-rate>
+            <p class="card-para"> {{data?.description}}</p>
+            <div id="sub-btn">
+              <button class="subscribe-btn" nz-button nzType="primary" nzShape="round"
+              (click)="showModalsubscribe(data)">{{"subscribe" | translate}}</button><br>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </owl-carousel-o>
+    <p class="view-all-tag" routerLink="/marketplace" routerLinkActive="active" *ngIf="BOTList.length > 0">View All</p>
+  </ng-container> 
+</nz-modal>
+<nz-modal [(nzVisible)]="EditisVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzFooter]="null"
+  nzWidth="380px" nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div nz-col nzXs="5" nzSm="5" nzMd="4" nzLg="4" nzXl="5">
+        <img src="../../../assets/img/svg/bot.svg" alt="">
+      </div>
+      <div class="future__sub-model" nz-col nzXs="17" nzSm="17" nzMd="20" nzLg="20" nzXl="17">
+        <h4 class="future__model-heading">{{botId?.name}}</h4>
+        <h6 class="future__model-sub-heading">{{botId?.price}} {{botId?.currency}} for <span
+            class="future__model-sub-content">{{"onemonth" | translate}}</span> </h6>
+      </div>
+    </div>
+    <div nz-row id="marketplace-model">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <p class="future__payment-txt">{{"payment" | translate}}</p>
+        <nz-select class="future__select-coin" nzAllowClear nzPlaceHolder="Select" [(ngModel)]="paymentType">
+          <nz-option class="future__coin" nzLabel="BTC" nzValue="BTC"></nz-option>
+          <nz-option class="future__coin" nzLabel="ETH" nzValue="ETH"></nz-option>
+          <nz-option class="future__coin" nzLabel="USDT" nzValue="USDT"></nz-option>
+        </nz-select>
+        <p class="future__Subscription-txt">Subscription</p>
+        <nz-select class="future__select-month" nzAllowClear nzPlaceHolder="Select" [(ngModel)]="paymentYear">
+          <nz-option nzLabel="{{'onemonth' | translate}}" nzValue="1"></nz-option>
+          <nz-option nzLabel="{{'threemonth' | translate}}" nzValue="3"></nz-option>
+          <nz-option nzLabel="{{'sixmonth' | translate}}" nzValue="6"></nz-option>
+          <nz-option nzLabel="{{'oneyear' | translate}}" nzValue="12"></nz-option>
+        </nz-select>
+        <p class="future__coupon-txt1">{{"couponcode" | translate}}</p>
+        <input class="future__txt-box" nz-input type="txt" [(ngModel)]="couponCode" />
+        <div class="future__model-btn">
+          <button nz-button class="future__next-btn" nzType="primary" [disabled]="paymentType == null || paymentYear == null" [nzLoading]="isLoading" nzShape="round"
+            (click)="subscribeBOT()">{{"next" | translate}}</button>
+          <button nz-button class="future__cancel-btn" nzType="primary" nzShape="round"
+            (click)="handleCancel()">{{"cancel" | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isQrVisible" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzFooter]="null"
+  nzWidth="380px" nzMaskClosable="false">
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div nz-col nzXs="5" nzSm="5" nzMd="4" nzLg="4" nzXl="5">
+        <img src="../../../assets/img/svg/bot.svg" alt="">
+      </div>
+      <div class="future__qr-model" nz-col nzXs="19" nzSm="19" nzMd="20" nzLg="20" nzXl="17">
+        <h4 class="future__model-heading">{{botId?.name}}</h4>
+        <h6 class="future__model-sub-heading">{{botPaymentDetail?.price}}  {{"for"|translate}} <span
+          class="future__model-sub-content">{{botPaymentDetail?.months}} {{"months"|translate}}</span>
+      </h6>
+      </div>
+    </div>
+    <div nz-row id="marketplace-model">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="future__qrcode">
+          <img [src]="botPaymentDetail?.qrcode_url" alt="Loading...." height="140" width="140">
+          <h4>{{botPaymentDetail?.payment_type}}</h4>
+        </div>
+        <p class="future__coupon-txt">{{"pay" | translate}}</p>
+        <nz-input-group class="future__pay-txt" [nzSuffix]="suffixIconSearch">
+          <input class="future__pay-txt" type="text" nz-input readonly [(ngModel)]="price" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <img src="../../../assets/img/svg/copy.svg" alt="" nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+            (click)="disableTooltip()" ngxClipboard [cbContent]="price" nz-tooltip nzTooltipTrigger='click'>
+        </ng-template>
+        <p class="future__coupon-txt1">{{"address" | translate}}</p>
+        <nz-input-group class="future__pay-txt" [nzSuffix]="suffixIconSearch1">
+          <input class="future__pay-txt" type="text" nz-input readonly [(ngModel)]="address" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch1>
+          <img src="../../../assets/img/svg/copy.svg" alt="" nzTooltipTitle="{{copied}}" (mouseout)="copied=''"
+            (click)="disableTooltip()" ngxClipboard [cbContent]="address" nz-tooltip nzTooltipTrigger='click'>
+        </ng-template>
+      </div>
+      <p class="future__para-txt">{{"processingfee" | translate}}</p>
+      <p class="future__para-txt"> {{"paymentconfirmation" | translate}} </p>
+      <div class="future__model-btn">
+        <button nz-button class="future__next-btn" nzType="primary" nzShape="round" (click)="handleCancel()">{{"ok"
+          | translate}}</button>
+        <button nz-button class="future__cancel-btn" nzType="primary" nzShape="round"
+          (click)="cancelPayment(botPaymentDetail?._id)">{{"cancel" | translate}}</button>
+      </div>
+    </div>
+
+  </ng-container>
+</nz-modal> -->

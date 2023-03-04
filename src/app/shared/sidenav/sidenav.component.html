@@ -1,0 +1,34 @@
+
+<nz-layout class="side-menu-layout " >
+   <ul nz-menu nzMode="inline" class="sider-menu ">
+            <li><a nz-menu-item  routerLink="/dashboard" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/nav img/dashboard.svg" alt="" height="24"> <span>Dashboard</span></a></li>
+            <li ><a nz-menu-item routerLink="/userlist" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/nav img/users.svg" alt="" height="24"> <span>Users </span></a></li>
+            <li><a nz-menu-item routerLink="/marketplace" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/nav img/market_place.svg" alt="" height="24"> <span>Market Place</span></a></li>
+            <li><a nz-menu-item routerLink="/tradepair"*ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/trade_pair.svg" alt=""  height="24"> <span>Trade Pair </span></a></li>
+            <li><a nz-menu-item routerLink="/paymentcoin" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/nav img/payment_icon.svg" alt="" height="24"> <span>Payment Coin</span></a></li>
+            <li><a nz-menu-item  routerLink="/botsignal" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/nav img/bot_signal.svg" alt="" height="24"> <span>Bot Signals </span></a></li>
+            <li><a nz-menu-item routerLink="/coupons" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"><img  class="menu-icon"src="../../../assets/img/admin-sidenav/coupon.svg" alt="" height="24"> <span>Coupon </span></a></li> 
+            <li><a nz-menu-item routerLink="/tradedetails" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/history.svg" alt="" height="24"> <span>Trade Details </span></a></li>
+            <li><a nz-menu-item routerLink="/notifications" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/notification.svg" alt="" height="24"><span>Notification </span></a></li> 
+            <li><a nz-menu-item routerLink="/subadmin" *ngIf="role == 'ADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/sub_admin.svg" alt="" height="24"><span>Sub Admin </span></a></li> 
+            <li><a nz-menu-item routerLink="/security" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/security.svg" alt="" height="24"><span>Security </span></a></li> 
+            <li><a nz-menu-item routerLink="/application-setting" *ngIf="role != 'SIGNALADMIN'" (click)="closeNav()"> <img class="menu-icon" src="../../../assets/img/admin-sidenav/app_settings.svg" alt="" height="24"><span>App Settings </span></a></li>
+            <li>
+                <a *ngIf="!isLoading" nz-menu-item (click)="logOut()"> <img class="menu-icon" src="../../../assets/img/icon-list/log-out.svg" alt=""><span>Log Out </span></a>
+                <a *ngIf="isLoading" nz-menu-item class="disabled-item"> <img class="menu-icon" src="../../../assets/img/icon-list/log-out.svg" alt=""><span> Log Out </span></a>
+            </li>  
+
+            <!-- <li nz-submenu nzTitle="Admin">
+                <ul>
+                    <li><a nz-menu-item ><span>Sub Admin </span></a></li> 
+                    <li><a nz-menu-item ><span>Fund & Profit </span></a></li> 
+                    <li><a nz-menu-item ><span>Market Place </span></a></li> 
+                    <li><a nz-menu-item ><span>BOT Signal </span></a></li> 
+                    <li><a nz-menu-item ><span>Custom mail & Notifications </span></a></li>
+                    <li><a nz-menu-item ><span>Security </span></a></li> 
+                </ul>
+            </li> -->
+            
+        </ul>
+   
+</nz-layout>

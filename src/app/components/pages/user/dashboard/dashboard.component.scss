@@ -1,0 +1,210 @@
+.mg-lft{
+    margin-left: 10px;
+}
+.userdashboard{
+    &__title{
+        font-size: 24px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+    }
+    &__header{
+        display: flex;
+        -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    font-family: "GoogleSans-Bold";
+    }
+    &__profile{
+        text-align:center !important;
+      
+    }
+    &__list{
+        padding: 6% 2% 1% 11%;
+        font-family: "GoogleSans-Light";
+        img{
+            margin-right: 7px;
+        }
+    }
+    &__user-list{
+        margin-bottom:18px;
+    }
+     &__user-card{
+        background: #fff;
+        margin: 0px 10px;
+    }
+    &__list-item{
+        display: inline-flex;
+        font-family: "GoogleSans-Light";
+       
+        img{
+            margin-right: 10px;
+            margin-left: 9px;
+            height: 20px;
+        }
+     
+    }
+     &__description-icon{
+    height: 35px;
+    width: 36px;
+    border-radius: 100px;
+    background: rgba(0, 173, 181, 0.15);
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: #00bcc7;
+    line-height: 0;
+    -webkit-box-align: center;
+    align-items: center;
+     }
+
+    #description ::ng-deep .ant-descriptions-item-container .ant-descriptions-item-label{
+        color: #687383 !important;
+        font-size: 16px;
+        font-family: "GoogleSans-Regular";
+    }
+    #description ::ng-deep .ant-descriptions-item-container .ant-descriptions-item-content{
+        font-size: 16px;
+        font-family: "GoogleSans-Regular";
+        color:#222831;
+    }
+    #description{
+        margin-top:6px;
+        margin-left:10px;
+        font-size: 17px;
+    }
+    &__box{
+        background-color:transparent;
+        width: 100%;
+    }
+    &__card-content{
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        box-shadow: 0px 2px 6px 0px rgb(79 79 79 / 5%);
+        background: #fff;
+        padding: 18px 24px 18px 24px;
+        border-radius: 4px;
+        white-space: normal;
+        word-break: break-word;
+        font-family: "GoogleSans-Bold";
+        h6{
+            color: #687383;
+            font-size: 15px;
+            margin-bottom: 0px;
+        }
+        h4{
+            font-size: 24px;
+            color: #383838;
+            margin-bottom: 0px;
+        }
+    }
+    &__icon-bg{
+        width: 50px;
+        min-width: 50px;
+        height: 50px;
+        border-radius: 100px;
+        background: rgba(0, 173, 181, 0.15);
+        display: -webkit-box;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        color: #00bcc7;
+    }
+    &__card-box{
+        padding-top:2%;
+    }
+    &__card-box1{
+        padding-top:4%;
+    }
+    &__card-barchart{
+        padding-top:2%;
+        padding-left: 10px;
+    }
+    &__card-piechart{
+        padding-top:2%;
+       
+    }
+    &__select-txt{
+        margin-bottom: 17px;
+
+    }
+    &__dropdown{
+        position: relative;
+        bottom: 5px;
+    }
+    &__assets{
+            font-size: 22px;
+            font-family: "GoogleSans-Light";
+            color: #00bcc7;
+            padding-left: 13px;
+            padding-top:30px;
+    }
+    &__model-heading{
+        font-size: 22px;
+        color: #00bcc7;
+        font-family: "GoogleSans-Light";
+    }
+    &__model-label{
+        font-size:22px !important;
+        font-family: "GoogleSans-Light";
+        color: #383838;
+
+    }
+    &__label-input{
+        height: 38px;
+        border-radius: 4px;
+    }
+    &__footer-btn{
+      display: flex;
+      justify-content: center;
+      padding: 6px 0px 15px 0px;
+    }
+      &__cancel-btn{
+     background-color:#f72a63;
+     border: 1px solid #f72a63;
+     color:#fff;
+     font-family: "GoogleSans-Light";
+     height: 40px;
+     width: 100%;
+     border-radius: 4px;
+    }
+    &__confirm-btn{
+      background-color:#00bcc7;
+      color:#fff;
+      font-size: 14px;
+      font-family: "GoogleSans-Light";
+      border: 1px solid #00bcc7;
+      height: 40px;
+      border-radius: 4px;
+      width: 100%;
+  }
+  &__select-country{
+    height: 40px;
+  }
+&__date{
+    width: 100%;
+    height: 40px;
+}
+&__pie-card{
+    height: 395px;
+}
+&__edit-icon{
+    float: right;
+}
+}
+@media (min-width: 900px) and (max-width: 1440px) {
+    .userdashboard{
+    &__pie-card{
+        height: 275px;
+    }
+    &__assets{
+        padding-top:11px;
+}
+}
+}

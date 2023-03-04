@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Group_5" data-name="Group 5" transform="translate(-0.5 -0.5)">
+    <path id="Fill_1" data-name="Fill 1" d="M50,25A25,25,0,1,1,25,0,25,25,0,0,1,50,25" transform="translate(0.5 0.5)" fill="#d4dae2"/>
+    <g id="gem" transform="translate(17.5 15.5)">
+      <g id="Group">
+        <path id="Path" d="M4.078,6.962,6.7,6.5,8.094,5.032A.577.577,0,0,0,7.9,4.8L.906.1A.581.581,0,0,0,.583,0L0,3.535.583,5.1,1.8,6.447Z" transform="translate(6.991)" fill="#f5f5f5"/>
+        <path id="Path-2" data-name="Path" d="M4.078,1.93,2.476.3.063,0A.579.579,0,0,0,0,.25V9.571a.579.579,0,0,0,.063.25l2.7-.347L4.078,7.891l.777-3.175Z" transform="translate(0 5.032)" fill="#cacfda"/>
+        <path id="Path-3" data-name="Path" d="M4.078,0,2.039.369.583,1.864,0,4.292l.583,2.67a.581.581,0,0,0,.323-.1L7.9,2.165a.576.576,0,0,0,.2-.235L6.408.321Z" transform="translate(6.991 12.924)" fill="#f5f5f5"/>
+      </g>
+      <path id="Path-4" data-name="Path" d="M7.511,5.1V0a.58.58,0,0,0-.323.1L.2,4.8a.577.577,0,0,0-.2.235l4.015,1.93Z" transform="translate(0.063)" fill="#f8f9f9"/>
+      <path id="Path-5" data-name="Path" d="M0,7.891l4.015,1.93a.579.579,0,0,0,.063-.25V.25A.579.579,0,0,0,4.015,0L0,1.93Z" transform="translate(11.069 5.032)" fill="#c1c6d1"/>
+      <path id="Path-6" data-name="Path" d="M4.015,0,0,1.93a.577.577,0,0,0,.2.235l6.991,4.7a.58.58,0,0,0,.323.1v-5.1Z" transform="translate(0.063 12.924)" fill="#f8f9f9"/>
+      <path id="Path-7" data-name="Path" d="M6.991,1.864V7.83L3.5,9.694,0,7.83V1.864L3.5,0Z" transform="translate(4.078 5.096)" fill="#fff"/>
+      <path id="Path-8" data-name="Path" d="M3.5,1.864V7.83L0,9.694V0Z" transform="translate(7.574 5.096)" fill="#e6eaf1"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,147 @@
+<div id="main-layout3">
+  <div class="container-fluid"> 
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="security">
+          <div class="main-heading">
+            <h4 class="sec-head">Trade Pair</h4>
+            <button nz-button class="top-btn" *ngIf="index == 0" (click)="spotImport()" [nzLoading]="isLoading.spot">Import Smart Trade Pair</button>
+            <button nz-button class="top-btn" *ngIf="index == 1" (click)="fxImport()" [nzLoading]="isLoading.fx">Import FX Trade Pair</button>
+          </div>
+          <nz-card>
+        <nz-tabset (nzSelectChange)="tabChange($event)">
+          <nz-tab nzTitle="Spot Trade">
+          <div class="box1">
+            <div class="main-tab-content">
+              <div class="tab-content">
+                <label class="show">Show</label>
+                <nz-select [(ngModel)]="pageSize" id="select-box" [nzPlaceHolder]='10'>
+                  <nz-option nzValue="10" nzLabel="10"></nz-option>
+                  <nz-option nzValue="25" nzLabel="25"></nz-option>
+                  <nz-option nzValue="50" nzLabel="50"></nz-option>
+                  <nz-option nzValue="100" nzLabel="100"></nz-option>
+                </nz-select>
+                <label class="show">entries</label>
+              </div>
+              <div class="search-box">
+                <nz-input-group [nzSuffix]="suffixIconSearch" class="new-input">
+                <input class="input-item" placeholder="Search By Symbol/Base,Quote Asset" nz-input type="text"  [(ngModel)]="searchText" (ngModelChange)="search()"/>
+                  </nz-input-group>
+                <ng-template #suffixIconSearch>
+                  <i nz-icon nzType="search" (click)="search()"></i>
+                </ng-template>
+
+              </div>
+            </div>
+            <nz-table #basicTable [nzData]="listOfData" id="first-table3" [nzShowPagination]="true" [nzPageSize]="pageSize"
+            [nzData]="listOfData"
+           >
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Symbol</th>
+                  <th>Decimal</th>
+                  <th>Base Asset</th>
+                  <th>Base Asset Precision</th>
+                  <th>Quote Asset</th>
+                  <th>Quote Precision</th>
+                  <th>Quote Asset Precision</th>
+                  <th>Is Spot Trading Allowed</th>
+                  <th>Updated At</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!isTableLoading">
+                <tr *ngFor="let data of basicTable.data;index as i">
+                  <td>{{pageSize*basicTable.nzPageIndex+( i + 1) - pageSize}}</td>
+                  <td>{{data.symbol}}</td>
+                  <td>{{data.decimal}}</td>
+                  <td>{{data.baseAsset}}</td>
+                  <td>{{data.baseAssetPrecision}}</td>
+                  <td>{{data.quoteAsset}}</td>
+                  <td>{{data.quotePrecision}}</td>
+                  <td>{{data.quoteAssetPrecision}}</td>
+                  <td>{{data.isSpotTradingAllowed}}</td>
+                  <td>{{data.updatedAt|date:"short"}}</td>
+                  <td><nz-switch [ngModel]="data.status" (ngModelChange)="editTradeStatus(i)"></nz-switch> </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+            <div class="page-btm">
+              <!-- <nz-pagination [nzPageIndex]="1" [nzTotal]="50" class="page"></nz-pagination> -->
+            </div>
+          </div>
+        </nz-tab>
+        <nz-tab nzTitle="Nexfolio FX">
+          <div class="box1">
+            <div class="main-tab-content">
+              <div class="tab-content">
+                <label class="show">Show</label>
+                <nz-select [(ngModel)]="pageSize" id="select-box" [nzPlaceHolder]='10'>
+                  <nz-option nzValue="10" nzLabel="10"></nz-option>
+                  <nz-option nzValue="25" nzLabel="25"></nz-option>
+                  <nz-option nzValue="50" nzLabel="50"></nz-option>
+                  <nz-option nzValue="100" nzLabel="100"></nz-option>
+                </nz-select>
+                <label class="show">entries</label>
+              </div>
+              <div class="search-box">
+                <nz-input-group [nzSuffix]="suffixIconSearchfx">
+                <input class="input-item" placeholder="Search By Symbol/Base,Quote Asset" nz-input type="text" [(ngModel)]="searchText1" (ngModelChange)="search1()"/>
+                </nz-input-group>
+                <ng-template #suffixIconSearchfx>
+                  <i nz-icon nzType="search" (click)="search1()"></i>
+                </ng-template>
+              </div>
+            </div>
+            <nz-table #basicTable1 [nzData]="listOfFxData" id="first-table3" [nzShowPagination]="true"
+            [nzPageSize]="pageSize"
+            [nzData]="listOfFxData">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Symbol</th>
+                  <th>Base Asset</th>
+                  <th>Base Asset Precision</th>
+                  <th>Quote Asset</th>
+                  <th>Quote Precision</th>
+                  <th>Price Precision</th>
+                  <th>Quantity Precision</th>
+                  <th>Min Qty</th>
+                  <th>Max Qty</th>
+                  <th>Update Status</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable1.data;index as i">
+                  <td>{{pageSize*basicTable1.nzPageIndex+( i + 1) - pageSize}}</td>
+                  <td>{{data.symbol}}</td>
+                  <td>{{data.baseAsset}}</td>
+                  <td>{{data.baseAssetPrecision}}</td>
+                  <td>{{data.quoteAsset}}</td>
+                  <td>{{data.quotePrecision}}</td>
+                  <td>{{data.pricePrecision}}</td>
+                  <td>{{data.quantityPrecision}}</td>
+                  <td>{{data.minQty}}</td>
+                  <td>{{data.maxQty}}</td>
+                  <td>{{data.updatedAt|date:"short"}}</td>
+                  <td><nz-switch [ngModel]="data.status" (ngModelChange)="editTradeFxStatus(i)"></nz-switch> </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <div class="page-btm">
+              <!-- <nz-pagination [nzPageIndex]="1" [nzTotal]="50" class="page"></nz-pagination> -->
+            </div>
+          </div>
+        
+        </nz-tab>
+        </nz-tabset>
+      </nz-card>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</div>

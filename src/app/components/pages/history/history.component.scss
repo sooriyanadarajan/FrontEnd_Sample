@@ -1,0 +1,141 @@
+.pd-data-ryt{
+  margin-right: 10px;
+}
+.history{
+    &__title{
+        font-size: 22px;
+        font-family: "GoogleSans-Light";
+        color: #00bcc7;
+        }
+        &__table{
+            font-family: "GoogleSans-Light";
+        }
+        &__paginatiion{
+            float: right;
+           margin: 16px 0;
+        }
+        &__input-field{
+          width: 30%;
+          float: right;
+          height: 38px;
+          font-size: 16px;
+          border-radius: 3px;
+          margin-bottom: 10px;
+          font-family: "GoogleSans-Light";
+        }
+        &__box-list{
+          margin-bottom:2%;
+      }
+      &__box{
+          background-color:transparent;
+          width: 100%;
+      } &__card-content{
+          display: flex;
+          -webkit-box-align: center;
+          align-items: center;
+          -webkit-box-pack: center;
+          justify-content: center;
+          box-shadow: 0px 2px 6px 0px rgb(79 79 79 / 5%);
+          background: #00bcc7;
+          padding: 18px 24px 18px 24px;
+          border-radius: 6px;
+          white-space: normal;
+          word-break: break-word;
+          h1{
+              font-size:2.25rem;
+              font-family: "GoogleSans-Bold";
+              margin-bottom: 0px;
+              color:#fff;
+              text-align: center;
+          }
+      
+          h4{
+              font-size:1rem;
+              color: #B4FBFF;
+              margin-bottom: 0px;
+              font-family: "GoogleSans-Bold";
+          }
+      }
+    }
+
+.payment-add{
+  padding: 0px 90px !important;
+}
+    .profit-color {
+        color: #22d1d4 !important;
+      }
+
+
+      .loss-color {
+        color: #f72a63 !important;
+      }
+
+      
+      .loss-color1 {
+        color: #f72a63 !important;
+      }
+
+      .ant-tag-red {
+        color: #f73168 !important;
+        background: #ffe1e9 !important;
+        border-radius: 5px !important;
+        font-family: "GoogleSans-Bold";
+        border: none !important;
+        padding: 5px !important;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px !important;
+      }
+      .ant-tag-green {
+        color:#4bd2da !important;
+        background: #c6f7fa !important;
+        border-radius: 5px !important;
+        font-family: "GoogleSans-Bold";
+        border: none !important;
+        padding: 5px !important;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px !important;
+      }
+
+      .page{
+        padding-top: 15px;
+      }
+
+
+      .show{
+        font-size: 16px;
+        font-family: "GoogleSans-Regular";
+        font-weight: 500;
+        padding: 5px;
+      }
+
+      .user_icon{
+        padding-right: 8px;
+        cursor: pointer;
+      }
+
+      .page-load {
+        margin-top: 3%;
+        text-align: center;
+        color: #00BBC6;
+        font-size: 18px;
+       }
+
+       @media (min-width: 320px) and (max-width: 767px) {
+         .show{
+           display: none;
+         }
+         .history__input-field{
+           width: 75%;
+         }
+         .history__card-content{
+           margin-bottom: 10px;
+         }
+         .pd-data-ryt{
+          margin-right: 0px !important;
+        }
+       }
+       .data-icon{
+         min-width:100px;
+       }

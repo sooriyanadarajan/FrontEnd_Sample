@@ -1,0 +1,192 @@
+<app-userlayout></app-userlayout>
+<section class="settings">
+    <div nz-row >
+        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+            <h4 class="settings__title">Settings</h4>
+        </div>
+            </div> 
+            <div nz-row >
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="8">
+                    <nz-card class="settings__card">
+                        <div class="settings__password">
+                            <div>
+                                <h6 class="settings__password-txt">Change Password</h6>
+                                <p class="settings__password-subtxt" >Be sure that your password is safe and strong.</p>
+                            </div>
+                            <div>
+                                <button  (click)="showModal()" class="settings__update-btn" nz-button nzType="primary">Update</button>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+                    
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="8">
+                            <nz-card  class="settings__card-box">
+                                <div class="settings__password">
+                                    <div>
+                                        <h6 class="settings__password-txt">Two-Factor Authentication </h6>
+                                        <p class="settings__password-subtxt" >For more security, enable an authentication.</p>
+                                    </div>
+                                    <div>
+                                        <button class="settings__Enable-btn" [disabled]="!enable2FA" nz-button nzType="primary" (click)="editUser({'enable2FA':false})">Disable</button>
+                                    </div>
+                                </div>
+                            </nz-card>
+                        </div>
+                        <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="8">
+                            <nz-card  class="settings__card-box">
+                                <div class="settings__password">
+                                    <div>
+                                        <h6 class="settings__password-txt">Email Verification </h6>
+                                        <p class="settings__password-subtxt" >For more security, enable an authentication.</p>
+                                    </div>
+                                    <div>
+                                        <button class="settings__Enable-btn" [disabled]="!emailVerify" nz-button nzType="primary" (click)="editUser({'enableEmailVerification':false})">Disable</button>
+                                    </div>
+                                </div>
+                            </nz-card>
+                        </div>
+
+                            </div> 
+            <div nz-row>
+                <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+                    <nz-card>
+                        <!-- <input class="settings__input-field" nz-input placeholder="Search by name or email" /> -->
+                        <nz-tabset id="balance-tab" nzOuterBordered="false" [nzAnimated]="false">
+                            <nz-tab nzTitle="Activity Log List">
+                                <button class="settings__clearall-btn" nz-button nzType="primary" nzShape="round"  *ngIf="activityLogList.length > 0" 
+                                    nz-popconfirm
+                                               nzPopconfirmTitle="Are you sure to clear data?"
+                                               nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                               (nzOnConfirm)="deleteAllActivityLog()" >Clear All</button>
+                                <nz-table #middleTable nzSize="middle" [nzData]="activityLogList" [nzShowPagination]="false">
+                                    <thead>
+                                        <tr>
+                                            <th>Date/Time</th>
+                                            <th>Notes</th>
+                                            <th>IP</th>
+                                            <th>Location</th>
+                                  
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of middleTable.data">
+                                            <td>{{data?.updatedAt | date:'medium'}}</td>
+                                            <td> {{data?.notes}}</td>
+                                            <td>{{data?.ip}}</td>
+                                            <td>{{data?.location}}</td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                 <nz-pagination *ngIf="activityLogList.length > 0" class="settings__paginatiion" [(nzPageIndex)]="pageIndex"
+                                    [nzTotal]="activityLogCount" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getActivityLog(pageSize,pageIndex)">
+                                  </nz-pagination>
+                            </nz-tab>
+                            <nz-tab nzTitle="Authorized Device List" (nzClick)="getAuthorizedDevice(8,1)" >
+                                <nz-table #deviceTable nzSize="middle" [nzData]="authorizedDeviceList" [nzShowPagination]="false">
+                                    <thead>
+                                        <tr>
+                                            <th>Date/Time</th>
+                                            <th>Browser</th>
+                                            <th>OS</th>
+                                            <th>Device Name</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of deviceTable.data">
+                                            <td> {{data?.createdAt | date:'medium'}} </td>
+                                            <td> {{data?.browser}}</td>
+                                            <td>{{data?.os}} </td>
+                                            <td>{{data?.devicename}}</td>
+                                            <td>
+                                                <!-- <span *ngIf="data?.verified == true">Verifed</span>
+                                                <span *ngIf="data?.verified == false">Not Verified</span> -->
+                                                <span class="cursor-pointer" *ngIf="data?.verified == true" ><img src="../../../../assets/img/check-circle.svg"></span>
+                                                <span class="cursor-pointer" *ngIf="data?.verified == false" (click)="updateDeviceStatus(data._id,data)"><img src="../../../../assets/img/x-circle.svg"></span>
+                                            </td>
+                                            <td>
+                                               <button  nz-popconfirm
+                                               nzPopconfirmTitle="Are you sure to remove device?"
+                                               nzOkType="danger" nzOkText="Yes" nzCancelText="No"
+                                               (nzOnConfirm)="removeDevice(data?._id)" ><span>Remove</span></button> 
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                                <nz-pagination *ngIf="authorizedDeviceList.length > 0" class="settings__paginatiion" [(nzPageIndex)]="pageIndex"
+                                    [nzTotal]="authorizedDeviceCount" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getAuthorizedDevice(pageSize,pageIndex)">
+                                  </nz-pagination>
+                            </nz-tab>
+                        </nz-tabset>
+                    </nz-card>
+                </div>
+            </div>
+</section>
+<nz-modal [(nzVisible)]="isVisible"  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzWidth="450px" [nzFooter]="modalFooter"  >
+    <ng-container *nzModalContent>
+        <h5 class="settings__model-heading">Change Password</h5>
+        <form nz-form [formGroup]="updateUserForm">
+            <nz-form-item >
+              <nz-form-control>
+                <div id="change-password">
+                    <!-- <nz-form-item>
+                        <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                          <nz-form-label>Old Password</nz-form-label>
+                          <input nz-input type="password" formControlName="oldpassword">
+                        </nz-form-control>
+                        <ng-template #passwordErrorTpl let-control>
+                          <ng-container *ngIf="control.hasError('required')">
+                            Please enter old Password
+                          </ng-container>
+                          <ng-container *ngIf="control.hasError('pattern')">
+                            Please enter valid Password
+                          </ng-container>
+                        </ng-template>
+                      </nz-form-item> -->
+                <!-- <nz-form-label class="settings__model-label"  nzFor="email">Old Password</nz-form-label>
+                <input class="settings__label-input" placeholder="Old Password" nz-input> -->
+                <nz-form-item>
+                    <nz-form-control [nzErrorTip]="passwordErrorTpl">
+                      <nz-form-label>New Password</nz-form-label>
+                      <input nz-input type="password" formControlName="newpassword">
+                    </nz-form-control>
+                    <ng-template #passwordErrorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">
+                        Please enter New Password
+                      </ng-container>
+                      <ng-container *ngIf="control.hasError('pattern')">
+                        Please enter valid Password
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-control [nzErrorTip]="confirmpasswordErrorTpl">
+                      <nz-form-label>Confirm Password</nz-form-label>
+                      <input nz-input type="password" formControlName="confirmpassword">
+                    </nz-form-control>
+                    <ng-template #confirmpasswordErrorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">
+                        Please enter Password
+                      </ng-container>
+                      <ng-container *ngIf="control.hasError('pattern')">
+                        Please enter valid Password
+                      </ng-container>
+                      <ng-container *ngIf="control.hasError('mustMatch')">
+                        Password not same
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-item>
+            </div>
+              </nz-form-control>
+            </nz-form-item >
+          </form>
+    </ng-container>
+    <ng-template #modalFooter>
+        <div class="settings__footer-btn">
+            <button class="settings__confirm-btn" nz-button nzType="primary" [disabled]="updateUserForm.invalid" nz-button nzType="primary" (click)="editUser({'password':updateUserForm.get('newpassword').value})">Confirm</button> 
+          <button class="settings__cancel-btn" nz-button nzType="primary" nz-button nzType="primary" (click)="handleCancel()">Cancel</button>
+      </div>
+      </ng-template>
+  </nz-modal>

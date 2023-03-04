@@ -1,0 +1,384 @@
+$main-color:#00bcc7;
+$main-color1:#ffffff;
+$main-color2:#aaaaaa;
+$main-color4:#dee2e6;
+$main-color5:#f72a63;
+
+::ng-deep .ant-modal-footer{
+    border:none;
+}
+::ng-deep .ant-modal-content{
+    border-radius: 0.3rem;
+}
+
+#main-layout{
+ .container-fluid{
+  .security{
+   .sec-head{
+    font-size: 22px;
+    font-weight: 500;
+    color: $main-color;
+    font-family: "GoogleSans-Light";
+   }
+   .box{
+    background-color: $main-color1;
+    box-shadow: 0px 2px 6px 0px rgb(79 79 79 / 5%);
+    padding: 20px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .update{
+     .chnge-password{
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-family: "GoogleSans-Light";
+     }
+     .box-text{
+      color:$main-color2;
+     }
+    }
+    .update-button{
+     background-color: $main-color;
+     border-color: $main-color;
+     box-shadow: none;
+     border-radius: 4px;
+     font-weight: 500;
+     font-size: 14px;
+     color: $main-color1;
+     min-width: 100px;
+     height: 37px;
+     font-family: "GoogleSans-Light";
+     float: right;
+    }
+}
+   .box1{
+    background-color: $main-color1;
+    box-shadow: 0px 2px 6px 0px rgb(79 79 79 / 5%);
+    padding: 20px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    .main-tab-content{
+     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    .tab-content{
+     .show{
+      font-size: 16px;
+      font-family: "GoogleSans-Regular";
+      font-weight: 500;
+      padding-right: 5px;
+     }
+     #select-box{
+      width: 60px;
+      margin-right: 5px;
+      
+     }
+     ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+      padding: 0px 5px;
+      border-radius: 5px;
+     }
+    }
+    .search-box{
+     display: flex;
+     align-items: center;
+     .show{
+      font-size: 16px;
+      font-family: "GoogleSans-Regular";
+      font-weight: 500;
+      padding-right: 5px;
+     }
+     .input-item{
+      border-radius: 5px;
+      height: 35px;
+      width: 100%;
+     }
+    }
+   }
+   #first-table{
+    th{
+     font-family: "GoogleSans-Light";
+     font-size: 14px;
+     font-weight: 500;
+    }
+    td{
+     padding-top: 14px;
+     padding-bottom: 14px;
+    }
+    ::ng-deep .ant-table-pagination.ant-pagination{
+     display: none;
+    }
+   }
+   .page-btm{
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px 0 0px 0;
+   }
+   }
+  }
+ }
+}
+.brdr-btm{
+    border-bottom: 1px solid $main-color4;
+    .title{
+        font-size: 22px;
+        color:$main-color;
+        font-family: "GoogleSans-Light";
+        padding-left: 20px;
+        // padding-bottom: 12px;
+    }
+
+}
+.para{
+    padding-top: 20px;
+}
+.disp{
+    display: flex;
+    justify-content: left;
+    padding-left: 16px;
+}
+.lisp{
+    padding-right: 16px;
+    padding-left: 30px;
+}
+.list-qr{
+    list-style: none;
+    padding-left: 0;
+    padding-bottom: 0;
+    margin-bottom: 0 !important;
+    padding-top: 13px;
+    .copy-txt{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 38px;
+        border-radius: 5px;
+       
+        input{
+            border: none;
+            background-color: #f7f7f7;
+            height: 38px;
+            border-radius: 5px 0px 0px 5px;
+            border:1px solid #d9d9d9;
+            color: black;
+        }
+        .img-copy{
+            border:1px solid #d9d9d9;
+            background-color: #e9ecef;
+            height: 38px;
+            border-radius: 0px 5px 5px 0px;
+            display: flex;
+            align-items: center;
+            padding: 7px;
+            img{
+                cursor: pointer;
+            }
+        }
+    }
+   
+    .qr{
+        font-size: 16px;
+        font-family: "GoogleSans-Regular";
+    }
+    .qr1{
+        padding-top:20px;
+    }
+    .code-group{
+        border: 1px solid $main-color2;
+        border-radius: 5px;
+        padding: 10px;
+        .copied{
+            cursor: pointer;
+        }
+    }
+}
+.main-form{
+    padding: 0px 20px;
+    .form-elements{
+        display: flex;
+        flex-direction: column;
+     .form-label{
+            float: left;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        .form-label1{
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        .form-label2{
+            font-size: 16px;
+            margin-bottom: 6%;
+            font-family: "GoogleSans-Regular";
+            padding-top: 20px;
+        }
+        input{
+            padding: 7px 10px;
+            border-radius: 5px;
+        }
+        .mail{
+            padding: 7px 7px;
+            border-radius: 5px;
+        }
+    }
+}
+.modal-footer-upd{
+    display: flex;
+    justify-content: center;
+    padding: 6px 0px 15px 0px;
+  .foot-cancel{
+   background-color: $main-color1;
+   border: 1px solid #383838;
+   color: #383838;
+   font-family: "GoogleSans-Light";
+   border-radius: 25px;
+   height: 40px;
+   width: 100%;
+   &:hover{
+    border-color: $main-color5;
+    color:$main-color5;
+   }
+  }
+  .foot-confirm{
+    background-color: $main-color;
+    color:$main-color1;
+    font-size: 14px;
+    font-family: "GoogleSans-Light";
+    border-radius: 25px;
+    border: 1px solid $main-color;
+    height: 40px;
+    width: 100%;
+}
+}
+.model-btn{
+    margin-top: 9%;
+    float: right;
+}
+.submit-btn{
+    background-color:#00bcc7;
+    color:#ffffff;
+    border: none;
+    font-family: "GoogleSans-Bold";
+    margin-left: 10px;
+    height: 40px;
+}
+.submit-btn:hover{
+    background-color:#00bcc7;
+    color:#ffffff;
+    border: none;
+    font-family: "GoogleSans-Bold";
+}
+.cancel-btn{
+    border: 1px solid #383838;
+    color: #383838;
+    background-color: transparent;
+    font-family: "GoogleSans-Bold";
+    margin-left: 10px;
+    height: 40px;
+    margin-right: 10px;
+}
+.cancel-btn:hover{
+    border: 1px solid #ff0000;
+    color: #f00606;
+    background-color: transparent;
+    font-family: "GoogleSans-Bold";
+}
+::ng-deep .ant-modal-close{
+    display: none;
+    }
+
+::ng-deep .ant-input:focus{
+    box-shadow: none;
+}
+    // media queries
+    @media only screen and (max-width : 575px) {
+        .form-elements{
+            margin-bottom: 0;
+        }
+    }
+    
+@media (min-width: 320px) and (max-width: 767px) {
+    #main-layout{
+        .security{
+        padding-top: 25px;
+        .box{
+            padding: 12px !important;
+        }
+      
+        .box1{
+            .main-tab-content{
+                .tab-content{
+                    .show{
+                        display: none ;
+                    }
+                }
+
+            }
+        }
+       }}
+    //    .main-form{
+    //        .form-elements{
+    //            .labels{
+    //                padding-top: 0px;
+    //            }
+    //        }
+    //    }
+       ::ng-deep .ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td{
+           padding: 10px;
+           text-align: -webkit-center;
+       }
+    //    ::ng-deep .ant-modal-body{
+    //     padding-bottom: 0px;
+    // }
+   }
+   @media (min-width: 767px) and (max-width: 1024px) {
+   }
+   .page-load {
+    margin-top: 3%;
+    text-align: center;
+    color: #00BBC6;
+    font-size: 18px;
+   }
+
+   code-input {
+    --color: #171516;
+    --item-background: transparent;
+    --item-border: 1px solid #ddd;
+    --item-border-bottom: 1px solid #ddd;
+    --item-border-bottom-focused: 1px solid #ddd;
+    --item-border-bottom-has-value: 1px solid #ddd;
+    --item-border-focused: 1px solid #ddd;
+    --item-border-has-value: 1px solid #ddd;
+    --item-border-radius: 5px;
+    --item-height:50px;
+    --item-shadow-focused: 0px 1px 5px #ddd;
+    --item-spacing: 4px;
+    --text-security-type: disc;
+    color: var(--color);
+    display: flex;
+    font-size: inherit;
+    transform: translateZ(0);
+    width: 80%;
+  }
+  .model-otp{
+      align-items: center;
+      margin-left: 17%;
+  }
+  .title-txt{
+    font-family: "GoogleSans-Bold";    
+    color: #383838;
+    padding-left:20px;
+    padding-top: 10px;
+    font-size:16px;
+  }
+
+
+

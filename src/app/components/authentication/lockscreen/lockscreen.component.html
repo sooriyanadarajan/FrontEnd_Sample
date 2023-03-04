@@ -1,0 +1,43 @@
+<div nz-row  >
+ <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+  <div class="container main" id="main">
+   <div id="img-back-page">
+   <div id="login-form-main">
+    <div nz-row>
+     <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+      <div class="login-details">
+      <div class="img-banner">
+       <img src="../../../../assets/img/logo.png" height="60px">
+      </div>
+<!-- 
+      <form nz-form class="login-form" [formGroup]="pinLockForm" >
+       <nz-form-item class="form-item">
+         <nz-form-control>
+         <nz-input-group>
+             <input type="number" class="input-box" placeholder="Enter your pin" nz-input formControlName="pinCode"/>
+           </nz-input-group>
+           </nz-form-control>
+       </nz-form-item> -->
+       <h5 class="title-txt">Enter your pin to Unlock</h5>
+       <div >
+        <code-input id="codeinput" [isCodeHidden]="true"
+              [isNonDigitsCode]="false"
+              [codeLength]="4"
+              (codeChanged)="onCodeChanged($event)"
+              (codeCompleted)="onCodeCompleted($event)"
+              (keydown.enter)="verifyAdmin()">
+      </code-input>
+
+     <!-- </form> -->
+    </div>
+    
+    <div class="button-login">
+      <button nz-button class="login-form-button" [nzLoading]="isBtnLoad" [disabled]="code.length < 4" (click)="verifyAdmin()"><span class="btn-text">Unlock</span></button>
+     </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  </div>
+ </div>
+</div>

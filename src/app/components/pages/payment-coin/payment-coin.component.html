@@ -1,0 +1,211 @@
+<div id="main-layout1">
+  <div class="container-fluid">
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <div class="security">
+          <div class="main-heading">
+            <h4 class="sec-head">Payment Coin List</h4>
+            <button nz-button class="top-btn" (click)="showModal()">
+              <img src="../../../../assets/img/activity1.svg" height="20px">Insert Coin</button>
+          </div>
+
+          <div class="box1">
+            <div class="main-tab-content">
+              <div class="tab-content">
+                <label class="show">Show</label>
+                <nz-select [(ngModel)]="pageSize" id="select-box" [nzPlaceHolder]='10'>
+                  <nz-option nzValue="10" nzLabel="10"></nz-option>
+                  <nz-option nzValue="25" nzLabel="25"></nz-option>
+                  <nz-option nzValue="50" nzLabel="50"></nz-option>
+                  <nz-option nzValue="100" nzLabel="100"></nz-option>
+                </nz-select>
+                <label class="show">entries</label>
+              </div>
+              <div class="search-box">
+                <input class="input-item" placeholder="Search" nz-input type="text"  [(ngModel)]="searchText" (ngModelChange)="search()"/>
+              </div>
+            </div>
+            <nz-table #basicTable [nzData]="listOfData" id="first-table3" [nzShowPagination]="true" [nzPageSize]="pageSize"
+            [nzData]="listOfData"
+           >
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Index</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!isTableLoading">
+                <tr *ngFor="let data of basicTable.data;index as i">
+                  <td>{{10*basicTable.nzPageIndex+( i + 1) - 10}}</td>
+                  <td>{{data.updatedAt| date:"short"}}</td>
+                  <td>{{data.name}}</td>
+                  <td>{{data.symbol}}</td>
+                  <td>{{data.index}}</td>
+                  <td>
+                    <nz-switch [ngModel]="data.status" (ngModelChange)="editCoinStatus(data._id)"></nz-switch> 
+                  </td>
+                  <td><span>
+                      <img src="../../../../assets/img/edit.svg" height="18px" class="show-modal-edit" nz-tooltip nzTooltipTitle="Edit"
+                        (click)="showModal2(data._id)">
+                      <img src="../../../../assets/img/delete.svg" height="18px" class="show-modals" nz-button nz-tooltip nzTooltipTitle="Delete"
+                        nzSize="large" nzShape="round" class="authorize__remove-btn" nz-popconfirm
+                        nzPopconfirmTitle="Are you sure you want to delete?" nzOkType="danger" nzOkText="Yes"
+                        nzCancelText="No" (nzOnConfirm)="deleteCoin(data._id)">
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+            <nz-spin nzSimple *ngIf="isTableLoading" class="page-load"></nz-spin>
+      
+            <div class="page-btm">
+              <!-- <nz-pagination [nzTotal]="listCount" class="page" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                (nzPageIndexChange)="getPaymentCoin(pageIndex,pageSize)" [nzPageIndex]="1" [nzTotal]="50">
+              </nz-pagination> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()" [nzFooter]="InsertSignal"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Add Coin</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="addCoin">
+          <nz-form-item class="form-elements">
+            <label class="form-label">Name</label>
+            <nz-form-control>
+              <input nz-input name="name" type="text" id="email9" formControlName="name">
+              <div *ngIf="f.name?.touched && f.name?.invalid || f.name?.dirty">
+                <p *ngIf="f.name.errors?.required" class="form-error">Name is required</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Symbol</label>
+            <nz-form-control>
+              <input nz-input name="Discount" type="text" id="email" formControlName="symbol">
+              <div *ngIf="f.symbol?.touched && f.symbol?.invalid || f.symbol?.dirty">
+                <p *ngIf="f.symbol.errors?.required" class="form-error">Symbol is required</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="big-area-txt">
+            <label class="form-label">Index</label>
+            <nz-form-control>
+              <input rows="3" nz-input class="mail" type="number" formControlName="index" />
+              <div *ngIf="f.index?.touched && f.index?.invalid || f.index?.dirty">
+                <p *ngIf="f.index.errors?.required" class="form-error">Index is required</p>
+              </div>
+            </nz-form-control>
+          </div>
+
+         
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements mb-0">
+                <label class="form-label">Status</label>
+                <div class="valid">
+                  <nz-form-control>
+                    <nz-switch formControlName="status"></nz-switch>
+                  </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #InsertSignal>
+    <div class="modal-footer-upd">
+      <button nz-button class="foot-confirm" [disabled]="addCoin.invalid" [nzLoading]="payment.add" (click)="addCoinSubmit()">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+    </div>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isVisible2" (nzOnCancel)="handleCancel()" [nzFooter]="UpdateSignal"
+  [nzBodyStyle]="{ 'padding-right':'0px' , 'padding-left':'0px' }">
+  <ng-container>
+    <div nz-row class="brdr-btm">
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <h2 class="title">Edit Coin</h2>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24">
+        <form nz-form class="main-form" [formGroup]="editCoin">
+          <nz-form-item class="form-elements">
+            <label class="form-label">Name</label>
+            <nz-form-control>
+              <input nz-input name="name" type="text" id="email9" formControlName="name">
+              <div *ngIf="g.name?.touched && g.name?.invalid || g.name?.dirty">
+                <p *ngIf="g.name.errors?.required" class="form-error">Name is required</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="form-elements">
+            <label class="form-label">Symbol</label>
+            <nz-form-control>
+              <input nz-input name="symbol" type="text" id="email" formControlName="symbol">
+              <div *ngIf="g.symbol?.touched && g.symbol?.invalid || g.symbol?.dirty">
+                <p *ngIf="g.symbol.errors?.required" class="form-error">Symbol is required</p>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="big-area-txt">
+            <label class="form-label">Index</label>
+            <nz-form-control>
+              <input rows="3" nz-input class="mail" type="number" formControlName="index" />
+              <div *ngIf="g.index?.touched && g.index?.invalid || g.index?.dirty">
+                <p *ngIf="g.index.errors?.required" class="form-error">Index is required</p>
+              </div>
+            </nz-form-control>
+          </div>
+
+          <div nz-row>
+            <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+              <nz-form-item class="form-elements mb-0">
+                <label class="form-label">Status</label>
+                <div class="valid">
+                  <nz-form-control>
+                    <nz-switch formControlName="status"></nz-switch>
+                  </nz-form-control>
+                </div>
+              </nz-form-item>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #UpdateSignal>
+    <div class="modal-footer-upd"> 
+      <button nz-button class="foot-confirm" [nzLoading]="payment.edit" (click)="editCoinSubmit()" [disabled]="!editCoin.dirty">Submit</button>
+      <button nz-button class="foot-cancel" (click)="handleCancel()">Cancel</button>
+
+    </div>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,251 @@
+$main-color:#00bcc7;
+$main-color1:#ffffff;
+$main-color2:#aaaaaa;
+$main-color4:#dee2e6;
+$main-color5:#f72a63;
+
+::ng-deep .ant-modal-footer{
+    border:none;
+}
+::ng-deep .ant-modal-content{
+    border-radius: 0.3rem;
+}
+
+#main-layout5{
+ .container-fluid{
+  .security{
+   .main-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    .sec-head{
+     font-size: 22px;
+     font-weight: 500;
+     color: $main-color;
+     font-family: "GoogleSans-Light";
+     margin-bottom: 0;
+    }
+    .top-btn{
+     height: 40px;
+     border-radius: 5px;
+     background-color:$main-color;
+     border: $main-color;
+     color: $main-color1;
+     font-size: 14px;
+     font-weight: 500;
+     font-family: "GoogleSans-Light";
+     img{
+      padding-right: 10px;
+     }
+    }
+   }
+   .notification-bg {
+    background: white;
+    padding: 20px 30px;
+    ::ng-deep .ant-list-bordered.ant-list-lg .ant-list-item {
+     padding: 20px 0;
+    }
+   }
+.tabset-note{
+  .list-ul{
+   background-color: $main-color1;
+   padding: 10px 0px;
+  border: $main-color1;
+   .action-img{
+    display: flex;
+    justify-content: center;
+    .show-modal{
+     cursor: pointer;
+    }
+   }
+  }
+  .page-btm{
+   display: flex;
+   justify-content: flex-end;
+   background-color: $main-color1;
+   padding: 0px 7px 0px 0px;
+  }
+}
+
+  }
+ }
+}
+.brdr-btm{
+    border-bottom: 1px solid $main-color4;
+    .title{
+        font-size: 22px;
+        color:$main-color;
+        font-family: "GoogleSans-Light";
+        padding-left: 20px;
+        padding-bottom: 12px;
+    }
+
+}
+.para{
+    padding-top: 20px;
+}
+.disp{
+    display: flex;
+    justify-content: left;
+    padding-left: 16px;
+}
+.lisp{
+    padding-right: 16px;
+}
+.list-qr{
+    list-style: none;
+    padding-left: 0;
+    .qr{
+        font-size: 16px;
+        font-family: "GoogleSans-Regular";
+    }
+    .qr1{
+        padding-top:20px;
+    }
+}
+.main-form{
+    padding: 0px 20px;
+    .big-area-txt{
+    // padding-top: 25px;
+     margin-bottom: -8px;
+     .form-label{
+         font-size: 16px;
+     }
+     textarea{
+         margin-top: 5px;
+     }
+ }
+    .form-elements{
+        display: flex;
+        margin: 0;
+        // flex-direction: column;
+     .form-label{
+            float: left;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        .form-label1{
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-family: "GoogleSans-Regular";
+            padding-top: 25px;
+        }
+        input{
+            padding: 7px 7px;
+            border-radius: 5px;
+        }
+       
+        .mail{
+            padding: 7px 7px;
+            border-radius: 5px;
+        }
+        .date-pick{
+         width:100%;
+         height: 38px;
+         border-radius: 5px;
+        }
+    }
+}
+.modal-footer-upd{
+ display: flex;
+ justify-content: center;
+ padding: 6px 0px 15px 0px;
+.foot-cancel{
+background-color: $main-color1;
+border: 1px solid #383838;
+color: #383838;
+font-family: "GoogleSans-Light";
+border-radius: 25px;
+height: 40px;
+width: 100%;
+&:hover{
+ border-color: $main-color5;
+ color:$main-color5;
+}
+}
+.foot-confirm{
+ background-color: $main-color;
+ color:$main-color1;
+ font-size: 14px;
+ font-family: "GoogleSans-Light";
+ border-radius: 25px;
+ border: 1px solid $main-color;
+ height: 40px;
+ width: 100%;
+}
+}
+::ng-deep .ant-modal-close{
+ margin-top: 0% !important;
+ }
+ .page-load {
+    margin-top: 3%;
+    text-align: center;
+    color: #00BBC6;
+    font-size: 18px;
+   }
+ 
+// ::ng-deep .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+//  color:$main-color;
+//  font-size: 16px;
+//  font-family: "GoogleSans-Bold";
+// }
+// ::ng-deep .ant-tabs-tab-btn {
+//     font-size: 16px;
+//     font-family: 'GoogleSans-Bold';
+// }
+// ::ng-deep .ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar{
+//  background-color:$main-color;
+// }
+// ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-wrap{
+//  background-color: $main-color1;
+//  padding:20px;
+// }
+// ::ng-deep .ant-tabs>.ant-tabs-nav, .ant-tabs>div>.ant-tabs-nav{
+//  margin: 0;
+// }
+
+@media only screen and (max-width : 575px) {
+    .form-elements{
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    #main-layout5{
+        .security{
+        padding-top: 25px;
+       .disp{
+        .modal-footer-upd{
+         width: 100% !important;
+        }
+       }
+       .card-main{
+        padding: 7px !important;
+        .card-data{
+         .p-link{
+          margin-top: 20px;
+         }
+         .upload-btn{
+          margin-top: 20px;
+          width:auto !important;
+         }
+        }
+       }
+       }
+      }
+       ::ng-deep .ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td{
+           padding: 10px;
+           text-align:start;
+       }
+   }
+   @media (min-width: 767px) and (max-width: 1024px) {
+   }
+
+   .title-font{
+    font-weight: 700;
+    font-size: 16px;
+   }

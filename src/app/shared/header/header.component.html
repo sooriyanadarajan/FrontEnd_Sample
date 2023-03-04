@@ -1,0 +1,55 @@
+<nz-layout class="header">
+    <nz-header class="header__layout">
+      <div nz-row class="header__nav-bar" >
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" nzXXl="8">
+          <img class="header__logo" src="../../../assets/img/logo.png" alt="" height="50">
+        </div>
+        <div nz-col nzXs="8" nzSm="8" nzMd="8" nzLg="8" nzXl="8" nzXXl="8">
+          <h4 class="header__nav-title">NexFolio</h4>
+        </div>
+        <div nz-col nzSpan="8" class="header__notification">
+            <ng-template #contentTemplateBell >
+              <div class="header__bell-popup">
+                <h2>Notification</h2>
+                <a class="header__popover-tag">viewall</a>
+              </div>
+              <div>
+                <div  >
+                  <h6 class="header__notification-list-heading">Notify.message</h6>
+                  <p class="header__notification-sub-list">Notify.text</p>
+                </div>
+                <p class="header__popover-content">No New Notification</p>
+              </div>
+            </ng-template> 
+            <button class="header__setting-btn"   nz-button nz-popover nzType="primary" >
+              <nz-badge >
+              <img class="header__setting-icon" src="../../../assets/img/adminicon/support.svg" height="22" alt="" >
+            </nz-badge>
+          </button> 
+            <button class="header__setting-btn" nz-tooltip nzTooltipTitle="Screen Lock" nz-button nz-popover nzType="primary" (click)="sessionLock()">
+              <nz-badge >
+              <img class="header__setting-icon" src="../../../assets/img/adminicon/lock.svg" height="22" alt="" >
+            </nz-badge>
+          </button> 
+            <button class="header__setting-btn" nz-tooltip nzTooltipTitle="Settings" nz-button nz-popover nzType="primary" *ngIf="role != 'SIGNALADMIN'" routerLink="/application-setting">
+              <nz-badge >
+                <img class="header__setting-icon" src="../../../assets/img/svg/settings.svg" height="22" alt="" >
+              </nz-badge>
+            </button> 
+             <button class="header__bell-btn" nz-tooltip nzTooltipTitle="Notification" *ngIf="role != 'SIGNALADMIN'" nz-button nzType="primary"
+              routerLink="/notifications"> 
+              <nz-badge >
+                <img src="../../../assets/img/svg/bell.svg" height="22" alt="">
+              </nz-badge>
+            </button> 
+            <button class="header__nav-btn" nz-button  nz-dropdown nzType="primary"  [nzDropdownMenu]="menu" 
+              nzSize="large" nzShape="circle">A</button>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li class="header__popup-txt" nz-menu-item (click)="logOut()"> <img class="header__logout-icon" src="../../../assets/img/svg/power.svg" height="18" alt=""> SignOut</li>
+                </ul>
+              </nz-dropdown-menu>
+          </div>
+      </div>
+    </nz-header>
+  </nz-layout>
